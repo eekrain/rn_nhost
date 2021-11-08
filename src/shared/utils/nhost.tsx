@@ -9,12 +9,7 @@ import {HASURA_ENDPOINT} from '@env';
 import {NhostApolloProvider} from '@nhost/react-apollo';
 import {TUserRoleOptions} from '../../types/user';
 import {useEffect} from 'react';
-
-// import {UserRoles} from 'types/UserRoles';
-// import {NhostAuthProvider} from '@nhost/react-auth';
-// import {NhostApolloProvider} from '@nhost/react-apollo';
-// import {ReactNode} from 'react';
-// import {NhostAuthConnectUserState} from 'state/nhost/User';
+import {useUser_GetUserByIdQuery} from '../../types/gql-generated';
 
 export const nhostClient = createClient({
   baseURL: BACKEND_HBP_ENDPOINT,
@@ -33,7 +28,7 @@ interface INhostAuthStore {
     role?: string | null;
   };
   setLoading: (isLoading: boolean) => void;
-  updateRole: (role: string) => void;
+  updateRole: (role: string | null | undefined) => void;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -106,13 +101,33 @@ const useNhostStore = create<
 
 export const useNhostAuth = createTrackedSelector(useNhostStore);
 
-export const getXHasuraRoleHeader = (role: TUserRoleOptions) => ({
-  context: {
-    headers: {
-      'x-hasura-role': role,
-    },
-  },
-});
+interface IGetXHasuraRoleHeader {
+  role?: TUserRoleOptions | null;
+  withUserId?: boolean;
+}
+
+interface IHasuraHeader {
+  'x-hasura-role': TUserRoleOptions | null;
+  'x-hasura-user-id': string | null;
+}
+
+export const getXHasuraHeader = ({
+  role = null,
+  withUserId = false,
+}: IGetXHasuraRoleHeader) => {
+  const headers: IHasuraHeader = {
+    'x-hasura-role': role,
+    'x-hasura-user-id': null,
+  };
+
+  if (withUserId) {
+    headers['x-hasura-user-id'] = nhostClient.auth.getClaim(
+      'x-hasura-user-id',
+    ) as string | null;
+  }
+
+  return {headers: headers};
+};
 
 interface INhostProviderProps {
   children: React.ReactNode;
@@ -147,5 +162,25 @@ const ManageAuthenticatedUser = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getUserData = useUser_GetUserByIdQuery({
+    variables: {
+      id: nhostAuth.user?.userId,
+    },
+    context: {
+      ...getXHasuraHeader({role: 'me', withUserId: true}),
+    },
+  });
+  useEffect(() => {
+    nhostAuth.setLoading(getUserData.loading);
+  }, [getUserData.loading, nhostAuth]);
+
+  useEffect(() => {
+    if (!getUserData.data || !getUserData.data.users_by_pk) {
+      return;
+    }
+    const data = getUserData?.data?.users_by_pk;
+
+    nhostAuth.updateRole(data.account?.default_role);
+  }, [getUserData.loading, getUserData.data, nhostAuth]);
   return null;
 };

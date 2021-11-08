@@ -1,27 +1,40 @@
 import React from 'react';
+// import {Button} from 'react-native';
+
 import {
+  Button,
   HamburgerIcon,
   Pressable,
   Heading,
   Box,
   HStack,
   Avatar,
-  Button,
   Popover,
   Text,
   VStack,
   Icon,
   Spinner,
+  IconButton,
+  Badge,
 } from 'native-base';
 import {AppNavProps} from '../../types/navigation';
 import {useNhostAuth, generateAvatarName} from '../../shared/utils';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import {useState} from 'react';
 
 interface ICustomHeaderProps extends AppNavProps {}
 
 const CustomHeader = (props: ICustomHeaderProps) => {
   const nhostAuth = useNhostAuth();
 
+  const [isNotifPressed, setNotifPressed] = useState(false);
+  const [isAvatarPressed, setAvatarPressed] = useState(false);
+  // useEffect(() => {
+  //   console.log(
+  //     '🚀 ~ file: index.tsx ~ line 32 ~ CustomHeader ~ isNotifHover',
+  //     isNotifHover,
+  //   );
+  // }, [isNotifHover]);
   const handleLogout = () => {
     nhostAuth.setLoading(true);
     nhostAuth.signOut().finally(() => nhostAuth.setLoading(false));
@@ -29,26 +42,64 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
   return (
     <HStack
+      bgColor="red.600"
       alignItems="center"
-      mt="6"
       justifyContent="space-between"
       px="4"
-      mb="6">
-      <Pressable onPress={() => props.navigation.toggleDrawer()}>
-        <HamburgerIcon size="sm" />
-      </Pressable>
-      <Heading size="md">{props.route.name}</Heading>
-      <Box>
+      py="3">
+      <HStack space="6">
+        <Pressable onPress={() => props.navigation.toggleDrawer()}>
+          <HamburgerIcon size="sm" color="white" />
+        </Pressable>
+        <Heading size="md" color="white">
+          {props.route.name}
+        </Heading>
+      </HStack>
+      <HStack space="4" alignItems="center">
+        <VStack>
+          <Badge
+            bgColor={isNotifPressed ? 'orange.400' : 'orange.600'}
+            rounded="full"
+            mb={-6}
+            mr={0}
+            zIndex={1}
+            variant="solid"
+            alignSelf="flex-end"
+            _text={{
+              fontSize: 12,
+            }}>
+            2
+          </Badge>
+          <IconButton
+            variant="ghost"
+            mx={{
+              base: 'auto',
+              md: 0,
+            }}
+            rounded="full"
+            p="2"
+            _icon={{as: FeatherIcon, name: 'bell', color: 'white'}}
+            onPressIn={() => setNotifPressed(true)}
+            onPressOut={() => setNotifPressed(false)}
+          />
+        </VStack>
         <Popover
           trigger={triggerProps => (
             <Button
+              onPressIn={() => setAvatarPressed(true)}
+              onPressOut={() => setAvatarPressed(false)}
               variant="unstyled"
               borderRadius="full"
               {...triggerProps}
-              bgColor="amber.500"
-              size="sm">
-              <Avatar bg="red.500" color="white">
-                {generateAvatarName(nhostAuth.user.displayName)}
+              size="sm"
+              p="0">
+              <Avatar bgColor="red.100">
+                <Text
+                  color={isAvatarPressed ? 'red.400' : 'red.600'}
+                  fontWeight="bold"
+                  letterSpacing="2xl">
+                  {generateAvatarName(nhostAuth.user.displayName)}
+                </Text>
               </Avatar>
             </Button>
           )}>
@@ -86,7 +137,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
             </Popover.Body>
           </Popover.Content>
         </Popover>
-      </Box>
+      </HStack>
     </HStack>
   );
 };
