@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {withHeader} from '../../../components/CustomHeader';
+import {View, Text} from 'native-base';
 import {DashboardNavProps} from '../../../types/navigation';
+import withAppLayout from '../../../components/Layout/AppLayout';
 
 interface IDashboardScreenProps extends DashboardNavProps {}
 
@@ -9,9 +9,9 @@ interface IDashboardScreenProps extends DashboardNavProps {}
 const DashboardScreen = (props: IDashboardScreenProps) => {
   return (
     <View>
-      <Text>HALO NJING</Text>
+      <Text>HAHAHAh</Text>
     </View>
   );
 };
 
-export default withHeader(DashboardScreen);
+export default withAppLayout(DashboardScreen);

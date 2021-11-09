@@ -6,7 +6,6 @@ import {
   HamburgerIcon,
   Pressable,
   Heading,
-  Box,
   HStack,
   Avatar,
   Popover,
@@ -142,16 +141,3 @@ const CustomHeader = (props: ICustomHeaderProps) => {
   );
 };
 export default CustomHeader;
-
-export const withHeader = (Component: any) => {
-  return (props: AppNavProps) => {
-    return (
-      <>
-        <CustomHeader {...props} />
-        <Box px="4">
-          <Component {...props} />
-        </Box>
-      </>
-    );
-  };
-};

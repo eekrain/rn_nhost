@@ -3,6 +3,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import DashboardScreen from './DashboardScreen';
 import {AppNavigationParamList} from '../../types/navigation';
 import CustomDrawerContent from '../../components/CustomDrawerContent';
+import ProdukScreen from './ProdukScreen';
 
 const AppDrawer = createDrawerNavigator<AppNavigationParamList>();
 
@@ -14,6 +15,7 @@ const AppNavigation = ({}: Props) => {
       drawerContent={drawerProps => <CustomDrawerContent {...drawerProps} />}
       screenOptions={{headerShown: false}}>
       <AppDrawer.Screen name="Dashboard" component={DashboardScreen} />
+      <AppDrawer.Screen name="Produk" component={ProdukScreen} />
     </AppDrawer.Navigator>
   );
 };

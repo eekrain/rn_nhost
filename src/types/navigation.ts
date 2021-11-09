@@ -3,6 +3,7 @@ import {DrawerScreenProps} from '@react-navigation/drawer';
 
 export type AppNavigationParamList = {
   Dashboard: undefined;
+  Produk: undefined;
 };
 
 export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
@@ -10,6 +11,10 @@ export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
 export type DashboardNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'Dashboard'
+>;
+export type ProdukNavProps = DrawerScreenProps<
+  AppNavigationParamList,
+  'Produk'
 >;
 
 export type AuthNavigationParamList = {
