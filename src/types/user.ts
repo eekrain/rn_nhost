@@ -2,7 +2,7 @@ export enum UserRolesEnum {
   user = 'user',
   me = 'me',
   anonymous = 'anonymous',
-  admin = 'admin',
+  administrator = 'administrator',
   karyawan = 'karyawan',
 }
 

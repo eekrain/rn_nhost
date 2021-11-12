@@ -1,8 +1,8 @@
 import React from 'react';
-import {Box, Heading, Image, VStack, FormControl, Button} from 'native-base';
+import {Box, Heading, Image, VStack, Button} from 'native-base';
 import {ForgotPasswordNavProps} from '../../../types/navigation';
-import RHForm from '../../../shared/components/RHForm';
 import RHInput from '../../../shared/components/RHInput';
+import {useForm} from 'react-hook-form';
 
 interface IForgotPasswordProps extends ForgotPasswordNavProps {}
 
@@ -15,7 +15,13 @@ const defaultValues: IDefaultValues = {
 };
 
 const ForgotPassword = ({}: IForgotPasswordProps) => {
-  const handleSubmit = (data: IDefaultValues) => {
+  const {
+    handleSubmit,
+    control,
+    formState: {errors},
+  } = useForm({defaultValues});
+
+  const handleSubmission = (data: IDefaultValues) => {
     console.log(data);
   };
 
@@ -36,30 +42,21 @@ const ForgotPassword = ({}: IForgotPasswordProps) => {
         </Heading>
       </Box>
 
-      <RHForm defaultValues={defaultValues}>
-        {method => (
-          <VStack space={3} mt="5">
-            <FormControl>
-              <FormControl.Label
-                _text={{
-                  color: 'coolGray.800',
-                  fontSize: 'xs',
-                  fontWeight: 500,
-                }}>
-                Username
-              </FormControl.Label>
-              <RHInput name="username" />
-            </FormControl>
-            <Button
-              mt="2"
-              colorScheme="indigo"
-              _text={{color: 'white'}}
-              onPress={method.handleSubmit(handleSubmit)}>
-              Reset Password
-            </Button>
-          </VStack>
-        )}
-      </RHForm>
+      <VStack space={3} mt="5">
+        <RHInput
+          name="username"
+          label="Username"
+          control={control}
+          errors={errors}
+        />
+        <Button
+          mt="2"
+          colorScheme="indigo"
+          _text={{color: 'white'}}
+          onPress={handleSubmit(handleSubmission)}>
+          Reset Password
+        </Button>
+      </VStack>
     </Box>
   );
 };

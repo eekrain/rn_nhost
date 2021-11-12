@@ -9,7 +9,7 @@ import {HASURA_ENDPOINT} from '@env';
 import {NhostApolloProvider} from '@nhost/react-apollo';
 import {TUserRoleOptions} from '../../types/user';
 import {useEffect} from 'react';
-import {useUser_GetUserByIdQuery} from '../../types/gql-generated';
+import {useUser_GetUserByIdQuery} from '../../graphql/gql-generated';
 
 export const nhostClient = createClient({
   baseURL: BACKEND_HBP_ENDPOINT,
@@ -111,7 +111,7 @@ interface IHasuraHeader {
   'x-hasura-user-id': string | null;
 }
 
-export const getXHasuraHeader = ({
+export const getXHasuraContextHeader = ({
   role = null,
   withUserId = false,
 }: IGetXHasuraRoleHeader) => {
@@ -126,7 +126,7 @@ export const getXHasuraHeader = ({
     ) as string | null;
   }
 
-  return {headers: headers};
+  return {context: {headers: headers}};
 };
 
 interface INhostProviderProps {
@@ -144,12 +144,6 @@ export const NhostCustomProvider = ({children}: INhostProviderProps) => {
 
 const ManageAuthenticatedUser = () => {
   const nhostAuth = useNhostAuth();
-  useEffect(() => {
-    console.log(
-      '🚀 ~ file: nhost.tsx ~ line 132 ~ ManageAuthenticatedUser ~ nhostAuth.user',
-      nhostAuth.user,
-    );
-  }, [nhostAuth.user]);
 
   useEffect(() => {
     nhostClient.auth.isAuthenticatedAsync().then(isAuth => {
@@ -166,9 +160,7 @@ const ManageAuthenticatedUser = () => {
     variables: {
       id: nhostAuth.user?.userId,
     },
-    context: {
-      ...getXHasuraHeader({role: 'me', withUserId: true}),
-    },
+    ...getXHasuraContextHeader({role: 'me', withUserId: true}),
   });
   useEffect(() => {
     nhostAuth.setLoading(getUserData.loading);

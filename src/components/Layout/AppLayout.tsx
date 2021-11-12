@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppNavProps} from '../../types/navigation';
+import {AppNavProps} from '../../screens/app';
 import CustomHeader from '../CustomHeader';
 import {Box} from 'native-base';
 

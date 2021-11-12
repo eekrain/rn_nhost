@@ -1,39 +1,37 @@
-import {Input, IInputProps} from 'native-base';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {Input, IInputProps, FormControl, View, Text} from 'native-base';
 import React from 'react';
-import {Controller} from 'react-hook-form';
-import {View, Text} from 'react-native';
-import {TRHMethod} from '../RHForm';
+import {Control, FieldValues, useFormState, Controller} from 'react-hook-form';
 
 interface IRHInputProps extends IInputProps {
   name: string;
-  method?: TRHMethod;
-  children?: undefined;
-  useMethod?: boolean;
+  label: string;
+  control: Control<any>;
+  errors: {
+    [x: string]: any;
+  };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const RHInput = ({name, method, useMethod = true, ...rest}: IRHInputProps) => {
-  if (!method) {
-    return (
-      <View>
-        <Text>Undefined</Text>
-      </View>
-    );
-  }
-
+const RHInput = ({name, label, control, errors, ...rest}: IRHInputProps) => {
   return (
-    <Controller
-      name={name}
-      control={method.control}
-      render={({field: {onChange, onBlur, value}}) => (
-        <Input
-          onBlur={onBlur}
-          onChangeText={val => onChange(val)}
-          value={value}
-          {...rest}
-        />
-      )}
-    />
+    <FormControl isInvalid={name in errors}>
+      <FormControl.Label>{label}</FormControl.Label>
+      <Controller
+        name={name}
+        control={control}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onChangeText={val => onChange(val)}
+            value={value}
+            onBlur={onBlur}
+            {...rest}
+          />
+        )}
+      />
+      <FormControl.ErrorMessage>
+        {errors[name]?.message}
+      </FormControl.ErrorMessage>
+    </FormControl>
   );
 };
 

@@ -14,7 +14,7 @@ import {
   Image,
 } from 'native-base';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {getAppIcon} from '../../screens/app';
+import {rootAppRoutes, getAppIcon} from '../../screens/app';
 
 interface Props extends DrawerContentComponentProps {}
 
@@ -32,34 +32,38 @@ const CustomDrawerContent = (props: Props) => {
         </Box>
         <VStack divider={<Divider />} space="4">
           <VStack space="3">
-            {props.state.routeNames.map((name, index) => (
+            {rootAppRoutes.map((route, index) => (
               <Pressable
-                key={name}
+                key={`${route.name}${route.routeNiceName}`}
                 px="5"
                 py="5"
                 rounded="md"
                 bg={
                   index === props.state.index
-                    ? 'rgba(6, 182, 212, 0.1)'
+                    ? 'rgba(236, 171, 73, 0.2)'
                     : 'transparent'
                 }
                 onPress={_event => {
-                  props.navigation.navigate(name);
+                  props.navigation.navigate(route.name);
                 }}>
                 <HStack space="7" alignItems="center">
                   <Icon
                     color={
-                      index === props.state.index ? 'primary.500' : 'gray.500'
+                      index === props.state.index
+                        ? 'milano_red.500'
+                        : 'gray.500'
                     }
                     size="5"
-                    as={<FeatherIcon name={getAppIcon(name) as string} />}
+                    as={<FeatherIcon name={getAppIcon(route.name) as string} />}
                   />
                   <Text
                     fontWeight="500"
                     color={
-                      index === props.state.index ? 'primary.500' : 'gray.700'
+                      index === props.state.index
+                        ? 'milano_red.500'
+                        : 'gray.700'
                     }>
-                    {name}
+                    {route.routeNiceName}
                   </Text>
                 </HStack>
               </Pressable>

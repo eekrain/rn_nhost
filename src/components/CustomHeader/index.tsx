@@ -16,10 +16,20 @@ import {
   IconButton,
   Badge,
 } from 'native-base';
-import {AppNavProps} from '../../types/navigation';
 import {useNhostAuth, generateAvatarName} from '../../shared/utils';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useState} from 'react';
+import {allAppRoutes, AppNavProps} from '../../screens/app';
+
+export const customHeaderHeight: number = 70;
+
+const getRouteNiceName = (routeName: string) => {
+  const niceName = allAppRoutes.find(
+    route => route.name === routeName,
+  )?.routeNiceName;
+
+  return niceName ? niceName : '';
+};
 
 interface ICustomHeaderProps extends AppNavProps {}
 
@@ -28,12 +38,7 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
   const [isNotifPressed, setNotifPressed] = useState(false);
   const [isAvatarPressed, setAvatarPressed] = useState(false);
-  // useEffect(() => {
-  //   console.log(
-  //     '🚀 ~ file: index.tsx ~ line 32 ~ CustomHeader ~ isNotifHover',
-  //     isNotifHover,
-  //   );
-  // }, [isNotifHover]);
+
   const handleLogout = () => {
     nhostAuth.setLoading(true);
     nhostAuth.signOut().finally(() => nhostAuth.setLoading(false));
@@ -41,23 +46,23 @@ const CustomHeader = (props: ICustomHeaderProps) => {
 
   return (
     <HStack
-      bgColor="red.600"
+      bgColor="milano_red.500"
       alignItems="center"
       justifyContent="space-between"
       px="4"
-      py="3">
+      height={customHeaderHeight}>
       <HStack space="6">
         <Pressable onPress={() => props.navigation.toggleDrawer()}>
           <HamburgerIcon size="sm" color="white" />
         </Pressable>
         <Heading size="md" color="white">
-          {props.route.name}
+          {getRouteNiceName(props.route.name)}
         </Heading>
       </HStack>
       <HStack space="4" alignItems="center">
         <VStack>
           <Badge
-            bgColor={isNotifPressed ? 'orange.400' : 'orange.600'}
+            bgColor={isNotifPressed ? 'orange.300' : 'orange.500'}
             rounded="full"
             mb={-6}
             mr={0}
@@ -92,9 +97,9 @@ const CustomHeader = (props: ICustomHeaderProps) => {
               {...triggerProps}
               size="sm"
               p="0">
-              <Avatar bgColor="red.100">
+              <Avatar bgColor="milano_red.100">
                 <Text
-                  color={isAvatarPressed ? 'red.400' : 'red.600'}
+                  color={isAvatarPressed ? 'milano_red.400' : 'milano_red.600'}
                   fontWeight="bold"
                   letterSpacing="2xl">
                   {generateAvatarName(nhostAuth.user.displayName)}

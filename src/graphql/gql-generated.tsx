@@ -31,6 +31,19 @@ export type Boolean_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['Boolean']>>;
 };
 
+/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+export type Int_Comparison_Exp = {
+  _eq?: Maybe<Scalars['Int']>;
+  _gt?: Maybe<Scalars['Int']>;
+  _gte?: Maybe<Scalars['Int']>;
+  _in?: Maybe<Array<Scalars['Int']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Int']>;
+  _lte?: Maybe<Scalars['Int']>;
+  _neq?: Maybe<Scalars['Int']>;
+  _nin?: Maybe<Array<Scalars['Int']>>;
+};
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: Maybe<Scalars['String']>;
@@ -1425,6 +1438,10 @@ export type Mutation_Root = {
   delete_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** delete single row from the table: "auth.roles" */
   delete_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** delete data from the table: "rocketjaket.product_category" */
+  delete_rocketjaket_product_category?: Maybe<Rocketjaket_Product_Category_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.product_category" */
+  delete_rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -1453,6 +1470,10 @@ export type Mutation_Root = {
   insert_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** insert a single row into the table: "auth.roles" */
   insert_auth_roles_one?: Maybe<Auth_Roles>;
+  /** insert data into the table: "rocketjaket.product_category" */
+  insert_rocketjaket_product_category?: Maybe<Rocketjaket_Product_Category_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.product_category" */
+  insert_rocketjaket_product_category_one?: Maybe<Rocketjaket_Product_Category>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -1481,6 +1502,10 @@ export type Mutation_Root = {
   update_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** update single row of the table: "auth.roles" */
   update_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** update data of the table: "rocketjaket.product_category" */
+  update_rocketjaket_product_category?: Maybe<Rocketjaket_Product_Category_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.product_category" */
+  update_rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -1557,6 +1582,18 @@ export type Mutation_RootDelete_Auth_RolesArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Auth_Roles_By_PkArgs = {
   role: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Product_CategoryArgs = {
+  where: Rocketjaket_Product_Category_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Product_Category_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -1653,6 +1690,20 @@ export type Mutation_RootInsert_Auth_RolesArgs = {
 export type Mutation_RootInsert_Auth_Roles_OneArgs = {
   object: Auth_Roles_Insert_Input;
   on_conflict?: Maybe<Auth_Roles_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Product_CategoryArgs = {
+  objects: Array<Rocketjaket_Product_Category_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Product_Category_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Product_Category_OneArgs = {
+  object: Rocketjaket_Product_Category_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Product_Category_On_Conflict>;
 };
 
 
@@ -1765,6 +1816,22 @@ export type Mutation_RootUpdate_Auth_Roles_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Product_CategoryArgs = {
+  _inc?: Maybe<Rocketjaket_Product_Category_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Product_Category_Set_Input>;
+  where: Rocketjaket_Product_Category_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Product_Category_By_PkArgs = {
+  _inc?: Maybe<Rocketjaket_Product_Category_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Product_Category_Set_Input>;
+  pk_columns: Rocketjaket_Product_Category_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
   _set?: Maybe<Users_Set_Input>;
   where: Users_Bool_Exp;
@@ -1831,6 +1898,12 @@ export type Query_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.product_category" */
+  rocketjaket_product_category: Array<Rocketjaket_Product_Category>;
+  /** fetch aggregated fields from the table: "rocketjaket.product_category" */
+  rocketjaket_product_category_aggregate: Rocketjaket_Product_Category_Aggregate;
+  /** fetch data from the table: "rocketjaket.product_category" using primary key columns */
+  rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -1978,6 +2051,29 @@ export type Query_RootAuth_Roles_By_PkArgs = {
 };
 
 
+export type Query_RootRocketjaket_Product_CategoryArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Product_Category_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Product_Category_Order_By>>;
+  where?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Product_Category_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Product_Category_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Product_Category_Order_By>>;
+  where?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Product_Category_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -1998,6 +2094,191 @@ export type Query_RootUsers_AggregateArgs = {
 
 export type Query_RootUsers_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+/** columns and relationships of "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category = {
+  __typename?: 'rocketjaket_product_category';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Aggregate = {
+  __typename?: 'rocketjaket_product_category_aggregate';
+  aggregate?: Maybe<Rocketjaket_Product_Category_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Product_Category>;
+};
+
+/** aggregate fields of "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Aggregate_Fields = {
+  __typename?: 'rocketjaket_product_category_aggregate_fields';
+  avg?: Maybe<Rocketjaket_Product_Category_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Product_Category_Max_Fields>;
+  min?: Maybe<Rocketjaket_Product_Category_Min_Fields>;
+  stddev?: Maybe<Rocketjaket_Product_Category_Stddev_Fields>;
+  stddev_pop?: Maybe<Rocketjaket_Product_Category_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Rocketjaket_Product_Category_Stddev_Samp_Fields>;
+  sum?: Maybe<Rocketjaket_Product_Category_Sum_Fields>;
+  var_pop?: Maybe<Rocketjaket_Product_Category_Var_Pop_Fields>;
+  var_samp?: Maybe<Rocketjaket_Product_Category_Var_Samp_Fields>;
+  variance?: Maybe<Rocketjaket_Product_Category_Variance_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Product_Category_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Rocketjaket_Product_Category_Avg_Fields = {
+  __typename?: 'rocketjaket_product_category_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.product_category". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Product_Category_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Product_Category_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Product_Category_Bool_Exp>>;
+  description?: Maybe<String_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.product_category" */
+export enum Rocketjaket_Product_Category_Constraint {
+  /** unique or primary key constraint */
+  ProductCategoryPkey = 'product_category_pkey'
+}
+
+/** input type for incrementing numeric columns in table "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Insert_Input = {
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Product_Category_Max_Fields = {
+  __typename?: 'rocketjaket_product_category_max_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Product_Category_Min_Fields = {
+  __typename?: 'rocketjaket_product_category_min_fields';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Mutation_Response = {
+  __typename?: 'rocketjaket_product_category_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Product_Category>;
+};
+
+/** on conflict condition type for table "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_On_Conflict = {
+  constraint: Rocketjaket_Product_Category_Constraint;
+  update_columns?: Array<Rocketjaket_Product_Category_Update_Column>;
+  where?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.product_category". */
+export type Rocketjaket_Product_Category_Order_By = {
+  description?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_product_category */
+export type Rocketjaket_Product_Category_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "rocketjaket.product_category" */
+export enum Rocketjaket_Product_Category_Select_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "rocketjaket.product_category" */
+export type Rocketjaket_Product_Category_Set_Input = {
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Rocketjaket_Product_Category_Stddev_Fields = {
+  __typename?: 'rocketjaket_product_category_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Rocketjaket_Product_Category_Stddev_Pop_Fields = {
+  __typename?: 'rocketjaket_product_category_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Rocketjaket_Product_Category_Stddev_Samp_Fields = {
+  __typename?: 'rocketjaket_product_category_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Rocketjaket_Product_Category_Sum_Fields = {
+  __typename?: 'rocketjaket_product_category_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "rocketjaket.product_category" */
+export enum Rocketjaket_Product_Category_Update_Column {
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** aggregate var_pop on columns */
+export type Rocketjaket_Product_Category_Var_Pop_Fields = {
+  __typename?: 'rocketjaket_product_category_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Rocketjaket_Product_Category_Var_Samp_Fields = {
+  __typename?: 'rocketjaket_product_category_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Rocketjaket_Product_Category_Variance_Fields = {
+  __typename?: 'rocketjaket_product_category_variance_fields';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type Subscription_Root = {
@@ -2038,6 +2319,12 @@ export type Subscription_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.product_category" */
+  rocketjaket_product_category: Array<Rocketjaket_Product_Category>;
+  /** fetch aggregated fields from the table: "rocketjaket.product_category" */
+  rocketjaket_product_category_aggregate: Rocketjaket_Product_Category_Aggregate;
+  /** fetch data from the table: "rocketjaket.product_category" using primary key columns */
+  rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -2182,6 +2469,29 @@ export type Subscription_RootAuth_Roles_AggregateArgs = {
 
 export type Subscription_RootAuth_Roles_By_PkArgs = {
   role: Scalars['String'];
+};
+
+
+export type Subscription_RootRocketjaket_Product_CategoryArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Product_Category_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Product_Category_Order_By>>;
+  where?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Product_Category_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Product_Category_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Product_Category_Order_By>>;
+  where?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Product_Category_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -2391,6 +2701,42 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type Produk_CreateKategoriProdukMutationVariables = Exact<{
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+}>;
+
+
+export type Produk_CreateKategoriProdukMutation = { __typename?: 'mutation_root', insert_rocketjaket_product_category_one?: { __typename?: 'rocketjaket_product_category', id: number, name: string, description?: string | null | undefined } | null | undefined };
+
+export type Produk_DeleteKategoriProdukMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Produk_DeleteKategoriProdukMutation = { __typename?: 'mutation_root', delete_rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', id: number, name: string } | null | undefined };
+
+export type Produk_UpdateKategoriProdukMutationVariables = Exact<{
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+}>;
+
+
+export type Produk_UpdateKategoriProdukMutation = { __typename?: 'mutation_root', update_rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', name: string, id: number, description?: string | null | undefined } | null | undefined };
+
+export type Produk_GetAllKategoriProdukQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Produk_GetAllKategoriProdukQuery = { __typename?: 'query_root', rocketjaket_product_category: Array<{ __typename?: 'rocketjaket_product_category', id: number, name: string, description?: string | null | undefined }> };
+
+export type Produk_GetKategoriProdukByPkQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Produk_GetKategoriProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', id: number, name: string, description?: string | null | undefined } | null | undefined };
+
 export type User_GetUserByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -2400,10 +2746,202 @@ export type User_GetUserByIdQuery = { __typename?: 'query_root', users_by_pk?: {
 
 export const namedOperations = {
   Query: {
+    Produk_GetAllKategoriProduk: 'Produk_GetAllKategoriProduk',
+    Produk_GetKategoriProdukByPK: 'Produk_GetKategoriProdukByPK',
     User_GetUserById: 'User_GetUserById'
+  },
+  Mutation: {
+    Produk_CreateKategoriProduk: 'Produk_CreateKategoriProduk',
+    Produk_DeleteKategoriProduk: 'Produk_DeleteKategoriProduk',
+    Produk_UpdateKategoriProduk: 'Produk_UpdateKategoriProduk'
   }
 }
 
+export const Produk_CreateKategoriProdukDocument = gql`
+    mutation Produk_CreateKategoriProduk($description: String, $name: String!) {
+  insert_rocketjaket_product_category_one(
+    object: {description: $description, name: $name}
+  ) {
+    id
+    name
+    description
+  }
+}
+    `;
+export type Produk_CreateKategoriProdukMutationFn = Apollo.MutationFunction<Produk_CreateKategoriProdukMutation, Produk_CreateKategoriProdukMutationVariables>;
+
+/**
+ * __useProduk_CreateKategoriProdukMutation__
+ *
+ * To run a mutation, you first call `useProduk_CreateKategoriProdukMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProduk_CreateKategoriProdukMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [produkCreateKategoriProdukMutation, { data, loading, error }] = useProduk_CreateKategoriProdukMutation({
+ *   variables: {
+ *      description: // value for 'description'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useProduk_CreateKategoriProdukMutation(baseOptions?: Apollo.MutationHookOptions<Produk_CreateKategoriProdukMutation, Produk_CreateKategoriProdukMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Produk_CreateKategoriProdukMutation, Produk_CreateKategoriProdukMutationVariables>(Produk_CreateKategoriProdukDocument, options);
+      }
+export type Produk_CreateKategoriProdukMutationHookResult = ReturnType<typeof useProduk_CreateKategoriProdukMutation>;
+export type Produk_CreateKategoriProdukMutationResult = Apollo.MutationResult<Produk_CreateKategoriProdukMutation>;
+export type Produk_CreateKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_CreateKategoriProdukMutation, Produk_CreateKategoriProdukMutationVariables>;
+export const Produk_DeleteKategoriProdukDocument = gql`
+    mutation Produk_DeleteKategoriProduk($id: Int!) {
+  delete_rocketjaket_product_category_by_pk(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type Produk_DeleteKategoriProdukMutationFn = Apollo.MutationFunction<Produk_DeleteKategoriProdukMutation, Produk_DeleteKategoriProdukMutationVariables>;
+
+/**
+ * __useProduk_DeleteKategoriProdukMutation__
+ *
+ * To run a mutation, you first call `useProduk_DeleteKategoriProdukMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProduk_DeleteKategoriProdukMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [produkDeleteKategoriProdukMutation, { data, loading, error }] = useProduk_DeleteKategoriProdukMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useProduk_DeleteKategoriProdukMutation(baseOptions?: Apollo.MutationHookOptions<Produk_DeleteKategoriProdukMutation, Produk_DeleteKategoriProdukMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Produk_DeleteKategoriProdukMutation, Produk_DeleteKategoriProdukMutationVariables>(Produk_DeleteKategoriProdukDocument, options);
+      }
+export type Produk_DeleteKategoriProdukMutationHookResult = ReturnType<typeof useProduk_DeleteKategoriProdukMutation>;
+export type Produk_DeleteKategoriProdukMutationResult = Apollo.MutationResult<Produk_DeleteKategoriProdukMutation>;
+export type Produk_DeleteKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_DeleteKategoriProdukMutation, Produk_DeleteKategoriProdukMutationVariables>;
+export const Produk_UpdateKategoriProdukDocument = gql`
+    mutation Produk_UpdateKategoriProduk($id: Int!, $description: String, $name: String!) {
+  update_rocketjaket_product_category_by_pk(
+    pk_columns: {id: $id}
+    _set: {name: $name, description: $description}
+  ) {
+    name
+    id
+    description
+  }
+}
+    `;
+export type Produk_UpdateKategoriProdukMutationFn = Apollo.MutationFunction<Produk_UpdateKategoriProdukMutation, Produk_UpdateKategoriProdukMutationVariables>;
+
+/**
+ * __useProduk_UpdateKategoriProdukMutation__
+ *
+ * To run a mutation, you first call `useProduk_UpdateKategoriProdukMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProduk_UpdateKategoriProdukMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [produkUpdateKategoriProdukMutation, { data, loading, error }] = useProduk_UpdateKategoriProdukMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      description: // value for 'description'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useProduk_UpdateKategoriProdukMutation(baseOptions?: Apollo.MutationHookOptions<Produk_UpdateKategoriProdukMutation, Produk_UpdateKategoriProdukMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Produk_UpdateKategoriProdukMutation, Produk_UpdateKategoriProdukMutationVariables>(Produk_UpdateKategoriProdukDocument, options);
+      }
+export type Produk_UpdateKategoriProdukMutationHookResult = ReturnType<typeof useProduk_UpdateKategoriProdukMutation>;
+export type Produk_UpdateKategoriProdukMutationResult = Apollo.MutationResult<Produk_UpdateKategoriProdukMutation>;
+export type Produk_UpdateKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_UpdateKategoriProdukMutation, Produk_UpdateKategoriProdukMutationVariables>;
+export const Produk_GetAllKategoriProdukDocument = gql`
+    query Produk_GetAllKategoriProduk {
+  rocketjaket_product_category {
+    id
+    name
+    description
+  }
+}
+    `;
+
+/**
+ * __useProduk_GetAllKategoriProdukQuery__
+ *
+ * To run a query within a React component, call `useProduk_GetAllKategoriProdukQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProduk_GetAllKategoriProdukQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProduk_GetAllKategoriProdukQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProduk_GetAllKategoriProdukQuery(baseOptions?: Apollo.QueryHookOptions<Produk_GetAllKategoriProdukQuery, Produk_GetAllKategoriProdukQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Produk_GetAllKategoriProdukQuery, Produk_GetAllKategoriProdukQueryVariables>(Produk_GetAllKategoriProdukDocument, options);
+      }
+export function useProduk_GetAllKategoriProdukLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Produk_GetAllKategoriProdukQuery, Produk_GetAllKategoriProdukQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Produk_GetAllKategoriProdukQuery, Produk_GetAllKategoriProdukQueryVariables>(Produk_GetAllKategoriProdukDocument, options);
+        }
+export type Produk_GetAllKategoriProdukQueryHookResult = ReturnType<typeof useProduk_GetAllKategoriProdukQuery>;
+export type Produk_GetAllKategoriProdukLazyQueryHookResult = ReturnType<typeof useProduk_GetAllKategoriProdukLazyQuery>;
+export type Produk_GetAllKategoriProdukQueryResult = Apollo.QueryResult<Produk_GetAllKategoriProdukQuery, Produk_GetAllKategoriProdukQueryVariables>;
+export const Produk_GetKategoriProdukByPkDocument = gql`
+    query Produk_GetKategoriProdukByPK($id: Int!) {
+  rocketjaket_product_category_by_pk(id: $id) {
+    id
+    name
+    description
+  }
+}
+    `;
+
+/**
+ * __useProduk_GetKategoriProdukByPkQuery__
+ *
+ * To run a query within a React component, call `useProduk_GetKategoriProdukByPkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProduk_GetKategoriProdukByPkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProduk_GetKategoriProdukByPkQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useProduk_GetKategoriProdukByPkQuery(baseOptions: Apollo.QueryHookOptions<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>(Produk_GetKategoriProdukByPkDocument, options);
+      }
+export function useProduk_GetKategoriProdukByPkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>(Produk_GetKategoriProdukByPkDocument, options);
+        }
+export type Produk_GetKategoriProdukByPkQueryHookResult = ReturnType<typeof useProduk_GetKategoriProdukByPkQuery>;
+export type Produk_GetKategoriProdukByPkLazyQueryHookResult = ReturnType<typeof useProduk_GetKategoriProdukByPkLazyQuery>;
+export type Produk_GetKategoriProdukByPkQueryResult = Apollo.QueryResult<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>;
 export const User_GetUserByIdDocument = gql`
     query User_GetUserById($id: uuid!) {
   users_by_pk(id: $id) {
