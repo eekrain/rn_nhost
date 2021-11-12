@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Heading,
-  HStack,
-  Button,
-  Icon,
-  Center,
-  ScrollView,
-  useToast,
-} from 'native-base';
+import {Box, Heading, HStack, Button, Icon, useToast} from 'native-base';
 import {Alert} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
@@ -18,6 +9,7 @@ import {
 import {
   useProduk_GetAllKategoriProdukQuery,
   useProduk_DeleteKategoriProdukMutation,
+  Produk_GetAllKategoriProdukDocument,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -53,7 +45,9 @@ const KategoriProduk = ({navigation}: Props) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [deleteKategoriMutation, _deleteKategoriMutationResult] =
-    useProduk_DeleteKategoriProdukMutation();
+    useProduk_DeleteKategoriProdukMutation({
+      refetchQueries: [{query: Produk_GetAllKategoriProdukDocument}],
+    });
 
   const data = useMemo(() => {
     const handleDeleteKategori = async (id: number, name: string) => {
@@ -130,18 +124,14 @@ const KategoriProduk = ({navigation}: Props) => {
           Buat Baru
         </Button>
       </HStack>
-      <Center>
-        <ScrollView nestedScrollEnabled={true}>
-          <CustomTable
-            data={data}
-            columns={[
-              {Header: 'Nama Kategori', accessor: 'name', width: 300},
-              {Header: 'Deskripsi', accessor: 'description', width: 300},
-              {Header: 'Aksi', accessor: 'component', width: 100},
-            ]}
-          />
-        </ScrollView>
-      </Center>
+      <CustomTable
+        data={data}
+        columns={[
+          {Header: 'Nama Kategori', accessor: 'name', widthRatio: 2},
+          {Header: 'Deskripsi', accessor: 'description', widthRatio: 2},
+          {Header: 'Aksi', accessor: 'component', widthRatio: 1},
+        ]}
+      />
     </Box>
   );
 };

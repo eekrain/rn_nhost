@@ -12,7 +12,6 @@ import Feather from 'react-native-vector-icons/Feather';
 interface Props {
   handleChangeRowsPerPage: (newValue: number) => void;
   rowsPerPage: number;
-  totalWidth: number;
   possibleRowsPerPage: number[];
   currentPage: number;
   dataLength: number;

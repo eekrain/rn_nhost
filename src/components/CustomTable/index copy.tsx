@@ -10,26 +10,20 @@ import {
   Icon,
   Text,
   Pressable,
-  Center,
-  VStack,
-  Flex,
-  Divider,
-  Heading,
 } from 'native-base';
 import {useState} from 'react';
+import {Table, Row} from 'react-native-table-component';
 import {useMemo} from 'react';
 import {sort} from 'fast-sort';
 import CustomTablePagination from './CustomTablePagination';
 import CustomTableHeader from './CustomTableHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import {useEffect} from 'react';
-import {Col, Row, Grid} from 'react-native-easy-grid';
 
 export type CustomTableColumn<T extends object = {}> = {
   Header: string;
   accessor: keyof T;
-  widthFixed?: number;
-  widthRatio?: number;
+  width: number;
 };
 
 interface Props<T extends Record<string, unknown>> {
@@ -59,10 +53,6 @@ const CustomTable = <T extends Record<string, unknown>>({
     row: {
       ...defaultStyles.row,
       backgroundColor: childColor,
-    } as ViewStyle,
-    rowOdd: {
-      ...defaultStyles.row,
-      backgroundColor: childColorOdd,
     } as ViewStyle,
   };
 
@@ -126,8 +116,17 @@ const CustomTable = <T extends Record<string, unknown>>({
       currentPage * rowsPerPage + rowsPerPage,
     );
 
-    return paginated;
+    const readyRender: any[] = [];
+    paginated.forEach(single => {
+      const inside: T[keyof T][] = [];
+      columns.forEach(colDef => {
+        inside.push(single[colDef.accessor]);
+      });
+      readyRender.push(inside);
+    });
+    return readyRender;
   }, [
+    columns,
     currentPage,
     data,
     orderDirection,
@@ -136,10 +135,19 @@ const CustomTable = <T extends Record<string, unknown>>({
     valueToOrderBy,
   ]);
 
+  const totalWidth = useMemo(
+    () => columns.reduce((total, num) => total + Math.round(num.width), 0),
+    [columns],
+  );
+
+  const widthArr = useMemo(() => {
+    return columns.map(coldef => coldef.width);
+  }, [columns]);
+
   const headerCellWithSort = (text: string, accessor: keyof T) => {
     return (
       <Pressable onPress={() => handleRequestSort(accessor)}>
-        <HStack space="3" alignItems="center">
+        <HStack space="3" alignItems="center" style={{paddingHorizontal: 20}}>
           <Text color="milano_red.500">{text}</Text>
           <Icon
             as={Feather}
@@ -155,42 +163,46 @@ const CustomTable = <T extends Record<string, unknown>>({
   };
 
   return (
-    <VStack w="full">
-      <CustomTableHeader {...{searchTerm, setSearhTerm}} />
-
-      <Grid style={{width: '100%', backgroundColor: 'red'}}>
-        {columns.map(col => (
-          <Col
-            key={col.Header}
-            style={{width: col.widthFixed ? col.widthFixed : undefined}}
-            size={col.widthRatio ? col.widthRatio : undefined}>
-            <Row style={defaultStyles.header}>
-              {headerCellWithSort(col.Header, col.accessor)}
-            </Row>
-            {processedData.map((rowdata, i) => (
+    <>
+      <ScrollView horizontal={true} nestedScrollEnabled={true}>
+        <View>
+          <CustomTableHeader {...{searchTerm, setSearhTerm}} />
+          <Table>
+            <Row
+              data={columns.map(col =>
+                headerCellWithSort(col.Header, col.accessor),
+              )}
+              widthArr={widthArr}
+              // @ts-ignore: Unreachable code error
+              style={styles.header}
+            />
+            {processedData.map((row, index) => (
               <Row
-                key={`${col.Header}${col.accessor}${i}`}
-                style={i % 2 ? styles.rowOdd : styles.row}>
-                {typeof rowdata[col.accessor] === 'string' ? (
-                  <Text>{rowdata[col.accessor] as string}</Text>
-                ) : (
-                  (rowdata[col.accessor] as React.ReactElement)
-                )}
-              </Row>
+                key={`${row[valueToOrderBy]}${index}`}
+                data={row}
+                widthArr={widthArr}
+                // @ts-ignore: Unreachable code error
+                style={[
+                  styles.row,
+                  index % 2 && {backgroundColor: childColorOdd},
+                ]}
+                textStyle={styles.text}
+              />
             ))}
-          </Col>
-        ))}
-      </Grid>
+          </Table>
 
-      <CustomTablePagination
-        handleChangeRowsPerPage={handleChangeRowsPerPage}
-        rowsPerPage={rowsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        dataLength={data.length}
-        possibleRowsPerPage={possibleRowsPerPage}
-      />
-    </VStack>
+          <CustomTablePagination
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            totalWidth={totalWidth}
+            setCurrentPage={setCurrentPage}
+            dataLength={data.length}
+            possibleRowsPerPage={possibleRowsPerPage}
+          />
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
@@ -198,8 +210,6 @@ const defaultStyles = StyleSheet.create({
   header: {
     height: 50,
     backgroundColor: 'white',
-    alignItems: 'center',
-    paddingHorizontal: 20,
   },
   headerText: {
     fontWeight: '500',
@@ -215,36 +225,9 @@ const defaultStyles = StyleSheet.create({
     marginTop: -1,
   },
   row: {
-    height: 50,
+    height: 40,
     backgroundColor: '#e4e4e7',
-    alignItems: 'center',
-    paddingHorizontal: 20,
   },
 });
 
 export default CustomTable;
-
-// {/* <CustomTableHeader {...{searchTerm, setSearhTerm}} />
-// <Table>
-//   <Row
-//     data={columns.map(col =>
-//       headerCellWithSort(col.Header, col.accessor),
-//     )}
-//     widthArr={widthArr}
-//     // @ts-ignore: Unreachable code error
-//     style={styles.header}
-//   />
-//   {processedData.map((row, index) => (
-//     <Row
-//       key={`${row[valueToOrderBy]}${index}`}
-//       data={row}
-//       widthArr={widthArr}
-//       // @ts-ignore: Unreachable code error
-//       style={[
-//         styles.row,
-//         index % 2 && {backgroundColor: childColorOdd},
-//       ]}
-//       textStyle={styles.text}
-//     />
-//   ))}
-// </Table>
