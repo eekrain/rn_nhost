@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, {useCallback} from 'react';
 import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
 import {
   ScrollView,
@@ -30,12 +30,18 @@ export type CustomTableColumn<T extends object = {}> = {
   accessor: keyof T;
   widthFixed?: number;
   widthRatio?: number;
+  isAvatar?: boolean;
+  isAction?: boolean;
+  isDisableSort?: boolean;
 };
 
 interface Props<T extends Record<string, unknown>> {
   data: T[];
   columns: CustomTableColumn<T>[];
+  tableWidth?: number | '100%';
+  rowHeight?: number;
   possibleRowsPerPage?: number[];
+  headerHeight?: number;
   headerStyle?: ViewStyle;
   headerTextStyle?: TextStyle;
   textStyle?: TextStyle;
@@ -45,7 +51,10 @@ interface Props<T extends Record<string, unknown>> {
 const CustomTable = <T extends Record<string, unknown>>({
   data,
   columns,
-  possibleRowsPerPage = [10, 25, 50],
+  possibleRowsPerPage = [10, 25, 50, 1000000],
+  tableWidth = '100%',
+  headerHeight = 70,
+  rowHeight = 50,
   headerStyle,
   headerTextStyle,
   textStyle,
@@ -53,15 +62,18 @@ const CustomTable = <T extends Record<string, unknown>>({
   childColorOdd = '#fafafa',
 }: Props<T>) => {
   const styles = {
-    header: headerStyle || defaultStyles.header,
+    tableStyle: {...defaultStyles.tableStyle, width: tableWidth},
+    header: headerStyle || {...defaultStyles.header, height: headerHeight},
     headerText: headerTextStyle || defaultStyles.headerText,
     text: textStyle || defaultStyles.text,
     row: {
       ...defaultStyles.row,
+      height: rowHeight,
       backgroundColor: childColor,
     } as ViewStyle,
     rowOdd: {
       ...defaultStyles.row,
+      height: rowHeight,
       backgroundColor: childColorOdd,
     } as ViewStyle,
   };
@@ -71,7 +83,10 @@ const CustomTable = <T extends Record<string, unknown>>({
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
   const [valueToOrderBy, setValueToOrderBy] = useState<
     CustomTableColumn<T>['accessor']
-  >(columns[0].accessor);
+  >(
+    columns.find(col => col?.isDisableSort === false || !col?.isDisableSort)
+      ?.accessor || '',
+  );
 
   // pagination
   const [currentPage, setCurrentPage] = useState(0);
@@ -88,13 +103,16 @@ const CustomTable = <T extends Record<string, unknown>>({
     setRowsPerPage(newValue);
   };
 
-  const handleRequestSort = (valueToOrderByNew: keyof T) => {
-    const isAscending =
-      valueToOrderBy === valueToOrderByNew && orderDirection === 'asc';
+  const handleRequestSort = useCallback(
+    (valueToOrderByNew: keyof T) => {
+      const isAscending =
+        valueToOrderBy === valueToOrderByNew && orderDirection === 'asc';
 
-    setValueToOrderBy(valueToOrderByNew);
-    setOrderDirection(isAscending ? 'desc' : 'asc');
-  };
+      setValueToOrderBy(valueToOrderByNew);
+      setOrderDirection(isAscending ? 'desc' : 'asc');
+    },
+    [orderDirection, valueToOrderBy],
+  );
 
   const processedData = useMemo(() => {
     const filtered = data.filter(value => {
@@ -136,51 +154,95 @@ const CustomTable = <T extends Record<string, unknown>>({
     valueToOrderBy,
   ]);
 
-  const headerCellWithSort = (text: string, accessor: keyof T) => {
-    return (
-      <Pressable onPress={() => handleRequestSort(accessor)}>
-        <HStack space="3" alignItems="center">
-          <Text color="milano_red.500">{text}</Text>
-          <Icon
-            as={Feather}
-            name={orderDirection === 'asc' ? 'arrow-down' : 'arrow-up'}
-            size="4"
-            color={
-              valueToOrderBy === accessor ? 'milano_red.500' : 'transparent'
-            }
-          />
-        </HStack>
-      </Pressable>
-    );
-  };
+  const headerCell = useCallback(
+    (text: string, accessor: keyof T, isDisableSort: boolean) => {
+      if (isDisableSort) {
+        return <Text color="milano_red.500">{text}</Text>;
+      } else {
+        return (
+          <Pressable onPress={() => handleRequestSort(accessor)}>
+            <HStack space="3" alignItems="center">
+              <Text color="milano_red.500">{text}</Text>
+              <Icon
+                as={Feather}
+                name={orderDirection === 'asc' ? 'arrow-down' : 'arrow-up'}
+                size="4"
+                color={
+                  valueToOrderBy === accessor ? 'milano_red.500' : 'transparent'
+                }
+              />
+            </HStack>
+          </Pressable>
+        );
+      }
+    },
+    [handleRequestSort, orderDirection, valueToOrderBy],
+  );
 
-  return (
-    <VStack w="full">
-      <CustomTableHeader {...{searchTerm, setSearhTerm}} />
-
-      <Grid style={{width: '100%', backgroundColor: 'red'}}>
+  const table = useCallback(
+    () => (
+      <Grid style={{minWidth: '100%'}}>
         {columns.map(col => (
           <Col
             key={col.Header}
-            style={{width: col.widthFixed ? col.widthFixed : undefined}}
+            style={{
+              width: col.widthFixed ? col.widthFixed : undefined,
+            }}
             size={col.widthRatio ? col.widthRatio : undefined}>
-            <Row style={defaultStyles.header}>
-              {headerCellWithSort(col.Header, col.accessor)}
+            <Row style={styles.header}>
+              {headerCell(
+                col.Header,
+                col.accessor,
+                col?.isDisableSort ? col.isDisableSort : false,
+              )}
             </Row>
             {processedData.map((rowdata, i) => (
               <Row
                 key={`${col.Header}${col.accessor}${i}`}
-                style={i % 2 ? styles.rowOdd : styles.row}>
-                {typeof rowdata[col.accessor] === 'string' ? (
-                  <Text>{rowdata[col.accessor] as string}</Text>
-                ) : (
+                style={[
+                  i % 2 ? styles.rowOdd : styles.row,
+                  col?.isAvatar
+                    ? {
+                        paddingTop: 25,
+                      }
+                    : undefined,
+                  col?.isAction
+                    ? {
+                        paddingTop: 10,
+                      }
+                    : undefined,
+                ]}>
+                {typeof rowdata[col.accessor] === 'function' ? (
                   (rowdata[col.accessor] as React.ReactElement)
+                ) : (
+                  <Text>{rowdata[col.accessor] as string}</Text>
                 )}
               </Row>
             ))}
           </Col>
         ))}
       </Grid>
+    ),
+    [
+      columns,
+      headerCell,
+      processedData,
+      styles.header,
+      styles.row,
+      styles.rowOdd,
+    ],
+  );
+
+  return (
+    <VStack w="full">
+      <CustomTableHeader {...{searchTerm, setSearhTerm}} />
+      {tableWidth === '100%' ? (
+        table()
+      ) : (
+        <ScrollView horizontal={true} nestedScrollEnabled={true}>
+          {table()}
+        </ScrollView>
+      )}
 
       <CustomTablePagination
         handleChangeRowsPerPage={handleChangeRowsPerPage}
@@ -195,6 +257,9 @@ const CustomTable = <T extends Record<string, unknown>>({
 };
 
 const defaultStyles = StyleSheet.create({
+  tableStyle: {
+    width: '100%',
+  },
   header: {
     height: 50,
     backgroundColor: 'white',
@@ -215,36 +280,11 @@ const defaultStyles = StyleSheet.create({
     marginTop: -1,
   },
   row: {
-    height: 50,
     backgroundColor: '#e4e4e7',
     alignItems: 'center',
+    position: 'relative',
     paddingHorizontal: 20,
   },
 });
 
 export default CustomTable;
-
-// {/* <CustomTableHeader {...{searchTerm, setSearhTerm}} />
-// <Table>
-//   <Row
-//     data={columns.map(col =>
-//       headerCellWithSort(col.Header, col.accessor),
-//     )}
-//     widthArr={widthArr}
-//     // @ts-ignore: Unreachable code error
-//     style={styles.header}
-//   />
-//   {processedData.map((row, index) => (
-//     <Row
-//       key={`${row[valueToOrderBy]}${index}`}
-//       data={row}
-//       widthArr={widthArr}
-//       // @ts-ignore: Unreachable code error
-//       style={[
-//         styles.row,
-//         index % 2 && {backgroundColor: childColorOdd},
-//       ]}
-//       textStyle={styles.text}
-//     />
-//   ))}
-// </Table>

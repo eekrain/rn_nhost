@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Select,
@@ -26,6 +27,10 @@ const CustomTablePagination = ({
   dataLength,
   setCurrentPage,
 }: Props) => {
+  console.log(
+    '🚀 ~ file: CustomTablePagination.tsx ~ line 29 ~ rowsPerPage',
+    typeof rowsPerPage,
+  );
   return (
     <HStack
       bgColor="white"
@@ -50,7 +55,7 @@ const CustomTablePagination = ({
       </Box>
       <Box mr="8">
         <IconButton
-          disabled={currentPage >= Math.ceil(dataLength / rowsPerPage)}
+          disabled={currentPage >= Math.ceil(dataLength / rowsPerPage) - 1}
           onPress={() => {
             console.log(
               '🚀 ~ file: CustomTablePagination.tsx ~ line 44 ~ onPress',
@@ -73,13 +78,14 @@ const CustomTablePagination = ({
           selectedValue={rowsPerPage.toString()}
           accessibilityLabel="Rows per Page"
           placeholder="Rows per Page"
+          w={100}
           _selectedItem={{
             bg: 'primary.300',
             endIcon: <CheckIcon size="3" ml="2" />,
           }}
           mt={1}
           onValueChange={itemValue =>
-            handleChangeRowsPerPage(parseInt(itemValue))
+            handleChangeRowsPerPage(parseInt(itemValue, 10))
           }>
           {possibleRowsPerPage.map(num => (
             <Select.Item

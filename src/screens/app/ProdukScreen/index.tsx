@@ -4,11 +4,13 @@ import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
 import ProdukIndex from '../../../components/Produk';
 import CreateKategoriProduk from '../../../components/Produk/CreateKategoriProduk';
 import UpdateKategoriProduk from '../../../components/Produk/UpdateKategoriProduk';
+import CreateProduk from '../../../components/Produk/CreateProduk';
 
 export type ProductStackParamList = {
   ListProduk: undefined;
   CreateKategoriProduk: undefined;
   UpdateKategoriProduk: {categoryId: number};
+  CreateProduk: undefined;
 };
 
 type IProdukRoutes = {
@@ -29,6 +31,11 @@ export const rootProdukRoutes: IProdukRoutes[] = [
     component: UpdateKategoriProduk,
     routeNiceName: 'Kategori Produk',
   },
+  {
+    name: 'CreateProduk',
+    component: CreateProduk,
+    routeNiceName: 'Produk',
+  },
 ];
 
 export type ProdukRootStackNavProps = StackScreenProps<
@@ -46,6 +53,10 @@ export type CreateKategoriProdukNavProps = StackScreenProps<
 export type UpdateKategoriProdukNavProps = StackScreenProps<
   ProductStackParamList,
   'UpdateKategoriProduk'
+>;
+export type CreateProdukNavProps = StackScreenProps<
+  ProductStackParamList,
+  'CreateProduk'
 >;
 
 const ProdukStack = createStackNavigator<ProductStackParamList>();

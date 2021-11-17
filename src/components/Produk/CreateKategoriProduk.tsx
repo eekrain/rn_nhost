@@ -1,7 +1,6 @@
 import React from 'react';
 import {Box, HStack, VStack, Heading, ScrollView, useToast} from 'native-base';
 import withAppLayout from '../Layout/AppLayout';
-import RHInput from '../../shared/components/RHInput';
 import {
   Produk_GetAllKategoriProdukDocument,
   useProduk_CreateKategoriProdukMutation,
@@ -12,7 +11,7 @@ import {getXHasuraContextHeader} from '../../shared/utils';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {DismissKeyboardWrapper} from '../../shared/components';
+import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import ButtonSave from '../Buttons/ButtonSave';
 
 interface IDefaultValues {
@@ -80,13 +79,13 @@ const CreateKategoriProduk = ({}: Props) => {
 
           <Box bgColor="white" p="8">
             <VStack space="4">
-              <RHInput
+              <RHTextInput
                 name="name"
                 control={control}
                 errors={errors}
                 label="Nama Kategori"
               />
-              <RHInput
+              <RHTextInput
                 name="description"
                 control={control}
                 errors={errors}

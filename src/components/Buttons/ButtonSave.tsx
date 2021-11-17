@@ -12,7 +12,7 @@ const ButtonSave = ({size, customText, ...rest}: Props) => {
       size={size ? size : 'lg'}
       leftIcon={<Icon as={Feather} name="save" size="sm" />}
       {...rest}>
-      {customText ? customText : 'Save'}
+      {customText ? customText : 'Simpan'}
     </Button>
   );
 };

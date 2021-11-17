@@ -17,13 +17,13 @@ import {ButtonEdit, ButtonDelete} from '../Buttons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 
-interface ActionProps {
+interface IActionProps {
   id: number;
   navigation: StackNavigationProp<ProductStackParamList, 'ListProduk'>;
   handleDeleteKategori: () => Promise<void>;
 }
 
-const Action = ({id, navigation, handleDeleteKategori}: ActionProps) => {
+const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
   return (
     <HStack space="3">
       <ButtonEdit
@@ -129,7 +129,12 @@ const KategoriProduk = ({navigation}: Props) => {
         columns={[
           {Header: 'Nama Kategori', accessor: 'name', widthRatio: 2},
           {Header: 'Deskripsi', accessor: 'description', widthRatio: 2},
-          {Header: 'Aksi', accessor: 'component', widthRatio: 1},
+          {
+            Header: 'Aksi',
+            accessor: 'component',
+            widthRatio: 1,
+            isAction: true,
+          },
         ]}
       />
     </Box>

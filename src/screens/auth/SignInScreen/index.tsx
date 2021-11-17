@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'native-base';
 import {SigninNavProps} from '../../../types/navigation';
-import RHInput from '../../../shared/components/RHInput';
+import {RHTextInput} from '../../../shared/components';
 import {useNhostAuth} from '../../../shared/utils/nhost';
 import {useForm} from 'react-hook-form';
 
@@ -64,13 +64,13 @@ const SignInScreen = ({navigation}: ISignInScreenProps) => {
         </Box>
 
         <VStack space={3} mt="5">
-          <RHInput
+          <RHTextInput
             name="username"
             label="Username"
             control={control}
             errors={errors}
           />
-          <RHInput
+          <RHTextInput
             control={control}
             errors={errors}
             type="password"

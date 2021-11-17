@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Heading, Image, VStack, Button} from 'native-base';
 import {ForgotPasswordNavProps} from '../../../types/navigation';
-import RHInput from '../../../shared/components/RHInput';
+import {RHTextInput} from '../../../shared/components';
 import {useForm} from 'react-hook-form';
 
 interface IForgotPasswordProps extends ForgotPasswordNavProps {}
@@ -43,7 +43,7 @@ const ForgotPassword = ({}: IForgotPasswordProps) => {
       </Box>
 
       <VStack space={3} mt="5">
-        <RHInput
+        <RHTextInput
           name="username"
           label="Username"
           control={control}

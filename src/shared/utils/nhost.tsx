@@ -1,11 +1,10 @@
 import React from 'react';
 import {createClient} from 'nhost-js-sdk';
-import {BACKEND_HBP_ENDPOINT} from '@env';
 import create, {GetState, SetState} from 'zustand';
 import {StoreApiWithPersist, persist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createTrackedSelector} from 'react-tracked';
-import {HASURA_ENDPOINT} from '@env';
+import {HASURA_ENDPOINT, BACKEND_HBP_ENDPOINT} from '@env';
 import {NhostApolloProvider} from '@nhost/react-apollo';
 import {TUserRoleOptions} from '../../types/user';
 import {useEffect} from 'react';
@@ -16,6 +15,8 @@ export const nhostClient = createClient({
   clientStorageType: 'react-native',
   clientStorage: AsyncStorage,
 });
+
+export const {storage} = nhostClient;
 
 interface INhostAuthStore {
   isLoading: boolean;

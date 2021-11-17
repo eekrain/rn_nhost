@@ -1,122 +1,154 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {
-  Text,
   Box,
   Heading,
   HStack,
   Avatar,
-  FlatList,
-  VStack,
-  Spacer,
   Button,
   Icon,
+  useToast,
+  Center,
 } from 'native-base';
 import Feather from 'react-native-vector-icons/Feather';
+import {
+  ListProdukNavProps,
+  ProductStackParamList,
+} from '../../screens/app/ProdukScreen';
+import {useProduk_GetAllProdukQuery} from '../../graphql/gql-generated';
+import CustomTable from '../CustomTable';
+import {useMemo} from 'react';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ButtonDelete, ButtonEdit} from '../Buttons';
+import {
+  generateAvatarName,
+  getStorageFileUrlWImageTransform,
+} from '../../shared/utils';
+import numbro from 'numbro';
 
-interface Props {}
+interface IActionProps {
+  id: number;
+  navigation: StackNavigationProp<ProductStackParamList, 'ListProduk'>;
+  handleDeleteKategori: () => Promise<void>;
+}
 
-const Produk = ({}: Props) => {
-  const data = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      fullName: 'Aafreen Khan',
-      timeStamp: '12:47 PM',
-      recentText: 'Good Day!',
-      avatarUrl:
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      fullName: 'Sujitha Mathur',
-      timeStamp: '11:11 PM',
-      recentText: 'Cheer up, there!',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      fullName: 'Anci Barroco',
-      timeStamp: '6:22 PM',
-      recentText: 'Good Day!',
-      avatarUrl: 'https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg',
-    },
-    {
-      id: '68694a0f-3da1-431f-bd56-142371e29d72',
-      fullName: 'Aniket Kumar',
-      timeStamp: '8:56 PM',
-      recentText: 'All the best',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU',
-    },
-    {
-      id: '28694a0f-3da1-471f-bd96-142456e29d72',
-      fullName: 'Kiara',
-      timeStamp: '12:47 PM',
-      recentText: 'I will call today.',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-    },
-  ];
+const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
+  return (
+    <HStack space="3">
+      <ButtonEdit
+        size="sm"
+        onPress={() => {
+          navigation.navigate('UpdateKategoriProduk', {categoryId: id});
+        }}
+      />
+      <ButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
+    </HStack>
+  );
+};
+
+interface IProductPhotoProps {
+  photo_url: string;
+  product_name: string;
+}
+
+const ProductPhoto = ({photo_url, product_name}: IProductPhotoProps) => {
+  return (
+    <Avatar
+      source={{
+        uri: getStorageFileUrlWImageTransform({
+          fileKey: photo_url,
+          w: 100,
+          q: 60,
+        }),
+      }}>
+      {generateAvatarName(product_name)}
+    </Avatar>
+  );
+};
+
+interface Props extends ListProdukNavProps {}
+
+const Produk = ({navigation}: Props) => {
+  const getAllProduk = useProduk_GetAllProdukQuery();
+  const toast = useToast();
+
+  const data = useMemo(() => {
+    const temp = getAllProduk.data?.rocketjaket_product || [];
+
+    const withComponent = temp.map(produk => ({
+      ...produk,
+      capital_price: numbro(produk.capital_price).format({
+        thousandSeparated: true,
+        prefix: 'Rp ',
+      }),
+      selling_price: numbro(produk.selling_price).format({
+        thousandSeparated: true,
+        prefix: 'Rp ',
+      }),
+      discount: numbro(produk.discount).format({
+        thousandSeparated: true,
+        prefix: 'Rp ',
+      }),
+      category: produk.product_category.name,
+      photo: (
+        <ProductPhoto
+          photo_url={produk?.photo_url ? produk.photo_url : ''}
+          product_name={produk.name}
+        />
+      ),
+      action: (
+        <Action
+          {...{
+            id: produk.id,
+            navigation,
+          }}
+          handleDeleteKategori={
+            async () => {}
+            // handleDeleteKategori(produk.id, produk.name)
+          }
+        />
+      ),
+    }));
+    return withComponent;
+  }, [getAllProduk.data?.rocketjaket_product, navigation]);
+
   return (
     <Box w="full">
       <HStack justifyContent="space-between" alignItems="center" mb="10">
         <Heading fontSize="xl">List Semua Produk Yang Ada</Heading>
         <Button
+          onPress={() => navigation.navigate('CreateProduk')}
           size="lg"
           leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}>
           Buat Baru
         </Button>
       </HStack>
-      <FlatList
+
+      <CustomTable
         data={data}
-        renderItem={({item}) => (
-          <Box
-            borderBottomWidth="1"
-            _dark={{
-              borderColor: 'gray.600',
-            }}
-            borderColor="coolGray.200"
-            pl="4"
-            pr="5"
-            py="2">
-            <HStack space={3} justifyContent="space-between">
-              <Avatar
-                size="48px"
-                source={{
-                  uri: item.avatarUrl,
-                }}
-              />
-              <VStack>
-                <Text
-                  _dark={{
-                    color: 'warmGray.50',
-                  }}
-                  color="coolGray.800"
-                  bold>
-                  {item.fullName}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: 'warmGray.200',
-                  }}>
-                  {item.recentText}
-                </Text>
-              </VStack>
-              <Spacer />
-              <Text
-                fontSize="xs"
-                _dark={{
-                  color: 'warmGray.50',
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start">
-                {item.timeStamp}
-              </Text>
-            </HStack>
-          </Box>
-        )}
-        keyExtractor={item => item.id}
+        headerHeight={90}
+        rowHeight={70}
+        columns={[
+          {
+            Header: 'Foto',
+            accessor: 'photo',
+            widthRatio: 1,
+            isAvatar: true,
+            isDisableSort: true,
+          },
+          {Header: 'Nama Produk', accessor: 'name', widthRatio: 2},
+          {Header: 'Kategori Produk', accessor: 'category', widthRatio: 1},
+          {Header: 'Harga Modal', accessor: 'capital_price', widthRatio: 1},
+          {Header: 'Harga Jual', accessor: 'selling_price', widthRatio: 1},
+          {Header: 'Diskon', accessor: 'discount', widthRatio: 1},
+          {
+            Header: 'Aksi',
+            accessor: 'action',
+            widthRatio: 1,
+            isAction: true,
+            isDisableSort: true,
+          },
+        ]}
       />
     </Box>
   );

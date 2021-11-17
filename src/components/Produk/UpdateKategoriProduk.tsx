@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, HStack, VStack, Heading, ScrollView, useToast} from 'native-base';
 import withAppLayout from '../Layout/AppLayout';
-import RHInput from '../../shared/components/RHInput';
 import {
   Produk_GetAllKategoriProdukDocument,
   useProduk_GetKategoriProdukByPkQuery,
@@ -11,7 +10,7 @@ import * as yup from 'yup';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {DismissKeyboardWrapper} from '../../shared/components';
+import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import ButtonSave from '../Buttons/ButtonSave';
 import {UpdateKategoriProdukNavProps} from '../../screens/app/ProdukScreen';
 import {useEffect} from 'react';
@@ -34,7 +33,7 @@ interface Props extends UpdateKategoriProdukNavProps {}
 
 const UpdateKategoriProduk = ({navigation, route}: Props) => {
   const toast = useToast();
-
+  const [isErrorOnce, setErrorOnce] = useState(false);
   const {
     handleSubmit,
     control,
@@ -51,6 +50,16 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
   });
 
   useEffect(() => {
+    if (
+      getDataKategori.data?.rocketjaket_product_category_by_pk === null &&
+      !isErrorOnce
+    ) {
+      toast.show({
+        ...TOAST_TEMPLATE.error('Kategori Produk tidak ditemukan.'),
+      });
+      navigation.goBack();
+      setErrorOnce(true);
+    }
     if (getDataKategori.data?.rocketjaket_product_category_by_pk) {
       setValue(
         'name',
@@ -63,7 +72,7 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
         {shouldDirty: false, shouldValidate: false},
       );
     }
-  }, [getDataKategori, setValue]);
+  }, [getDataKategori, isErrorOnce, navigation, setValue, toast]);
 
   const [updateKategoriMutation, _updateKategoriMutationResult] =
     useProduk_UpdateKategoriProdukMutation({
@@ -110,13 +119,13 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
 
           <Box bgColor="white" p="8">
             <VStack space="4">
-              <RHInput
+              <RHTextInput
                 name="name"
                 control={control}
                 errors={errors}
                 label="Nama Kategori"
               />
-              <RHInput
+              <RHTextInput
                 name="description"
                 control={control}
                 errors={errors}
