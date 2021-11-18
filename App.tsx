@@ -17,7 +17,6 @@ import {useState} from 'react';
 import {useEffect} from 'react';
 import {useNhostAuth} from './src/shared/utils';
 import {Alert} from 'react-native';
-import {Box, Image, Spinner, VStack, Heading} from 'native-base';
 import {useMemo} from 'react';
 import {
   checkMultiple,
@@ -25,6 +24,7 @@ import {
   PERMISSIONS,
   RESULTS,
 } from 'react-native-permissions';
+import SplashScreen from './src/components/Overlay/Splashscreen';
 
 const appPermission = async () => {
   checkMultiple([
@@ -81,6 +81,10 @@ const App = () => {
     () => nhostAuth.isLoading || loadingSplashScreen,
     [nhostAuth.isLoading, loadingSplashScreen],
   );
+  // const loading = useMemo(
+  //   () => nhostAuth.isLoading || loadingSplashScreen,
+  //   [nhostAuth.isLoading, loadingSplashScreen],
+  // );
 
   useEffect(() => {
     const splash = setTimeout(() => {
@@ -108,27 +112,27 @@ const App = () => {
 };
 export default App;
 
-const SplashScreen = () => {
-  return (
-    <Box
-      safeArea
-      flex={1}
-      w="full"
-      h="full"
-      justifyContent="center"
-      alignItems="center">
-      <VStack justifyContent="center" alignItems="center" space="2">
-        <Image
-          source={require('./src/assets/images/logo.png')}
-          alt="Logo Rocketjaket"
-          w="xs"
-          resizeMode="contain"
-        />
-        <Heading size="lg" fontWeight="600" color="coolGray.800">
-          Loading...
-        </Heading>
-        <Spinner size="lg" accessibilityLabel="Loading" />
-      </VStack>
-    </Box>
-  );
-};
+// const SplashScreen = () => {
+//   return (
+//     <Box
+//       safeArea
+//       flex={1}
+//       w="full"
+//       h="full"
+//       justifyContent="center"
+//       alignItems="center">
+//       <VStack justifyContent="center" alignItems="center" space="2">
+//         <Image
+//           source={require('./src/assets/images/logo.png')}
+//           alt="Logo Rocketjaket"
+//           w="xs"
+//           resizeMode="contain"
+//         />
+//         <Heading size="lg" fontWeight="600" color="coolGray.800">
+//           Loading...
+//         </Heading>
+//         <Spinner size="lg" accessibilityLabel="Loading" />
+//       </VStack>
+//     </Box>
+//   );
+// };

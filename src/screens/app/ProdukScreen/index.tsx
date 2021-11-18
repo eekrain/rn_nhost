@@ -5,12 +5,14 @@ import ProdukIndex from '../../../components/Produk';
 import CreateKategoriProduk from '../../../components/Produk/CreateKategoriProduk';
 import UpdateKategoriProduk from '../../../components/Produk/UpdateKategoriProduk';
 import CreateProduk from '../../../components/Produk/CreateProduk';
+import UpdateProduk from '../../../components/Produk/UpdateProduk';
 
 export type ProductStackParamList = {
   ListProduk: undefined;
   CreateKategoriProduk: undefined;
   UpdateKategoriProduk: {categoryId: number};
   CreateProduk: undefined;
+  UpdateProduk: {productId: number};
 };
 
 type IProdukRoutes = {
@@ -36,6 +38,11 @@ export const rootProdukRoutes: IProdukRoutes[] = [
     component: CreateProduk,
     routeNiceName: 'Produk',
   },
+  {
+    name: 'UpdateProduk',
+    component: UpdateProduk,
+    routeNiceName: 'Produk',
+  },
 ];
 
 export type ProdukRootStackNavProps = StackScreenProps<
@@ -57,6 +64,10 @@ export type UpdateKategoriProdukNavProps = StackScreenProps<
 export type CreateProdukNavProps = StackScreenProps<
   ProductStackParamList,
   'CreateProduk'
+>;
+export type UpdateProdukNavProps = StackScreenProps<
+  ProductStackParamList,
+  'UpdateProduk'
 >;
 
 const ProdukStack = createStackNavigator<ProductStackParamList>();

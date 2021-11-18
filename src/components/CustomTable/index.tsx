@@ -24,6 +24,7 @@ import CustomTableHeader from './CustomTableHeader';
 import Feather from 'react-native-vector-icons/Feather';
 import {useEffect} from 'react';
 import {Col, Row, Grid} from 'react-native-easy-grid';
+import LoadingOverlay from '../Overlay/LoadingOverlay';
 
 export type CustomTableColumn<T extends object = {}> = {
   Header: string;
@@ -38,6 +39,7 @@ export type CustomTableColumn<T extends object = {}> = {
 interface Props<T extends Record<string, unknown>> {
   data: T[];
   columns: CustomTableColumn<T>[];
+  isLoading: boolean;
   tableWidth?: number | '100%';
   rowHeight?: number;
   possibleRowsPerPage?: number[];
@@ -51,6 +53,7 @@ interface Props<T extends Record<string, unknown>> {
 const CustomTable = <T extends Record<string, unknown>>({
   data,
   columns,
+  isLoading = true,
   possibleRowsPerPage = [10, 25, 50, 1000000],
   tableWidth = '100%',
   headerHeight = 70,
@@ -235,6 +238,7 @@ const CustomTable = <T extends Record<string, unknown>>({
 
   return (
     <VStack w="full">
+      <LoadingOverlay size="md" visible={isLoading} />
       <CustomTableHeader {...{searchTerm, setSearhTerm}} />
       {tableWidth === '100%' ? (
         table()

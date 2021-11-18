@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Box,
   HStack,
@@ -14,6 +14,7 @@ import {
   Icon,
   Text,
   Center,
+  Spinner,
 } from 'native-base';
 import {Image} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -22,11 +23,14 @@ import {
   Produk_GetAllProdukDocument,
   useProduk_CreateProdukMutation,
   useProduk_GetAllKategoriProdukQuery,
+  useProduk_GetProdukByPkQuery,
+  useProduk_UpdateProdukByPkMutation,
 } from '../../graphql/gql-generated';
 import * as yup from 'yup';
-import {useNavigation} from '@react-navigation/native';
 import {
+  getStorageFileUrlWImageTransform,
   getXHasuraContextHeader,
+  myNumberFormat,
   renameFilenameWithAddedNanoid,
   storage,
 } from '../../shared/utils';
@@ -34,9 +38,8 @@ import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
-import {ButtonSave} from '../Buttons';
+import {ButtonBack, ButtonSave} from '../Buttons';
 import RHNumberInput from '../../shared/components/RHNumberInput';
-import numbro from 'numbro';
 import {useMemo} from 'react';
 import RHSelect from '../../shared/components/RHSelect';
 import {
@@ -45,6 +48,11 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {useState} from 'react';
+import {UpdateProdukNavProps} from '../../screens/app/ProdukScreen';
+import {useMyAppState} from '../../state';
+import numbro from 'numbro';
+import {Row, Col, Grid} from 'react-native-easy-grid';
+import dayjs from 'dayjs';
 
 interface IDefaultValues {
   product_category_id: string;
@@ -72,11 +80,16 @@ const defaultValues: IDefaultValues = {
   discount: '0',
 };
 
-interface Props {}
+interface AssetWithUpdate extends Asset {
+  isChanged?: boolean;
+  defaultPhotoURL?: string;
+}
 
-const CreateProduk = ({}: Props) => {
+interface Props extends UpdateProdukNavProps {}
+
+const UpdateProduk = ({navigation, route}: Props) => {
   const toast = useToast();
-  const navigation = useNavigation();
+  const myAppState = useMyAppState();
   const containerDirection = useBreakpointValue({
     base: 'column',
     lg: 'row',
@@ -91,18 +104,89 @@ const CreateProduk = ({}: Props) => {
   });
 
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     watch,
     handleSubmit,
     control,
-    formState: {errors},
+    setValue,
+    formState: {errors, isSubmitSuccessful},
     reset,
   } = useForm({
     defaultValues,
     resolver: yupResolver(schema),
   });
+  console.log(
+    '🚀 ~ file: UpdateProduk.tsx ~ line 115 ~ UpdateProduk ~ isSubmitSuccessful',
+    isSubmitSuccessful,
+  );
 
-  const [productFoto, setProductFoto] = useState<Asset | null>(null);
+  const [productFoto, setProductFoto] = useState<AssetWithUpdate | null>(null);
+
+  const [isErrorOnce, setErrorOnce] = useState(false);
+  const getProdukData = useProduk_GetProdukByPkQuery({
+    variables: {
+      id: route.params.productId,
+    },
+  });
+
+  useEffect(() => {
+    if (!isSubmitSuccessful) {
+      myAppState.setLoadingWholePage(getProdukData.loading);
+    } else {
+      myAppState.setLoadingWholePage(false);
+    }
+  }, [getProdukData.loading, isSubmitSuccessful, myAppState]);
+
+  useEffect(() => {
+    if (
+      getProdukData.data?.rocketjaket_product_by_pk === null &&
+      !isErrorOnce
+    ) {
+      toast.show({
+        ...TOAST_TEMPLATE.error('Produk tidak ditemukan.'),
+      });
+      navigation.goBack();
+      setErrorOnce(true);
+    } else {
+      if (getProdukData.data?.rocketjaket_product_by_pk) {
+        setProductFoto({
+          isChanged: false,
+          defaultPhotoURL: getProdukData.data.rocketjaket_product_by_pk
+            ?.photo_url
+            ? getStorageFileUrlWImageTransform({
+                fileKey:
+                  getProdukData.data.rocketjaket_product_by_pk?.photo_url || '',
+                w: 500,
+                q: 60,
+              })
+            : undefined,
+        });
+        setValue('name', getProdukData.data?.rocketjaket_product_by_pk.name);
+        setValue(
+          'product_category_id',
+          getProdukData.data?.rocketjaket_product_by_pk.product_category_id.toString(),
+        );
+        setValue(
+          'capital_price',
+          myNumberFormat.thousandSeparated(
+            getProdukData.data.rocketjaket_product_by_pk.capital_price,
+          ),
+        );
+        setValue(
+          'selling_price',
+          myNumberFormat.thousandSeparated(
+            getProdukData.data?.rocketjaket_product_by_pk.selling_price,
+          ),
+        );
+        setValue(
+          'discount',
+          myNumberFormat.thousandSeparated(
+            getProdukData.data?.rocketjaket_product_by_pk?.discount || 0,
+          ),
+        );
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getProdukData.data?.rocketjaket_product_by_pk, isErrorOnce]);
 
   const getAllKategoriProduk = useProduk_GetAllKategoriProdukQuery();
   const kategoriProduk = useMemo(() => {
@@ -114,15 +198,20 @@ const CreateProduk = ({}: Props) => {
     return kategori;
   }, [getAllKategoriProduk.data?.rocketjaket_product_category]);
 
-  const [createKategoriMutation, _createKategoriMutationResult] =
-    useProduk_CreateProdukMutation({
+  const [updateProdukMutation, _updateProdukMutationResult] =
+    useProduk_UpdateProdukByPkMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
       refetchQueries: [{query: Produk_GetAllProdukDocument}],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {
-    let photo_url = '';
-    if (productFoto?.uri) {
+    console.log(
+      '🚀 ~ file: UpdateProduk.tsx ~ line 202 ~ handleSubmission ~ data',
+      data,
+    );
+    let photo_url =
+      getProdukData.data?.rocketjaket_product_by_pk?.photo_url || '';
+    if (productFoto?.isChanged && productFoto?.uri) {
       try {
         const finalFileName = renameFilenameWithAddedNanoid(
           data.name,
@@ -131,14 +220,21 @@ const CreateProduk = ({}: Props) => {
         const image = {
           type: productFoto.type,
           uri: productFoto.uri,
-          name: finalFileName.originalName.name,
+          name: finalFileName.modifiedName,
         };
-
         const res = await storage.put(
           `/public/products/${finalFileName.modifiedName}`,
           image,
         );
-        photo_url = res?.key || '';
+        if (
+          res?.key &&
+          getProdukData.data?.rocketjaket_product_by_pk?.photo_url !== ''
+        ) {
+          await storage.delete(
+            `/${getProdukData.data?.rocketjaket_product_by_pk?.photo_url}`,
+          );
+        }
+        photo_url = res?.key ? res.key : '';
       } catch (error) {
         console.log(
           '🚀 ~ file: CreateProduk.tsx ~ line 145 ~ handleSubmission ~ error',
@@ -151,9 +247,9 @@ const CreateProduk = ({}: Props) => {
         });
       }
     }
-
-    const res = await createKategoriMutation({
+    const res = await updateProdukMutation({
       variables: {
+        id: route.params.productId,
         name: data.name,
         photo_url: photo_url,
         capital_price: numbro.unformat(data.capital_price),
@@ -163,16 +259,16 @@ const CreateProduk = ({}: Props) => {
       },
     });
     if (res.errors) {
+      myAppState.setLoadingWholePage(false);
       toast.show({
         ...TOAST_TEMPLATE.error(
-          `Gagal melakukan penambahan produk ${res.data?.insert_rocketjaket_product_one?.name}.`,
+          `Gagal melakukan update produk ${res.data?.update_rocketjaket_product_by_pk?.name}.`,
         ),
       });
     } else {
-      reset();
       toast.show({
         ...TOAST_TEMPLATE.success(
-          `Berhasil menambahkan produk ${res.data?.insert_rocketjaket_product_one?.name}.`,
+          `Berhasil update produk ${res.data?.update_rocketjaket_product_by_pk?.name}.`,
         ),
       });
       navigation.goBack();
@@ -189,7 +285,9 @@ const CreateProduk = ({}: Props) => {
       data => {
         if (data?.assets) {
           const asset = data.assets[0] || {};
-          setProductFoto(prev => ({...prev, ...asset}));
+          setProductFoto(prev => {
+            return {...prev, ...asset, isChanged: true};
+          });
         }
       },
     );
@@ -204,7 +302,7 @@ const CreateProduk = ({}: Props) => {
       data => {
         if (data?.assets) {
           const asset = data.assets[0] || {};
-          setProductFoto(prev => ({...prev, ...asset}));
+          setProductFoto(prev => ({...prev, ...asset, isChanged: true}));
         }
       },
     );
@@ -213,15 +311,53 @@ const CreateProduk = ({}: Props) => {
   return (
     <ScrollView>
       <DismissKeyboardWrapper>
-        <Box pb="40">
+        <Box pb="40" position="relative">
           <HStack justifyContent="space-between">
             <Heading fontSize="xl" mb="10">
-              Buat Kategori Produk Baru
+              Edit Produk
             </Heading>
           </HStack>
           <Stack direction={containerDirection} space="6">
             <Box bgColor="white" p="8" borderRadius="xl" w={formWidth}>
               <VStack space="4">
+                <HStack justifyContent="flex-end">
+                  <Box>
+                    <Grid style={{width: 250}}>
+                      <Row>
+                        <Col size={0.8}>
+                          <Text>Dibuat tanggal</Text>
+                        </Col>
+                        <Col size={0.2}>
+                          <Text>:</Text>
+                        </Col>
+                        <Col size={1}>
+                          <Text>
+                            {dayjs(
+                              getProdukData.data?.rocketjaket_product_by_pk
+                                ?.created_at,
+                            ).format('D/M/YYYY h:m')}
+                          </Text>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col size={0.8}>
+                          <Text>Terakhir diubah</Text>
+                        </Col>
+                        <Col size={0.2}>
+                          <Text>:</Text>
+                        </Col>
+                        <Col size={1}>
+                          <Text>
+                            {dayjs(
+                              getProdukData.data?.rocketjaket_product_by_pk
+                                ?.updated_at,
+                            ).format('D/M/YYYY h:m')}
+                          </Text>
+                        </Col>
+                      </Row>
+                    </Grid>
+                  </Box>
+                </HStack>
                 <RHSelect
                   selectOptions={kategoriProduk}
                   control={control}
@@ -266,10 +402,23 @@ const CreateProduk = ({}: Props) => {
                 <Center>
                   <Text fontWeight="bold">Foto Produk</Text>
                 </Center>
-                {productFoto?.uri ? (
+                {productFoto?.isChanged ? (
                   <Box h="40">
                     <Image
                       source={{uri: productFoto?.uri}}
+                      resizeMode="contain"
+                      style={{height: '100%'}}
+                    />
+                  </Box>
+                ) : productFoto?.defaultPhotoURL ? (
+                  <Box h="40">
+                    <Image
+                      source={{
+                        headers: {
+                          Pragma: 'no-cache',
+                        },
+                        uri: productFoto?.defaultPhotoURL,
+                      }}
                       resizeMode="contain"
                       style={{height: '100%'}}
                     />
@@ -306,11 +455,12 @@ const CreateProduk = ({}: Props) => {
             </Box>
           </Stack>
 
-          <HStack justifyContent="flex-end" mt="8">
+          <HStack justifyContent="flex-end" mt="8" space="4">
             <ButtonSave
-              isLoading={_createKategoriMutationResult.loading}
+              isLoading={_updateProdukMutationResult.loading}
               onPress={handleSubmit(handleSubmission)}
             />
+            <ButtonBack onPress={() => navigation.goBack()} />
           </HStack>
         </Box>
       </DismissKeyboardWrapper>
@@ -318,4 +468,4 @@ const CreateProduk = ({}: Props) => {
   );
 };
 
-export default withAppLayout(CreateProduk);
+export default withAppLayout(UpdateProduk);

@@ -56,12 +56,10 @@ const ProdukIndex = (props: Props) => {
   );
 
   return (
-    <ScrollView>
-      <View paddingBottom="200">
-        {renderTab()}
-        {<Component {...props} />}
-      </View>
-    </ScrollView>
+    <View>
+      {renderTab()}
+      {<Component {...props} />}
+    </View>
   );
 };
 

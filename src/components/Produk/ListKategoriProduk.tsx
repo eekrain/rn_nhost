@@ -1,6 +1,14 @@
 import React from 'react';
-import {Box, Heading, HStack, Button, Icon, useToast} from 'native-base';
-import {Alert} from 'react-native';
+import {
+  Box,
+  Heading,
+  HStack,
+  Button,
+  Icon,
+  useToast,
+  ScrollView,
+} from 'native-base';
+import {Alert, RefreshControl} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
   ListProdukNavProps,
@@ -16,6 +24,7 @@ import {useMemo} from 'react';
 import {ButtonEdit, ButtonDelete} from '../Buttons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TOAST_TEMPLATE} from '../../shared/constants';
+import {useMyAppState} from '../../state';
 
 interface IActionProps {
   id: number;
@@ -24,11 +33,14 @@ interface IActionProps {
 }
 
 const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
+  const myAppState = useMyAppState();
+
   return (
     <HStack space="3">
       <ButtonEdit
         size="sm"
         onPress={() => {
+          myAppState.setLoadingWholePage(true);
           navigation.navigate('UpdateKategoriProduk', {categoryId: id});
         }}
       />
@@ -40,7 +52,7 @@ const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
 interface Props extends ListProdukNavProps {}
 
 const KategoriProduk = ({navigation}: Props) => {
-  const getAllProduk = useProduk_GetAllKategoriProdukQuery();
+  const getAllKategoriProduk = useProduk_GetAllKategoriProdukQuery();
   const toast = useToast();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -81,14 +93,10 @@ const KategoriProduk = ({navigation}: Props) => {
         ],
         {
           cancelable: true,
-          onDismiss: () =>
-            Alert.alert(
-              'This alert was dismissed by tapping outside of the alert dialog.',
-            ),
         },
       );
     };
-    const temp = getAllProduk.data?.rocketjaket_product_category || [];
+    const temp = getAllKategoriProduk.data?.rocketjaket_product_category || [];
 
     const withAction = temp.map(val => ({
       ...val,
@@ -106,38 +114,52 @@ const KategoriProduk = ({navigation}: Props) => {
     return withAction;
   }, [
     deleteKategoriMutation,
-    getAllProduk.data?.rocketjaket_product_category,
+    getAllKategoriProduk.data?.rocketjaket_product_category,
     navigation,
     toast,
   ]);
 
   return (
-    <Box>
-      <HStack justifyContent="space-between" alignItems="center" mb="10">
-        <Heading fontSize="xl">List Semua Kategori Produk</Heading>
-        <Button
-          onPress={() => {
-            navigation.navigate('CreateKategoriProduk');
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={() => {
+            getAllKategoriProduk.refetch();
           }}
-          size="lg"
-          leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}>
-          Buat Baru
-        </Button>
-      </HStack>
-      <CustomTable
-        data={data}
-        columns={[
-          {Header: 'Nama Kategori', accessor: 'name', widthRatio: 2},
-          {Header: 'Deskripsi', accessor: 'description', widthRatio: 2},
-          {
-            Header: 'Aksi',
-            accessor: 'component',
-            widthRatio: 1,
-            isAction: true,
-          },
-        ]}
-      />
-    </Box>
+        />
+      }>
+      <Box paddingBottom={300}>
+        <HStack justifyContent="space-between" alignItems="center" mb="10">
+          <Heading fontSize="xl">List Semua Kategori Produk</Heading>
+          <Button
+            onPress={() => {
+              navigation.navigate('CreateKategoriProduk');
+            }}
+            size="lg"
+            leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}>
+            Buat Baru
+          </Button>
+        </HStack>
+        <CustomTable
+          isLoading={
+            getAllKategoriProduk.loading ||
+            _deleteKategoriMutationResult.loading
+          }
+          data={data}
+          columns={[
+            {Header: 'Nama Kategori', accessor: 'name', widthRatio: 2},
+            {Header: 'Deskripsi', accessor: 'description', widthRatio: 2},
+            {
+              Header: 'Aksi',
+              accessor: 'component',
+              widthRatio: 1,
+              isAction: true,
+            },
+          ]}
+        />
+      </Box>
+    </ScrollView>
   );
 };
 

@@ -4198,7 +4198,7 @@ date-fns@^1.27.2:
   resolved "https://registry.npmmirror.com/date-fns/download/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha1-LnG/CxGRU9u0zE6I2epaz7UNwFw=
 
-dayjs@^1.8.15:
+dayjs@^1.10.7, dayjs@^1.8.15:
   version "1.10.7"
   resolved "https://registry.nlark.com/dayjs/download/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha1-LPX5Gt0oEWdIRAhmoKHSbzps5Gg=
@@ -8305,6 +8305,11 @@ react-itertools@^0.0.5:
   resolved "https://registry.npmmirror.com/react-itertools/download/react-itertools-0.0.5.tgz#65144426dfad3a9f721b3b49f1e0221c4d0d2886"
   integrity sha1-ZRREJt+tOp9yGztJ8eAiHE0NKIY=
 
+react-native-awesome-loading@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.npmmirror.com/react-native-awesome-loading/download/react-native-awesome-loading-1.0.15.tgz#9255ebe0be96af5268f6ad3490e5d866c91b9a2f"
+  integrity sha1-klXr4L6Wr1Jo9q00kOXYZskbmi8=
+
 react-native-codegen@^0.0.7:
   version "0.0.7"
   resolved "https://registry.npmmirror.com/react-native-codegen/download/react-native-codegen-0.0.7.tgz#86651c5c5fec67a8077ef7f4e36f7ed459043e14"
@@ -8327,6 +8332,11 @@ react-native-easy-grid@^0.2.2:
   integrity sha1-8L4zYgvh6+LSKVkY61iwon6Ccqs=
   dependencies:
     lodash "^4.17.15"
+
+react-native-fast-image@^8.5.11:
+  version "8.5.11"
+  resolved "https://registry.npmmirror.com/react-native-fast-image/download/react-native-fast-image-8.5.11.tgz#e3dc969d0e4e8df026646bf18194465aa55cbc2b"
+  integrity sha1-49yWnQ5OjfAmZGvxgZRGWqVcvCs=
 
 react-native-fs@^2.18.0:
   version "2.18.0"
@@ -8392,6 +8402,11 @@ react-native-table-component@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npm.taobao.org/react-native-table-component/download/react-native-table-component-1.2.1.tgz#5f1e0f159b1dff9df0d5601c4a5ab99d1aa99a25"
   integrity sha1-Xx4PFZsd/53w1WAcSlq5nRqpmiU=
+
+react-native-uuid@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.nlark.com/react-native-uuid/download/react-native-uuid-2.0.1.tgz#ed4e2dfb1683eddb66967eb5dca140dfe1abddb9"
+  integrity sha1-7U4t+xaD7dtmln613KFA3+Gr3bk=
 
 react-native-vector-icons@^6.2.0:
   version "6.7.0"

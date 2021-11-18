@@ -1,0 +1,13 @@
+query Produk_GetProdukByPK($id: Int!) {
+  rocketjaket_product_by_pk(id: $id) {
+    id
+    name
+    photo_url
+    selling_price
+    discount
+    capital_price
+    product_category_id
+    created_at
+    updated_at
+  }
+}

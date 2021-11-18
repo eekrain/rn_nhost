@@ -2183,7 +2183,8 @@ export type Query_RootUsers_By_PkArgs = {
 export type Rocketjaket_Product = {
   __typename?: 'rocketjaket_product';
   capital_price: Scalars['Int'];
-  discount?: Maybe<Scalars['Int']>;
+  created_at: Scalars['timestamptz'];
+  discount: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['String'];
   photo_url?: Maybe<Scalars['String']>;
@@ -2191,6 +2192,7 @@ export type Rocketjaket_Product = {
   product_category: Rocketjaket_Product_Category;
   product_category_id: Scalars['Int'];
   selling_price: Scalars['Int'];
+  updated_at: Scalars['timestamptz'];
 };
 
 /** aggregated selection of "rocketjaket.product" */
@@ -2270,6 +2272,7 @@ export type Rocketjaket_Product_Bool_Exp = {
   _not?: Maybe<Rocketjaket_Product_Bool_Exp>;
   _or?: Maybe<Array<Rocketjaket_Product_Bool_Exp>>;
   capital_price?: Maybe<Int_Comparison_Exp>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
   discount?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
@@ -2277,6 +2280,7 @@ export type Rocketjaket_Product_Bool_Exp = {
   product_category?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
   product_category_id?: Maybe<Int_Comparison_Exp>;
   selling_price?: Maybe<Int_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
 
 /** columns and relationships of "rocketjaket.product_category" */
@@ -2501,8 +2505,6 @@ export type Rocketjaket_Product_Category_Variance_Fields = {
 /** unique or primary key constraints on table "rocketjaket.product" */
 export enum Rocketjaket_Product_Constraint {
   /** unique or primary key constraint */
-  ProductNameKey = 'product_name_key',
-  /** unique or primary key constraint */
   ProductPkey = 'product_pkey'
 }
 
@@ -2518,6 +2520,7 @@ export type Rocketjaket_Product_Inc_Input = {
 /** input type for inserting data into table "rocketjaket.product" */
 export type Rocketjaket_Product_Insert_Input = {
   capital_price?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -2525,52 +2528,61 @@ export type Rocketjaket_Product_Insert_Input = {
   product_category?: Maybe<Rocketjaket_Product_Category_Obj_Rel_Insert_Input>;
   product_category_id?: Maybe<Scalars['Int']>;
   selling_price?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type Rocketjaket_Product_Max_Fields = {
   __typename?: 'rocketjaket_product_max_fields';
   capital_price?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
   selling_price?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "rocketjaket.product" */
 export type Rocketjaket_Product_Max_Order_By = {
   capital_price?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   photo_url?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Rocketjaket_Product_Min_Fields = {
   __typename?: 'rocketjaket_product_min_fields';
   capital_price?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
   selling_price?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "rocketjaket.product" */
 export type Rocketjaket_Product_Min_Order_By = {
   capital_price?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   photo_url?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "rocketjaket.product" */
@@ -2592,6 +2604,7 @@ export type Rocketjaket_Product_On_Conflict = {
 /** Ordering options when selecting data from "rocketjaket.product". */
 export type Rocketjaket_Product_Order_By = {
   capital_price?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -2599,6 +2612,7 @@ export type Rocketjaket_Product_Order_By = {
   product_category?: Maybe<Rocketjaket_Product_Category_Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
 };
 
 /** primary key columns input for table: rocketjaket_product */
@@ -2611,6 +2625,8 @@ export enum Rocketjaket_Product_Select_Column {
   /** column name */
   CapitalPrice = 'capital_price',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Discount = 'discount',
   /** column name */
   Id = 'id',
@@ -2621,18 +2637,22 @@ export enum Rocketjaket_Product_Select_Column {
   /** column name */
   ProductCategoryId = 'product_category_id',
   /** column name */
-  SellingPrice = 'selling_price'
+  SellingPrice = 'selling_price',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "rocketjaket.product" */
 export type Rocketjaket_Product_Set_Input = {
   capital_price?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
   selling_price?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate stddev on columns */
@@ -2716,6 +2736,8 @@ export enum Rocketjaket_Product_Update_Column {
   /** column name */
   CapitalPrice = 'capital_price',
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   Discount = 'discount',
   /** column name */
   Id = 'id',
@@ -2726,7 +2748,9 @@ export enum Rocketjaket_Product_Update_Column {
   /** column name */
   ProductCategoryId = 'product_category_id',
   /** column name */
-  SellingPrice = 'selling_price'
+  SellingPrice = 'selling_price',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
@@ -3262,6 +3286,13 @@ export type Produk_DeleteKategoriProdukMutationVariables = Exact<{
 
 export type Produk_DeleteKategoriProdukMutation = { __typename?: 'mutation_root', delete_rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', id: number, name: string } | null | undefined };
 
+export type Produk_DeleteProdukByPkMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Produk_DeleteProdukByPkMutation = { __typename?: 'mutation_root', delete_rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string } | null | undefined };
+
 export type Produk_UpdateKategoriProdukMutationVariables = Exact<{
   id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
@@ -3271,6 +3302,19 @@ export type Produk_UpdateKategoriProdukMutationVariables = Exact<{
 
 export type Produk_UpdateKategoriProdukMutation = { __typename?: 'mutation_root', update_rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', name: string, id: number, description?: string | null | undefined } | null | undefined };
 
+export type Produk_UpdateProdukByPkMutationVariables = Exact<{
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  photo_url?: Maybe<Scalars['String']>;
+  product_category_id?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
+  capital_price?: Maybe<Scalars['Int']>;
+  discount?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type Produk_UpdateProdukByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string } | null | undefined };
+
 export type Produk_GetAllKategoriProdukQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3279,7 +3323,7 @@ export type Produk_GetAllKategoriProdukQuery = { __typename?: 'query_root', rock
 export type Produk_GetAllProdukQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Produk_GetAllProdukQuery = { __typename?: 'query_root', rocketjaket_product: Array<{ __typename?: 'rocketjaket_product', name: string, id: number, photo_url?: string | null | undefined, capital_price: number, discount?: number | null | undefined, selling_price: number, product_category: { __typename?: 'rocketjaket_product_category', name: string } }> };
+export type Produk_GetAllProdukQuery = { __typename?: 'query_root', rocketjaket_product: Array<{ __typename?: 'rocketjaket_product', name: string, id: number, photo_url?: string | null | undefined, capital_price: number, discount: number, selling_price: number, product_category: { __typename?: 'rocketjaket_product_category', name: string } }> };
 
 export type Produk_GetKategoriProdukByPkQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -3287,6 +3331,13 @@ export type Produk_GetKategoriProdukByPkQueryVariables = Exact<{
 
 
 export type Produk_GetKategoriProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', id: number, name: string, description?: string | null | undefined } | null | undefined };
+
+export type Produk_GetProdukByPkQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Produk_GetProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string, photo_url?: string | null | undefined, selling_price: number, discount: number, capital_price: number, product_category_id: number, created_at: any, updated_at: any } | null | undefined };
 
 export type User_GetUserByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -3300,13 +3351,16 @@ export const namedOperations = {
     Produk_GetAllKategoriProduk: 'Produk_GetAllKategoriProduk',
     Produk_GetAllProduk: 'Produk_GetAllProduk',
     Produk_GetKategoriProdukByPK: 'Produk_GetKategoriProdukByPK',
+    Produk_GetProdukByPK: 'Produk_GetProdukByPK',
     User_GetUserById: 'User_GetUserById'
   },
   Mutation: {
     Produk_CreateKategoriProduk: 'Produk_CreateKategoriProduk',
     Produk_CreateProduk: 'Produk_CreateProduk',
     Produk_DeleteKategoriProduk: 'Produk_DeleteKategoriProduk',
-    Produk_UpdateKategoriProduk: 'Produk_UpdateKategoriProduk'
+    Produk_DeleteProdukByPK: 'Produk_DeleteProdukByPK',
+    Produk_UpdateKategoriProduk: 'Produk_UpdateKategoriProduk',
+    Produk_UpdateProdukByPK: 'Produk_UpdateProdukByPK'
   }
 }
 
@@ -3423,6 +3477,40 @@ export function useProduk_DeleteKategoriProdukMutation(baseOptions?: Apollo.Muta
 export type Produk_DeleteKategoriProdukMutationHookResult = ReturnType<typeof useProduk_DeleteKategoriProdukMutation>;
 export type Produk_DeleteKategoriProdukMutationResult = Apollo.MutationResult<Produk_DeleteKategoriProdukMutation>;
 export type Produk_DeleteKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_DeleteKategoriProdukMutation, Produk_DeleteKategoriProdukMutationVariables>;
+export const Produk_DeleteProdukByPkDocument = gql`
+    mutation Produk_DeleteProdukByPK($id: Int!) {
+  delete_rocketjaket_product_by_pk(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type Produk_DeleteProdukByPkMutationFn = Apollo.MutationFunction<Produk_DeleteProdukByPkMutation, Produk_DeleteProdukByPkMutationVariables>;
+
+/**
+ * __useProduk_DeleteProdukByPkMutation__
+ *
+ * To run a mutation, you first call `useProduk_DeleteProdukByPkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProduk_DeleteProdukByPkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [produkDeleteProdukByPkMutation, { data, loading, error }] = useProduk_DeleteProdukByPkMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useProduk_DeleteProdukByPkMutation(baseOptions?: Apollo.MutationHookOptions<Produk_DeleteProdukByPkMutation, Produk_DeleteProdukByPkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Produk_DeleteProdukByPkMutation, Produk_DeleteProdukByPkMutationVariables>(Produk_DeleteProdukByPkDocument, options);
+      }
+export type Produk_DeleteProdukByPkMutationHookResult = ReturnType<typeof useProduk_DeleteProdukByPkMutation>;
+export type Produk_DeleteProdukByPkMutationResult = Apollo.MutationResult<Produk_DeleteProdukByPkMutation>;
+export type Produk_DeleteProdukByPkMutationOptions = Apollo.BaseMutationOptions<Produk_DeleteProdukByPkMutation, Produk_DeleteProdukByPkMutationVariables>;
 export const Produk_UpdateKategoriProdukDocument = gql`
     mutation Produk_UpdateKategoriProduk($id: Int!, $description: String, $name: String!) {
   update_rocketjaket_product_category_by_pk(
@@ -3463,6 +3551,49 @@ export function useProduk_UpdateKategoriProdukMutation(baseOptions?: Apollo.Muta
 export type Produk_UpdateKategoriProdukMutationHookResult = ReturnType<typeof useProduk_UpdateKategoriProdukMutation>;
 export type Produk_UpdateKategoriProdukMutationResult = Apollo.MutationResult<Produk_UpdateKategoriProdukMutation>;
 export type Produk_UpdateKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_UpdateKategoriProdukMutation, Produk_UpdateKategoriProdukMutationVariables>;
+export const Produk_UpdateProdukByPkDocument = gql`
+    mutation Produk_UpdateProdukByPK($id: Int!, $name: String!, $photo_url: String, $product_category_id: Int, $selling_price: Int, $capital_price: Int, $discount: Int) {
+  update_rocketjaket_product_by_pk(
+    pk_columns: {id: $id}
+    _set: {name: $name, photo_url: $photo_url, product_category_id: $product_category_id, selling_price: $selling_price, capital_price: $capital_price, discount: $discount}
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type Produk_UpdateProdukByPkMutationFn = Apollo.MutationFunction<Produk_UpdateProdukByPkMutation, Produk_UpdateProdukByPkMutationVariables>;
+
+/**
+ * __useProduk_UpdateProdukByPkMutation__
+ *
+ * To run a mutation, you first call `useProduk_UpdateProdukByPkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProduk_UpdateProdukByPkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [produkUpdateProdukByPkMutation, { data, loading, error }] = useProduk_UpdateProdukByPkMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      photo_url: // value for 'photo_url'
+ *      product_category_id: // value for 'product_category_id'
+ *      selling_price: // value for 'selling_price'
+ *      capital_price: // value for 'capital_price'
+ *      discount: // value for 'discount'
+ *   },
+ * });
+ */
+export function useProduk_UpdateProdukByPkMutation(baseOptions?: Apollo.MutationHookOptions<Produk_UpdateProdukByPkMutation, Produk_UpdateProdukByPkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Produk_UpdateProdukByPkMutation, Produk_UpdateProdukByPkMutationVariables>(Produk_UpdateProdukByPkDocument, options);
+      }
+export type Produk_UpdateProdukByPkMutationHookResult = ReturnType<typeof useProduk_UpdateProdukByPkMutation>;
+export type Produk_UpdateProdukByPkMutationResult = Apollo.MutationResult<Produk_UpdateProdukByPkMutation>;
+export type Produk_UpdateProdukByPkMutationOptions = Apollo.BaseMutationOptions<Produk_UpdateProdukByPkMutation, Produk_UpdateProdukByPkMutationVariables>;
 export const Produk_GetAllKategoriProdukDocument = gql`
     query Produk_GetAllKategoriProduk {
   rocketjaket_product_category {
@@ -3578,6 +3709,49 @@ export function useProduk_GetKategoriProdukByPkLazyQuery(baseOptions?: Apollo.La
 export type Produk_GetKategoriProdukByPkQueryHookResult = ReturnType<typeof useProduk_GetKategoriProdukByPkQuery>;
 export type Produk_GetKategoriProdukByPkLazyQueryHookResult = ReturnType<typeof useProduk_GetKategoriProdukByPkLazyQuery>;
 export type Produk_GetKategoriProdukByPkQueryResult = Apollo.QueryResult<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>;
+export const Produk_GetProdukByPkDocument = gql`
+    query Produk_GetProdukByPK($id: Int!) {
+  rocketjaket_product_by_pk(id: $id) {
+    id
+    name
+    photo_url
+    selling_price
+    discount
+    capital_price
+    product_category_id
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useProduk_GetProdukByPkQuery__
+ *
+ * To run a query within a React component, call `useProduk_GetProdukByPkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProduk_GetProdukByPkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProduk_GetProdukByPkQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useProduk_GetProdukByPkQuery(baseOptions: Apollo.QueryHookOptions<Produk_GetProdukByPkQuery, Produk_GetProdukByPkQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Produk_GetProdukByPkQuery, Produk_GetProdukByPkQueryVariables>(Produk_GetProdukByPkDocument, options);
+      }
+export function useProduk_GetProdukByPkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Produk_GetProdukByPkQuery, Produk_GetProdukByPkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Produk_GetProdukByPkQuery, Produk_GetProdukByPkQueryVariables>(Produk_GetProdukByPkDocument, options);
+        }
+export type Produk_GetProdukByPkQueryHookResult = ReturnType<typeof useProduk_GetProdukByPkQuery>;
+export type Produk_GetProdukByPkLazyQueryHookResult = ReturnType<typeof useProduk_GetProdukByPkLazyQuery>;
+export type Produk_GetProdukByPkQueryResult = Apollo.QueryResult<Produk_GetProdukByPkQuery, Produk_GetProdukByPkQueryVariables>;
 export const User_GetUserByIdDocument = gql`
     query User_GetUserById($id: uuid!) {
   users_by_pk(id: $id) {

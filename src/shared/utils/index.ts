@@ -3,3 +3,4 @@ export * from './nhost';
 export * from './toTitleCase';
 export * from './stringFileNameUtil';
 export * from './getStorageFileUrl';
+export * from './myNumberFormat';

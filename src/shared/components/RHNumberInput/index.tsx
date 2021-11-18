@@ -3,6 +3,7 @@ import {Input, IInputProps, FormControl, Text, HStack} from 'native-base';
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
 import numbro from 'numbro';
+import {myNumberFormat} from '../../utils';
 
 type TFormatNumberType = 'rp' | '-rp';
 
@@ -40,9 +41,7 @@ const numberFormat = (value: any, format?: TFormatNumberType) => {
   if (format) {
     let temp = numbro.unformat(value);
     temp = isNaN(temp) ? 0 : temp;
-    processedVal = numbro(temp).format({
-      thousandSeparated: true,
-    });
+    processedVal = myNumberFormat.thousandSeparated(temp);
   } else {
     processedVal = value;
   }

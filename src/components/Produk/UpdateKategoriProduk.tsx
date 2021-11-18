@@ -14,6 +14,7 @@ import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import ButtonSave from '../Buttons/ButtonSave';
 import {UpdateKategoriProdukNavProps} from '../../screens/app/ProdukScreen';
 import {useEffect} from 'react';
+import {useMyAppState} from '../../state';
 
 interface IDefaultValues {
   name: string;
@@ -33,6 +34,7 @@ interface Props extends UpdateKategoriProdukNavProps {}
 
 const UpdateKategoriProduk = ({navigation, route}: Props) => {
   const toast = useToast();
+  const myAppState = useMyAppState();
   const [isErrorOnce, setErrorOnce] = useState(false);
   const {
     handleSubmit,
@@ -48,7 +50,9 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
   const getDataKategori = useProduk_GetKategoriProdukByPkQuery({
     variables: {id: route.params.categoryId},
   });
-
+  useEffect(() => {
+    myAppState.setLoadingWholePage(getDataKategori.loading);
+  }, [getDataKategori.loading, myAppState]);
   useEffect(() => {
     if (
       getDataKategori.data?.rocketjaket_product_category_by_pk === null &&
@@ -59,18 +63,19 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
       });
       navigation.goBack();
       setErrorOnce(true);
-    }
-    if (getDataKategori.data?.rocketjaket_product_category_by_pk) {
-      setValue(
-        'name',
-        getDataKategori.data?.rocketjaket_product_category_by_pk.name,
-      );
-      setValue(
-        'description',
-        getDataKategori.data?.rocketjaket_product_category_by_pk.description ||
-          '',
-        {shouldDirty: false, shouldValidate: false},
-      );
+    } else {
+      if (getDataKategori.data?.rocketjaket_product_category_by_pk) {
+        setValue(
+          'name',
+          getDataKategori.data?.rocketjaket_product_category_by_pk.name,
+        );
+        setValue(
+          'description',
+          getDataKategori.data?.rocketjaket_product_category_by_pk
+            .description || '',
+          {shouldDirty: false, shouldValidate: false},
+        );
+      }
     }
   }, [getDataKategori, isErrorOnce, navigation, setValue, toast]);
 
