@@ -11,13 +11,9 @@ import {
 import {Alert, RefreshControl} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
-  ListProdukNavProps,
-  ProductStackParamList,
-} from '../../screens/app/ProdukScreen';
-import {
-  useProduk_GetAllKategoriProdukQuery,
-  useProduk_DeleteKategoriProdukMutation,
-  Produk_GetAllKategoriProdukDocument,
+  useStore_GetAllStoreQuery,
+  useStore_DeleteStoreByPkMutation,
+  Store_GetAllStoreDocument,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -25,10 +21,15 @@ import {ButtonEdit, ButtonDelete} from '../Buttons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useMyAppState} from '../../state';
+import withAppLayout from '../Layout/AppLayout';
+import {
+  ListTokoNavProps,
+  TokoStackParamList,
+} from '../../screens/app/TokoScreen';
 
 interface IActionProps {
   id: number;
-  navigation: StackNavigationProp<ProductStackParamList, 'ListProduk'>;
+  navigation: StackNavigationProp<TokoStackParamList, 'ListToko'>;
   handleDeleteKategori: () => Promise<void>;
 }
 
@@ -41,7 +42,7 @@ const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
         size="sm"
         onPress={() => {
           myAppState.setLoadingWholePage(true);
-          navigation.navigate('UpdateKategoriProduk', {categoryId: id});
+          navigation.navigate('UpdateToko', {storeId: id});
         }}
       />
       <ButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
@@ -49,36 +50,34 @@ const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
   );
 };
 
-interface Props extends ListProdukNavProps {}
+interface ITokoHomeProps extends ListTokoNavProps {}
 
-const KategoriProduk = ({navigation}: Props) => {
-  const getAllKategoriProduk = useProduk_GetAllKategoriProdukQuery();
+const TokoHome = ({navigation}: ITokoHomeProps) => {
+  const getAllToko = useStore_GetAllStoreQuery();
   const toast = useToast();
 
-  const [deleteKategoriMutation, _deleteKategoriMutationResult] =
-    useProduk_DeleteKategoriProdukMutation({
-      refetchQueries: [{query: Produk_GetAllKategoriProdukDocument}],
+  const [deleteStoreMutation, _deleteStoreMutationResult] =
+    useStore_DeleteStoreByPkMutation({
+      refetchQueries: [{query: Store_GetAllStoreDocument}],
     });
 
   const data = useMemo(() => {
     const handleDeleteKategori = async (id: number, name: string) => {
       const mutation = async () => {
-        const res = await deleteKategoriMutation({variables: {id}});
+        const res = await deleteStoreMutation({variables: {id}});
         if (res.errors) {
           toast.show({
-            ...TOAST_TEMPLATE.error(`Delete kategori produk ${name} gagal.`),
+            ...TOAST_TEMPLATE.error(`Hapus toko ${name} gagal.`),
           });
         } else {
           toast.show({
-            ...TOAST_TEMPLATE.success(
-              `Delete kategori produk ${name} berhasil.`,
-            ),
+            ...TOAST_TEMPLATE.success(`Hapus toko ${name} berhasil.`),
           });
         }
       };
       Alert.alert(
-        'Hapus Kategori Produk',
-        `Kategori produk ${name} akan dihapus. Lanjutkan?`,
+        'Hapus Toko',
+        `Toko ${name} akan dihapus. Lanjutkan?`,
         [
           {
             text: 'Cancel',
@@ -95,7 +94,7 @@ const KategoriProduk = ({navigation}: Props) => {
         },
       );
     };
-    const temp = getAllKategoriProduk.data?.rocketjaket_product_category || [];
+    const temp = getAllToko.data?.rocketjaket_store || [];
 
     const withAction = temp.map(val => ({
       ...val,
@@ -112,8 +111,8 @@ const KategoriProduk = ({navigation}: Props) => {
 
     return withAction;
   }, [
-    deleteKategoriMutation,
-    getAllKategoriProduk.data?.rocketjaket_product_category,
+    deleteStoreMutation,
+    getAllToko.data?.rocketjaket_store,
     navigation,
     toast,
   ]);
@@ -124,16 +123,20 @@ const KategoriProduk = ({navigation}: Props) => {
         <RefreshControl
           refreshing={false}
           onRefresh={() => {
-            getAllKategoriProduk.refetch();
+            getAllToko.refetch();
           }}
         />
       }>
       <Box paddingBottom={300}>
-        <HStack justifyContent="space-between" alignItems="center" mb="10">
-          <Heading fontSize="xl">List Semua Kategori Produk</Heading>
+        <HStack
+          justifyContent="space-between"
+          alignItems="center"
+          mb="10"
+          mt="4">
+          <Heading fontSize="xl">List Toko Terdaftar</Heading>
           <Button
             onPress={() => {
-              navigation.navigate('CreateKategoriProduk');
+              navigation.navigate('CreateToko');
             }}
             size="lg"
             leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}>
@@ -141,18 +144,16 @@ const KategoriProduk = ({navigation}: Props) => {
           </Button>
         </HStack>
         <CustomTable
-          isLoading={
-            getAllKategoriProduk.loading ||
-            _deleteKategoriMutationResult.loading
-          }
+          isLoading={getAllToko.loading || _deleteStoreMutationResult.loading}
+          rowHeight={80}
           data={data}
           columns={[
-            {Header: 'Nama Kategori', accessor: 'name', widthRatio: 2},
-            {Header: 'Deskripsi', accessor: 'description', widthRatio: 2},
+            {Header: 'Nama Toko', accessor: 'name', widthRatio: 1},
+            {Header: 'Alamat', accessor: 'address', widthRatio: 3},
             {
               Header: 'Aksi',
               accessor: 'component',
-              widthRatio: 1,
+              widthRatio: 0.7,
               isAction: true,
             },
           ]}
@@ -162,4 +163,4 @@ const KategoriProduk = ({navigation}: Props) => {
   );
 };
 
-export default KategoriProduk;
+export default withAppLayout(TokoHome);

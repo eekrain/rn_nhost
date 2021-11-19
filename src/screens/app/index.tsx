@@ -3,11 +3,13 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import DashboardScreen from './DashboardScreen';
 import CustomDrawerContent from '../../components/CustomDrawerContent';
 import ProdukScreen, {rootProdukRoutes} from './ProdukScreen';
+import TokoScreen, {rootTokoRoutes} from './TokoScreen';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 
 export type AppNavigationParamList = {
   Dashboard: undefined;
   ProdukRoot: undefined;
+  TokoRoot: undefined;
 };
 
 type IAppRoutes = {
@@ -19,9 +21,14 @@ type IAppRoutes = {
 export const rootAppRoutes: IAppRoutes[] = [
   {name: 'Dashboard', component: DashboardScreen, routeNiceName: 'Dashboard'},
   {name: 'ProdukRoot', component: ProdukScreen, routeNiceName: 'Produk'},
+  {name: 'TokoRoot', component: TokoScreen, routeNiceName: 'Toko'},
 ];
 
-export const allAppRoutes = [...rootAppRoutes, ...rootProdukRoutes];
+export const allAppRoutes = [
+  ...rootAppRoutes,
+  ...rootProdukRoutes,
+  ...rootTokoRoutes,
+];
 
 export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
 
@@ -32,6 +39,10 @@ export type DashboardNavProps = DrawerScreenProps<
 export type ProdukRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'ProdukRoot'
+>;
+export type TokoRootNavProps = DrawerScreenProps<
+  AppNavigationParamList,
+  'TokoRoot'
 >;
 
 const AppDrawer = createDrawerNavigator<AppNavigationParamList>();
@@ -59,5 +70,6 @@ export default AppNavigation;
 export const getAppIcon = (screenName: keyof AppNavigationParamList) => {
   if (screenName === 'Dashboard') return 'bar-chart';
   if (screenName === 'ProdukRoot') return 'shopping-bag';
+  if (screenName === 'TokoRoot') return 'home';
   return '';
 };

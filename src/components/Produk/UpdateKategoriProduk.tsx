@@ -11,7 +11,7 @@ import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
-import ButtonSave from '../Buttons/ButtonSave';
+import {ButtonSave, ButtonBack} from '../Buttons';
 import {UpdateKategoriProdukNavProps} from '../../screens/app/ProdukScreen';
 import {useEffect} from 'react';
 import {useMyAppState} from '../../state';
@@ -39,7 +39,7 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
   const {
     handleSubmit,
     control,
-    formState: {errors, isDirty},
+    formState: {errors, isDirty, isSubmitSuccessful},
     reset,
     setValue,
   } = useForm({
@@ -51,8 +51,13 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
     variables: {id: route.params.categoryId},
   });
   useEffect(() => {
-    myAppState.setLoadingWholePage(getDataKategori.loading);
-  }, [getDataKategori.loading, myAppState]);
+    if (!isSubmitSuccessful) {
+      myAppState.setLoadingWholePage(getDataKategori.loading);
+    } else {
+      myAppState.setLoadingWholePage(false);
+    }
+  }, [getDataKategori.loading, isSubmitSuccessful, myAppState]);
+
   useEffect(() => {
     if (
       getDataKategori.data?.rocketjaket_product_category_by_pk === null &&
@@ -136,11 +141,12 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
                 errors={errors}
                 label="Deskripsi"
               />
-              <HStack justifyContent="flex-end" mt="5">
+              <HStack justifyContent="flex-end" mt="8" space="4">
                 <ButtonSave
                   isLoading={_updateKategoriMutationResult.loading}
                   onPress={handleSubmit(handleSubmission)}
                 />
+                <ButtonBack onPress={() => navigation.goBack()} />
               </HStack>
             </VStack>
           </Box>

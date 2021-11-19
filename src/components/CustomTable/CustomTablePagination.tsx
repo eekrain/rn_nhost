@@ -27,10 +27,6 @@ const CustomTablePagination = ({
   dataLength,
   setCurrentPage,
 }: Props) => {
-  console.log(
-    '🚀 ~ file: CustomTablePagination.tsx ~ line 29 ~ rowsPerPage',
-    typeof rowsPerPage,
-  );
   return (
     <HStack
       bgColor="white"

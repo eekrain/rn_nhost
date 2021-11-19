@@ -1446,6 +1446,10 @@ export type Mutation_Root = {
   delete_rocketjaket_product_category?: Maybe<Rocketjaket_Product_Category_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.product_category" */
   delete_rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
+  /** delete data from the table: "rocketjaket.store" */
+  delete_rocketjaket_store?: Maybe<Rocketjaket_Store_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.store" */
+  delete_rocketjaket_store_by_pk?: Maybe<Rocketjaket_Store>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -1482,6 +1486,10 @@ export type Mutation_Root = {
   insert_rocketjaket_product_category_one?: Maybe<Rocketjaket_Product_Category>;
   /** insert a single row into the table: "rocketjaket.product" */
   insert_rocketjaket_product_one?: Maybe<Rocketjaket_Product>;
+  /** insert data into the table: "rocketjaket.store" */
+  insert_rocketjaket_store?: Maybe<Rocketjaket_Store_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.store" */
+  insert_rocketjaket_store_one?: Maybe<Rocketjaket_Store>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -1518,6 +1526,10 @@ export type Mutation_Root = {
   update_rocketjaket_product_category?: Maybe<Rocketjaket_Product_Category_Mutation_Response>;
   /** update single row of the table: "rocketjaket.product_category" */
   update_rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
+  /** update data of the table: "rocketjaket.store" */
+  update_rocketjaket_store?: Maybe<Rocketjaket_Store_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.store" */
+  update_rocketjaket_store_by_pk?: Maybe<Rocketjaket_Store>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -1617,6 +1629,18 @@ export type Mutation_RootDelete_Rocketjaket_Product_CategoryArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Product_Category_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_StoreArgs = {
+  where: Rocketjaket_Store_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Store_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -1742,6 +1766,20 @@ export type Mutation_RootInsert_Rocketjaket_Product_Category_OneArgs = {
 export type Mutation_RootInsert_Rocketjaket_Product_OneArgs = {
   object: Rocketjaket_Product_Insert_Input;
   on_conflict?: Maybe<Rocketjaket_Product_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_StoreArgs = {
+  objects: Array<Rocketjaket_Store_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Store_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Store_OneArgs = {
+  object: Rocketjaket_Store_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Store_On_Conflict>;
 };
 
 
@@ -1886,6 +1924,22 @@ export type Mutation_RootUpdate_Rocketjaket_Product_Category_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_StoreArgs = {
+  _inc?: Maybe<Rocketjaket_Store_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Store_Set_Input>;
+  where: Rocketjaket_Store_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Store_By_PkArgs = {
+  _inc?: Maybe<Rocketjaket_Store_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Store_Set_Input>;
+  pk_columns: Rocketjaket_Store_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
   _set?: Maybe<Users_Set_Input>;
   where: Users_Bool_Exp;
@@ -1964,6 +2018,12 @@ export type Query_Root = {
   rocketjaket_product_category_aggregate: Rocketjaket_Product_Category_Aggregate;
   /** fetch data from the table: "rocketjaket.product_category" using primary key columns */
   rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
+  /** fetch data from the table: "rocketjaket.store" */
+  rocketjaket_store: Array<Rocketjaket_Store>;
+  /** fetch aggregated fields from the table: "rocketjaket.store" */
+  rocketjaket_store_aggregate: Rocketjaket_Store_Aggregate;
+  /** fetch data from the table: "rocketjaket.store" using primary key columns */
+  rocketjaket_store_by_pk?: Maybe<Rocketjaket_Store>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -2153,6 +2213,29 @@ export type Query_RootRocketjaket_Product_Category_AggregateArgs = {
 
 
 export type Query_RootRocketjaket_Product_Category_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Query_RootRocketjaket_StoreArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Store_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Store_Order_By>>;
+  where?: Maybe<Rocketjaket_Store_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Store_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Store_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Store_Order_By>>;
+  where?: Maybe<Rocketjaket_Store_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Store_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -2810,6 +2893,237 @@ export type Rocketjaket_Product_Variance_Order_By = {
   selling_price?: Maybe<Order_By>;
 };
 
+/** columns and relationships of "rocketjaket.store" */
+export type Rocketjaket_Store = {
+  __typename?: 'rocketjaket_store';
+  address?: Maybe<Scalars['String']>;
+  created_at: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "rocketjaket.store" */
+export type Rocketjaket_Store_Aggregate = {
+  __typename?: 'rocketjaket_store_aggregate';
+  aggregate?: Maybe<Rocketjaket_Store_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Store>;
+};
+
+/** aggregate fields of "rocketjaket.store" */
+export type Rocketjaket_Store_Aggregate_Fields = {
+  __typename?: 'rocketjaket_store_aggregate_fields';
+  avg?: Maybe<Rocketjaket_Store_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Store_Max_Fields>;
+  min?: Maybe<Rocketjaket_Store_Min_Fields>;
+  stddev?: Maybe<Rocketjaket_Store_Stddev_Fields>;
+  stddev_pop?: Maybe<Rocketjaket_Store_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Rocketjaket_Store_Stddev_Samp_Fields>;
+  sum?: Maybe<Rocketjaket_Store_Sum_Fields>;
+  var_pop?: Maybe<Rocketjaket_Store_Var_Pop_Fields>;
+  var_samp?: Maybe<Rocketjaket_Store_Var_Samp_Fields>;
+  variance?: Maybe<Rocketjaket_Store_Variance_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.store" */
+export type Rocketjaket_Store_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Store_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Rocketjaket_Store_Avg_Fields = {
+  __typename?: 'rocketjaket_store_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.store". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Store_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Store_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Store_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Store_Bool_Exp>>;
+  address?: Maybe<String_Comparison_Exp>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
+  latitude?: Maybe<String_Comparison_Exp>;
+  longitude?: Maybe<String_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.store" */
+export enum Rocketjaket_Store_Constraint {
+  /** unique or primary key constraint */
+  StoreNameKey = 'store_name_key',
+  /** unique or primary key constraint */
+  StorePkey = 'store_pkey'
+}
+
+/** input type for incrementing numeric columns in table "rocketjaket.store" */
+export type Rocketjaket_Store_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "rocketjaket.store" */
+export type Rocketjaket_Store_Insert_Input = {
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Store_Max_Fields = {
+  __typename?: 'rocketjaket_store_max_fields';
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Store_Min_Fields = {
+  __typename?: 'rocketjaket_store_min_fields';
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "rocketjaket.store" */
+export type Rocketjaket_Store_Mutation_Response = {
+  __typename?: 'rocketjaket_store_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Store>;
+};
+
+/** on conflict condition type for table "rocketjaket.store" */
+export type Rocketjaket_Store_On_Conflict = {
+  constraint: Rocketjaket_Store_Constraint;
+  update_columns?: Array<Rocketjaket_Store_Update_Column>;
+  where?: Maybe<Rocketjaket_Store_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.store". */
+export type Rocketjaket_Store_Order_By = {
+  address?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  latitude?: Maybe<Order_By>;
+  longitude?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_store */
+export type Rocketjaket_Store_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "rocketjaket.store" */
+export enum Rocketjaket_Store_Select_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Latitude = 'latitude',
+  /** column name */
+  Longitude = 'longitude',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "rocketjaket.store" */
+export type Rocketjaket_Store_Set_Input = {
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type Rocketjaket_Store_Stddev_Fields = {
+  __typename?: 'rocketjaket_store_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Rocketjaket_Store_Stddev_Pop_Fields = {
+  __typename?: 'rocketjaket_store_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Rocketjaket_Store_Stddev_Samp_Fields = {
+  __typename?: 'rocketjaket_store_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Rocketjaket_Store_Sum_Fields = {
+  __typename?: 'rocketjaket_store_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "rocketjaket.store" */
+export enum Rocketjaket_Store_Update_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Latitude = 'latitude',
+  /** column name */
+  Longitude = 'longitude',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** aggregate var_pop on columns */
+export type Rocketjaket_Store_Var_Pop_Fields = {
+  __typename?: 'rocketjaket_store_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Rocketjaket_Store_Var_Samp_Fields = {
+  __typename?: 'rocketjaket_store_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Rocketjaket_Store_Variance_Fields = {
+  __typename?: 'rocketjaket_store_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "auth.account_providers" */
@@ -2860,6 +3174,12 @@ export type Subscription_Root = {
   rocketjaket_product_category_aggregate: Rocketjaket_Product_Category_Aggregate;
   /** fetch data from the table: "rocketjaket.product_category" using primary key columns */
   rocketjaket_product_category_by_pk?: Maybe<Rocketjaket_Product_Category>;
+  /** fetch data from the table: "rocketjaket.store" */
+  rocketjaket_store: Array<Rocketjaket_Store>;
+  /** fetch aggregated fields from the table: "rocketjaket.store" */
+  rocketjaket_store_aggregate: Rocketjaket_Store_Aggregate;
+  /** fetch data from the table: "rocketjaket.store" using primary key columns */
+  rocketjaket_store_by_pk?: Maybe<Rocketjaket_Store>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -3049,6 +3369,29 @@ export type Subscription_RootRocketjaket_Product_Category_AggregateArgs = {
 
 
 export type Subscription_RootRocketjaket_Product_Category_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootRocketjaket_StoreArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Store_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Store_Order_By>>;
+  where?: Maybe<Rocketjaket_Store_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Store_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Store_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Store_Order_By>>;
+  where?: Maybe<Rocketjaket_Store_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Store_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -3339,6 +3682,46 @@ export type Produk_GetProdukByPkQueryVariables = Exact<{
 
 export type Produk_GetProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string, photo_url?: string | null | undefined, selling_price: number, discount: number, capital_price: number, product_category_id: number, created_at: any, updated_at: any } | null | undefined };
 
+export type Store_CreateStoreMutationVariables = Exact<{
+  name: Scalars['String'];
+  address?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+}>;
+
+
+export type Store_CreateStoreMutation = { __typename?: 'mutation_root', insert_rocketjaket_store_one?: { __typename?: 'rocketjaket_store', id: number, name: string } | null | undefined };
+
+export type Store_DeleteStoreByPkMutationVariables = Exact<{
+  id?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type Store_DeleteStoreByPkMutation = { __typename?: 'mutation_root', delete_rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string } | null | undefined };
+
+export type Store_UpdateStoreMutationVariables = Exact<{
+  id: Scalars['Int'];
+  address?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+}>;
+
+
+export type Store_UpdateStoreMutation = { __typename?: 'mutation_root', update_rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string } | null | undefined };
+
+export type Store_GetAllStoreQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Store_GetAllStoreQuery = { __typename?: 'query_root', rocketjaket_store: Array<{ __typename?: 'rocketjaket_store', id: number, name: string, latitude?: string | null | undefined, longitude?: string | null | undefined, address?: string | null | undefined }> };
+
+export type Store_GetStoreByPkQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type Store_GetStoreByPkQuery = { __typename?: 'query_root', rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string, latitude?: string | null | undefined, longitude?: string | null | undefined, address?: string | null | undefined, created_at: any, updated_at: any } | null | undefined };
+
 export type User_GetUserByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -3352,6 +3735,8 @@ export const namedOperations = {
     Produk_GetAllProduk: 'Produk_GetAllProduk',
     Produk_GetKategoriProdukByPK: 'Produk_GetKategoriProdukByPK',
     Produk_GetProdukByPK: 'Produk_GetProdukByPK',
+    Store_GetAllStore: 'Store_GetAllStore',
+    Store_GetStoreByPK: 'Store_GetStoreByPK',
     User_GetUserById: 'User_GetUserById'
   },
   Mutation: {
@@ -3360,7 +3745,10 @@ export const namedOperations = {
     Produk_DeleteKategoriProduk: 'Produk_DeleteKategoriProduk',
     Produk_DeleteProdukByPK: 'Produk_DeleteProdukByPK',
     Produk_UpdateKategoriProduk: 'Produk_UpdateKategoriProduk',
-    Produk_UpdateProdukByPK: 'Produk_UpdateProdukByPK'
+    Produk_UpdateProdukByPK: 'Produk_UpdateProdukByPK',
+    Store_CreateStore: 'Store_CreateStore',
+    Store_DeleteStoreByPK: 'Store_DeleteStoreByPK',
+    Store_UpdateStore: 'Store_UpdateStore'
   }
 }
 
@@ -3752,6 +4140,199 @@ export function useProduk_GetProdukByPkLazyQuery(baseOptions?: Apollo.LazyQueryH
 export type Produk_GetProdukByPkQueryHookResult = ReturnType<typeof useProduk_GetProdukByPkQuery>;
 export type Produk_GetProdukByPkLazyQueryHookResult = ReturnType<typeof useProduk_GetProdukByPkLazyQuery>;
 export type Produk_GetProdukByPkQueryResult = Apollo.QueryResult<Produk_GetProdukByPkQuery, Produk_GetProdukByPkQueryVariables>;
+export const Store_CreateStoreDocument = gql`
+    mutation Store_CreateStore($name: String!, $address: String, $latitude: String, $longitude: String) {
+  insert_rocketjaket_store_one(
+    object: {name: $name, address: $address, latitude: $latitude, longitude: $longitude}
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type Store_CreateStoreMutationFn = Apollo.MutationFunction<Store_CreateStoreMutation, Store_CreateStoreMutationVariables>;
+
+/**
+ * __useStore_CreateStoreMutation__
+ *
+ * To run a mutation, you first call `useStore_CreateStoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStore_CreateStoreMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [storeCreateStoreMutation, { data, loading, error }] = useStore_CreateStoreMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      address: // value for 'address'
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *   },
+ * });
+ */
+export function useStore_CreateStoreMutation(baseOptions?: Apollo.MutationHookOptions<Store_CreateStoreMutation, Store_CreateStoreMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Store_CreateStoreMutation, Store_CreateStoreMutationVariables>(Store_CreateStoreDocument, options);
+      }
+export type Store_CreateStoreMutationHookResult = ReturnType<typeof useStore_CreateStoreMutation>;
+export type Store_CreateStoreMutationResult = Apollo.MutationResult<Store_CreateStoreMutation>;
+export type Store_CreateStoreMutationOptions = Apollo.BaseMutationOptions<Store_CreateStoreMutation, Store_CreateStoreMutationVariables>;
+export const Store_DeleteStoreByPkDocument = gql`
+    mutation Store_DeleteStoreByPK($id: Int = 10) {
+  delete_rocketjaket_store_by_pk(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type Store_DeleteStoreByPkMutationFn = Apollo.MutationFunction<Store_DeleteStoreByPkMutation, Store_DeleteStoreByPkMutationVariables>;
+
+/**
+ * __useStore_DeleteStoreByPkMutation__
+ *
+ * To run a mutation, you first call `useStore_DeleteStoreByPkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStore_DeleteStoreByPkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [storeDeleteStoreByPkMutation, { data, loading, error }] = useStore_DeleteStoreByPkMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStore_DeleteStoreByPkMutation(baseOptions?: Apollo.MutationHookOptions<Store_DeleteStoreByPkMutation, Store_DeleteStoreByPkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Store_DeleteStoreByPkMutation, Store_DeleteStoreByPkMutationVariables>(Store_DeleteStoreByPkDocument, options);
+      }
+export type Store_DeleteStoreByPkMutationHookResult = ReturnType<typeof useStore_DeleteStoreByPkMutation>;
+export type Store_DeleteStoreByPkMutationResult = Apollo.MutationResult<Store_DeleteStoreByPkMutation>;
+export type Store_DeleteStoreByPkMutationOptions = Apollo.BaseMutationOptions<Store_DeleteStoreByPkMutation, Store_DeleteStoreByPkMutationVariables>;
+export const Store_UpdateStoreDocument = gql`
+    mutation Store_UpdateStore($id: Int!, $address: String, $latitude: String, $longitude: String, $name: String) {
+  update_rocketjaket_store_by_pk(
+    pk_columns: {id: $id}
+    _set: {name: $name, address: $address, latitude: $latitude, longitude: $longitude}
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type Store_UpdateStoreMutationFn = Apollo.MutationFunction<Store_UpdateStoreMutation, Store_UpdateStoreMutationVariables>;
+
+/**
+ * __useStore_UpdateStoreMutation__
+ *
+ * To run a mutation, you first call `useStore_UpdateStoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStore_UpdateStoreMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [storeUpdateStoreMutation, { data, loading, error }] = useStore_UpdateStoreMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      address: // value for 'address'
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useStore_UpdateStoreMutation(baseOptions?: Apollo.MutationHookOptions<Store_UpdateStoreMutation, Store_UpdateStoreMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Store_UpdateStoreMutation, Store_UpdateStoreMutationVariables>(Store_UpdateStoreDocument, options);
+      }
+export type Store_UpdateStoreMutationHookResult = ReturnType<typeof useStore_UpdateStoreMutation>;
+export type Store_UpdateStoreMutationResult = Apollo.MutationResult<Store_UpdateStoreMutation>;
+export type Store_UpdateStoreMutationOptions = Apollo.BaseMutationOptions<Store_UpdateStoreMutation, Store_UpdateStoreMutationVariables>;
+export const Store_GetAllStoreDocument = gql`
+    query Store_GetAllStore {
+  rocketjaket_store {
+    id
+    name
+    latitude
+    longitude
+    address
+  }
+}
+    `;
+
+/**
+ * __useStore_GetAllStoreQuery__
+ *
+ * To run a query within a React component, call `useStore_GetAllStoreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStore_GetAllStoreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStore_GetAllStoreQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useStore_GetAllStoreQuery(baseOptions?: Apollo.QueryHookOptions<Store_GetAllStoreQuery, Store_GetAllStoreQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Store_GetAllStoreQuery, Store_GetAllStoreQueryVariables>(Store_GetAllStoreDocument, options);
+      }
+export function useStore_GetAllStoreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Store_GetAllStoreQuery, Store_GetAllStoreQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Store_GetAllStoreQuery, Store_GetAllStoreQueryVariables>(Store_GetAllStoreDocument, options);
+        }
+export type Store_GetAllStoreQueryHookResult = ReturnType<typeof useStore_GetAllStoreQuery>;
+export type Store_GetAllStoreLazyQueryHookResult = ReturnType<typeof useStore_GetAllStoreLazyQuery>;
+export type Store_GetAllStoreQueryResult = Apollo.QueryResult<Store_GetAllStoreQuery, Store_GetAllStoreQueryVariables>;
+export const Store_GetStoreByPkDocument = gql`
+    query Store_GetStoreByPK($id: Int!) {
+  rocketjaket_store_by_pk(id: $id) {
+    id
+    name
+    latitude
+    longitude
+    address
+    created_at
+    updated_at
+  }
+}
+    `;
+
+/**
+ * __useStore_GetStoreByPkQuery__
+ *
+ * To run a query within a React component, call `useStore_GetStoreByPkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStore_GetStoreByPkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStore_GetStoreByPkQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStore_GetStoreByPkQuery(baseOptions: Apollo.QueryHookOptions<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>(Store_GetStoreByPkDocument, options);
+      }
+export function useStore_GetStoreByPkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>(Store_GetStoreByPkDocument, options);
+        }
+export type Store_GetStoreByPkQueryHookResult = ReturnType<typeof useStore_GetStoreByPkQuery>;
+export type Store_GetStoreByPkLazyQueryHookResult = ReturnType<typeof useStore_GetStoreByPkLazyQuery>;
+export type Store_GetStoreByPkQueryResult = Apollo.QueryResult<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>;
 export const User_GetUserByIdDocument = gql`
     query User_GetUserById($id: uuid!) {
   users_by_pk(id: $id) {

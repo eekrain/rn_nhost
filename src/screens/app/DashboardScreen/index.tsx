@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'native-base';
-import {DashboardNavProps} from '../../../types/navigation';
+import {DashboardNavProps} from '../index';
 import withAppLayout from '../../../components/Layout/AppLayout';
 
 interface IDashboardScreenProps extends DashboardNavProps {}
