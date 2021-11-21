@@ -1,0 +1,11 @@
+mutation Inventory_UpdateOneVariantValueByPK(
+  $id: Int!
+  $variant_value: String
+) {
+  update_rocketjaket_inventory_variant_metadata_by_pk(
+    pk_columns: {id: $id}
+    _set: {variant_value: $variant_value}
+  ) {
+    id
+  }
+}

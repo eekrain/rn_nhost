@@ -31,6 +31,12 @@ export type Boolean_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['Boolean']>>;
 };
 
+export type BulkUpdateVariantsMetadataOutput = {
+  __typename?: 'BulkUpdateVariantsMetadataOutput';
+  is_any_update?: Maybe<Scalars['Boolean']>;
+  variant_title?: Maybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -42,6 +48,16 @@ export type Int_Comparison_Exp = {
   _lte?: Maybe<Scalars['Int']>;
   _neq?: Maybe<Scalars['Int']>;
   _nin?: Maybe<Array<Scalars['Int']>>;
+};
+
+export type InventoryVariantMetadataInsertInput = {
+  variant_title?: Maybe<Scalars['String']>;
+  variant_value?: Maybe<Scalars['String']>;
+};
+
+export type InventoryVariantMetadataNeedUpdateInput = {
+  id: Scalars['Int'];
+  variant_value?: Maybe<Scalars['String']>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -1414,6 +1430,7 @@ export type Jsonb_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  bulkUpdateVariantsMetadata?: Maybe<BulkUpdateVariantsMetadataOutput>;
   /** delete data from the table: "auth.account_providers" */
   delete_auth_account_providers?: Maybe<Auth_Account_Providers_Mutation_Response>;
   /** delete single row from the table: "auth.account_providers" */
@@ -1438,6 +1455,10 @@ export type Mutation_Root = {
   delete_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** delete single row from the table: "auth.roles" */
   delete_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** delete data from the table: "rocketjaket.inventory_variant_metadata" */
+  delete_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.inventory_variant_metadata" */
+  delete_rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
   /** delete data from the table: "rocketjaket.product" */
   delete_rocketjaket_product?: Maybe<Rocketjaket_Product_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.product" */
@@ -1478,6 +1499,10 @@ export type Mutation_Root = {
   insert_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** insert a single row into the table: "auth.roles" */
   insert_auth_roles_one?: Maybe<Auth_Roles>;
+  /** insert data into the table: "rocketjaket.inventory_variant_metadata" */
+  insert_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.inventory_variant_metadata" */
+  insert_rocketjaket_inventory_variant_metadata_one?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
   /** insert data into the table: "rocketjaket.product" */
   insert_rocketjaket_product?: Maybe<Rocketjaket_Product_Mutation_Response>;
   /** insert data into the table: "rocketjaket.product_category" */
@@ -1518,6 +1543,10 @@ export type Mutation_Root = {
   update_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** update single row of the table: "auth.roles" */
   update_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** update data of the table: "rocketjaket.inventory_variant_metadata" */
+  update_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.inventory_variant_metadata" */
+  update_rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
   /** update data of the table: "rocketjaket.product" */
   update_rocketjaket_product?: Maybe<Rocketjaket_Product_Mutation_Response>;
   /** update single row of the table: "rocketjaket.product" */
@@ -1534,6 +1563,16 @@ export type Mutation_Root = {
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
   update_users_by_pk?: Maybe<Users>;
+};
+
+
+/** mutation root */
+export type Mutation_RootBulkUpdateVariantsMetadataArgs = {
+  needAddVariantMetadata: Array<InventoryVariantMetadataInsertInput>;
+  needDeleteIds: Array<Scalars['Int']>;
+  needUpdateVariantMetadata: Array<InventoryVariantMetadataNeedUpdateInput>;
+  new_variant_title: Scalars['String'];
+  old_variant_title: Scalars['String'];
 };
 
 
@@ -1606,6 +1645,18 @@ export type Mutation_RootDelete_Auth_RolesArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Auth_Roles_By_PkArgs = {
   role: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Inventory_Variant_MetadataArgs = {
+  where: Rocketjaket_Inventory_Variant_Metadata_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Inventory_Variant_Metadata_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -1738,6 +1789,20 @@ export type Mutation_RootInsert_Auth_RolesArgs = {
 export type Mutation_RootInsert_Auth_Roles_OneArgs = {
   object: Auth_Roles_Insert_Input;
   on_conflict?: Maybe<Auth_Roles_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Inventory_Variant_MetadataArgs = {
+  objects: Array<Rocketjaket_Inventory_Variant_Metadata_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Inventory_Variant_Metadata_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Inventory_Variant_Metadata_OneArgs = {
+  object: Rocketjaket_Inventory_Variant_Metadata_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Inventory_Variant_Metadata_On_Conflict>;
 };
 
 
@@ -1892,6 +1957,22 @@ export type Mutation_RootUpdate_Auth_Roles_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Inventory_Variant_MetadataArgs = {
+  _inc?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Set_Input>;
+  where: Rocketjaket_Inventory_Variant_Metadata_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Inventory_Variant_Metadata_By_PkArgs = {
+  _inc?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Set_Input>;
+  pk_columns: Rocketjaket_Inventory_Variant_Metadata_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Rocketjaket_ProductArgs = {
   _inc?: Maybe<Rocketjaket_Product_Inc_Input>;
   _set?: Maybe<Rocketjaket_Product_Set_Input>;
@@ -2006,6 +2087,12 @@ export type Query_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.inventory_variant_metadata" */
+  rocketjaket_inventory_variant_metadata: Array<Rocketjaket_Inventory_Variant_Metadata>;
+  /** fetch aggregated fields from the table: "rocketjaket.inventory_variant_metadata" */
+  rocketjaket_inventory_variant_metadata_aggregate: Rocketjaket_Inventory_Variant_Metadata_Aggregate;
+  /** fetch data from the table: "rocketjaket.inventory_variant_metadata" using primary key columns */
+  rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
   /** fetch data from the table: "rocketjaket.product" */
   rocketjaket_product: Array<Rocketjaket_Product>;
   /** fetch aggregated fields from the table: "rocketjaket.product" */
@@ -2171,6 +2258,29 @@ export type Query_RootAuth_Roles_By_PkArgs = {
 };
 
 
+export type Query_RootRocketjaket_Inventory_Variant_MetadataArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Inventory_Variant_Metadata_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Inventory_Variant_Metadata_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootRocketjaket_ProductArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Product_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2260,6 +2370,213 @@ export type Query_RootUsers_AggregateArgs = {
 
 export type Query_RootUsers_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+/** columns and relationships of "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata = {
+  __typename?: 'rocketjaket_inventory_variant_metadata';
+  created_at: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  updated_at: Scalars['timestamptz'];
+  variant_title: Scalars['String'];
+  variant_value: Scalars['String'];
+};
+
+/** aggregated selection of "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Aggregate = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_aggregate';
+  aggregate?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Inventory_Variant_Metadata>;
+};
+
+/** aggregate fields of "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Aggregate_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_aggregate_fields';
+  avg?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Max_Fields>;
+  min?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Min_Fields>;
+  stddev?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Stddev_Fields>;
+  stddev_pop?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Stddev_Samp_Fields>;
+  sum?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Sum_Fields>;
+  var_pop?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Var_Pop_Fields>;
+  var_samp?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Var_Samp_Fields>;
+  variance?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Variance_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Avg_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.inventory_variant_metadata". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Inventory_Variant_Metadata_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+  variant_title?: Maybe<String_Comparison_Exp>;
+  variant_value?: Maybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.inventory_variant_metadata" */
+export enum Rocketjaket_Inventory_Variant_Metadata_Constraint {
+  /** unique or primary key constraint */
+  InventoryVariantMetadataPkey = 'inventory_variant_metadata_pkey'
+}
+
+/** input type for incrementing numeric columns in table "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Insert_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  variant_title?: Maybe<Scalars['String']>;
+  variant_value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Max_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  variant_title?: Maybe<Scalars['String']>;
+  variant_value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Min_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  variant_title?: Maybe<Scalars['String']>;
+  variant_value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Mutation_Response = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Inventory_Variant_Metadata>;
+};
+
+/** on conflict condition type for table "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_On_Conflict = {
+  constraint: Rocketjaket_Inventory_Variant_Metadata_Constraint;
+  update_columns?: Array<Rocketjaket_Inventory_Variant_Metadata_Update_Column>;
+  where?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.inventory_variant_metadata". */
+export type Rocketjaket_Inventory_Variant_Metadata_Order_By = {
+  created_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  variant_title?: Maybe<Order_By>;
+  variant_value?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_inventory_variant_metadata */
+export type Rocketjaket_Inventory_Variant_Metadata_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "rocketjaket.inventory_variant_metadata" */
+export enum Rocketjaket_Inventory_Variant_Metadata_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VariantTitle = 'variant_title',
+  /** column name */
+  VariantValue = 'variant_value'
+}
+
+/** input type for updating data in table "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Set_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  variant_title?: Maybe<Scalars['String']>;
+  variant_value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Stddev_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Stddev_Pop_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Stddev_Samp_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Sum_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "rocketjaket.inventory_variant_metadata" */
+export enum Rocketjaket_Inventory_Variant_Metadata_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VariantTitle = 'variant_title',
+  /** column name */
+  VariantValue = 'variant_value'
+}
+
+/** aggregate var_pop on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Var_Pop_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Var_Samp_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Rocketjaket_Inventory_Variant_Metadata_Variance_Fields = {
+  __typename?: 'rocketjaket_inventory_variant_metadata_variance_fields';
+  id?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "rocketjaket.product" */
@@ -3162,6 +3479,12 @@ export type Subscription_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.inventory_variant_metadata" */
+  rocketjaket_inventory_variant_metadata: Array<Rocketjaket_Inventory_Variant_Metadata>;
+  /** fetch aggregated fields from the table: "rocketjaket.inventory_variant_metadata" */
+  rocketjaket_inventory_variant_metadata_aggregate: Rocketjaket_Inventory_Variant_Metadata_Aggregate;
+  /** fetch data from the table: "rocketjaket.inventory_variant_metadata" using primary key columns */
+  rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
   /** fetch data from the table: "rocketjaket.product" */
   rocketjaket_product: Array<Rocketjaket_Product>;
   /** fetch aggregated fields from the table: "rocketjaket.product" */
@@ -3324,6 +3647,29 @@ export type Subscription_RootAuth_Roles_AggregateArgs = {
 
 export type Subscription_RootAuth_Roles_By_PkArgs = {
   role: Scalars['String'];
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Variant_MetadataArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Variant_Metadata_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Variant_Metadata_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -3602,6 +3948,67 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type Inventory_BulkDeleteInventoryVariantByPKsMutationVariables = Exact<{
+  deleteIds: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type Inventory_BulkDeleteInventoryVariantByPKsMutation = { __typename?: 'mutation_root', delete_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number } | null | undefined };
+
+export type Inventory_BatchUpdateVariantTitleMutationVariables = Exact<{
+  old_variant_title: Scalars['String'];
+  new_variant_title: Scalars['String'];
+}>;
+
+
+export type Inventory_BatchUpdateVariantTitleMutation = { __typename?: 'mutation_root', update_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number } | null | undefined };
+
+export type Inventory_BulkUpdateVariantsMetadataMutationVariables = Exact<{
+  old_variant_title: Scalars['String'];
+  new_variant_title: Scalars['String'];
+  needDeleteIds: Array<Scalars['Int']> | Scalars['Int'];
+  needAddVariantMetadata: Array<InventoryVariantMetadataInsertInput> | InventoryVariantMetadataInsertInput;
+  needUpdateVariantMetadata: Array<InventoryVariantMetadataNeedUpdateInput> | InventoryVariantMetadataNeedUpdateInput;
+}>;
+
+
+export type Inventory_BulkUpdateVariantsMetadataMutation = { __typename?: 'mutation_root', bulkUpdateVariantsMetadata?: { __typename?: 'BulkUpdateVariantsMetadataOutput', variant_title?: string | null | undefined, is_any_update?: boolean | null | undefined } | null | undefined };
+
+export type Inventory_CreateInventoryVariantMetadataMutationVariables = Exact<{
+  objects: Array<Rocketjaket_Inventory_Variant_Metadata_Insert_Input> | Rocketjaket_Inventory_Variant_Metadata_Insert_Input;
+}>;
+
+
+export type Inventory_CreateInventoryVariantMetadataMutation = { __typename?: 'mutation_root', insert_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'rocketjaket_inventory_variant_metadata', id: number, variant_title: string }> } | null | undefined };
+
+export type Inventory_UpdateOneVariantValueByPkMutationVariables = Exact<{
+  id: Scalars['Int'];
+  variant_value?: Maybe<Scalars['String']>;
+}>;
+
+
+export type Inventory_UpdateOneVariantValueByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_inventory_variant_metadata_by_pk?: { __typename?: 'rocketjaket_inventory_variant_metadata', id: number } | null | undefined };
+
+export type Inventory_UpdateVariantValueByPkMutationVariables = Exact<{
+  id: Scalars['Int'];
+  variant_value?: Maybe<Scalars['String']>;
+}>;
+
+
+export type Inventory_UpdateVariantValueByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_inventory_variant_metadata_by_pk?: { __typename?: 'rocketjaket_inventory_variant_metadata', id: number } | null | undefined };
+
+export type Inventory_GetAllVariantMetadataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Inventory_GetAllVariantMetadataQuery = { __typename?: 'query_root', rocketjaket_inventory_variant_metadata: Array<{ __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string, variant_value: string, id: number }> };
+
+export type Inventory_GetVariantMetadataByTitleQueryVariables = Exact<{
+  variant_title: Scalars['String'];
+}>;
+
+
+export type Inventory_GetVariantMetadataByTitleQuery = { __typename?: 'query_root', rocketjaket_inventory_variant_metadata: Array<{ __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string, variant_value: string, id: number }> };
+
 export type Produk_CreateKategoriProdukMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
@@ -3731,6 +4138,8 @@ export type User_GetUserByIdQuery = { __typename?: 'query_root', users_by_pk?: {
 
 export const namedOperations = {
   Query: {
+    Inventory_GetAllVariantMetadata: 'Inventory_GetAllVariantMetadata',
+    Inventory_GetVariantMetadataByTitle: 'Inventory_GetVariantMetadataByTitle',
     Produk_GetAllKategoriProduk: 'Produk_GetAllKategoriProduk',
     Produk_GetAllProduk: 'Produk_GetAllProduk',
     Produk_GetKategoriProdukByPK: 'Produk_GetKategoriProdukByPK',
@@ -3740,6 +4149,12 @@ export const namedOperations = {
     User_GetUserById: 'User_GetUserById'
   },
   Mutation: {
+    Inventory_BulkDeleteInventoryVariantByPKs: 'Inventory_BulkDeleteInventoryVariantByPKs',
+    Inventory_BatchUpdateVariantTitle: 'Inventory_BatchUpdateVariantTitle',
+    Inventory_BulkUpdateVariantsMetadata: 'Inventory_BulkUpdateVariantsMetadata',
+    Inventory_CreateInventoryVariantMetadata: 'Inventory_CreateInventoryVariantMetadata',
+    Inventory_UpdateOneVariantValueByPK: 'Inventory_UpdateOneVariantValueByPK',
+    Inventory_UpdateVariantValueByPK: 'Inventory_UpdateVariantValueByPK',
     Produk_CreateKategoriProduk: 'Produk_CreateKategoriProduk',
     Produk_CreateProduk: 'Produk_CreateProduk',
     Produk_DeleteKategoriProduk: 'Produk_DeleteKategoriProduk',
@@ -3752,6 +4167,307 @@ export const namedOperations = {
   }
 }
 
+export const Inventory_BulkDeleteInventoryVariantByPKsDocument = gql`
+    mutation Inventory_BulkDeleteInventoryVariantByPKs($deleteIds: [Int!]!) {
+  delete_rocketjaket_inventory_variant_metadata(where: {id: {_in: $deleteIds}}) {
+    affected_rows
+  }
+}
+    `;
+export type Inventory_BulkDeleteInventoryVariantByPKsMutationFn = Apollo.MutationFunction<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>;
+
+/**
+ * __useInventory_BulkDeleteInventoryVariantByPKsMutation__
+ *
+ * To run a mutation, you first call `useInventory_BulkDeleteInventoryVariantByPKsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_BulkDeleteInventoryVariantByPKsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryBulkDeleteInventoryVariantByPKsMutation, { data, loading, error }] = useInventory_BulkDeleteInventoryVariantByPKsMutation({
+ *   variables: {
+ *      deleteIds: // value for 'deleteIds'
+ *   },
+ * });
+ */
+export function useInventory_BulkDeleteInventoryVariantByPKsMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>(Inventory_BulkDeleteInventoryVariantByPKsDocument, options);
+      }
+export type Inventory_BulkDeleteInventoryVariantByPKsMutationHookResult = ReturnType<typeof useInventory_BulkDeleteInventoryVariantByPKsMutation>;
+export type Inventory_BulkDeleteInventoryVariantByPKsMutationResult = Apollo.MutationResult<Inventory_BulkDeleteInventoryVariantByPKsMutation>;
+export type Inventory_BulkDeleteInventoryVariantByPKsMutationOptions = Apollo.BaseMutationOptions<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>;
+export const Inventory_BatchUpdateVariantTitleDocument = gql`
+    mutation Inventory_BatchUpdateVariantTitle($old_variant_title: String!, $new_variant_title: String!) {
+  update_rocketjaket_inventory_variant_metadata(
+    where: {variant_title: {_eq: $old_variant_title}}
+    _set: {variant_title: $new_variant_title}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type Inventory_BatchUpdateVariantTitleMutationFn = Apollo.MutationFunction<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>;
+
+/**
+ * __useInventory_BatchUpdateVariantTitleMutation__
+ *
+ * To run a mutation, you first call `useInventory_BatchUpdateVariantTitleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_BatchUpdateVariantTitleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryBatchUpdateVariantTitleMutation, { data, loading, error }] = useInventory_BatchUpdateVariantTitleMutation({
+ *   variables: {
+ *      old_variant_title: // value for 'old_variant_title'
+ *      new_variant_title: // value for 'new_variant_title'
+ *   },
+ * });
+ */
+export function useInventory_BatchUpdateVariantTitleMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>(Inventory_BatchUpdateVariantTitleDocument, options);
+      }
+export type Inventory_BatchUpdateVariantTitleMutationHookResult = ReturnType<typeof useInventory_BatchUpdateVariantTitleMutation>;
+export type Inventory_BatchUpdateVariantTitleMutationResult = Apollo.MutationResult<Inventory_BatchUpdateVariantTitleMutation>;
+export type Inventory_BatchUpdateVariantTitleMutationOptions = Apollo.BaseMutationOptions<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>;
+export const Inventory_BulkUpdateVariantsMetadataDocument = gql`
+    mutation Inventory_BulkUpdateVariantsMetadata($old_variant_title: String!, $new_variant_title: String!, $needDeleteIds: [Int!]!, $needAddVariantMetadata: [InventoryVariantMetadataInsertInput!]!, $needUpdateVariantMetadata: [InventoryVariantMetadataNeedUpdateInput!]!) {
+  bulkUpdateVariantsMetadata(
+    new_variant_title: $new_variant_title
+    old_variant_title: $old_variant_title
+    needDeleteIds: $needDeleteIds
+    needAddVariantMetadata: $needAddVariantMetadata
+    needUpdateVariantMetadata: $needUpdateVariantMetadata
+  ) {
+    variant_title
+    is_any_update
+  }
+}
+    `;
+export type Inventory_BulkUpdateVariantsMetadataMutationFn = Apollo.MutationFunction<Inventory_BulkUpdateVariantsMetadataMutation, Inventory_BulkUpdateVariantsMetadataMutationVariables>;
+
+/**
+ * __useInventory_BulkUpdateVariantsMetadataMutation__
+ *
+ * To run a mutation, you first call `useInventory_BulkUpdateVariantsMetadataMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_BulkUpdateVariantsMetadataMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryBulkUpdateVariantsMetadataMutation, { data, loading, error }] = useInventory_BulkUpdateVariantsMetadataMutation({
+ *   variables: {
+ *      old_variant_title: // value for 'old_variant_title'
+ *      new_variant_title: // value for 'new_variant_title'
+ *      needDeleteIds: // value for 'needDeleteIds'
+ *      needAddVariantMetadata: // value for 'needAddVariantMetadata'
+ *      needUpdateVariantMetadata: // value for 'needUpdateVariantMetadata'
+ *   },
+ * });
+ */
+export function useInventory_BulkUpdateVariantsMetadataMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_BulkUpdateVariantsMetadataMutation, Inventory_BulkUpdateVariantsMetadataMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_BulkUpdateVariantsMetadataMutation, Inventory_BulkUpdateVariantsMetadataMutationVariables>(Inventory_BulkUpdateVariantsMetadataDocument, options);
+      }
+export type Inventory_BulkUpdateVariantsMetadataMutationHookResult = ReturnType<typeof useInventory_BulkUpdateVariantsMetadataMutation>;
+export type Inventory_BulkUpdateVariantsMetadataMutationResult = Apollo.MutationResult<Inventory_BulkUpdateVariantsMetadataMutation>;
+export type Inventory_BulkUpdateVariantsMetadataMutationOptions = Apollo.BaseMutationOptions<Inventory_BulkUpdateVariantsMetadataMutation, Inventory_BulkUpdateVariantsMetadataMutationVariables>;
+export const Inventory_CreateInventoryVariantMetadataDocument = gql`
+    mutation Inventory_CreateInventoryVariantMetadata($objects: [rocketjaket_inventory_variant_metadata_insert_input!]!) {
+  insert_rocketjaket_inventory_variant_metadata(objects: $objects) {
+    affected_rows
+    returning {
+      id
+      variant_title
+    }
+  }
+}
+    `;
+export type Inventory_CreateInventoryVariantMetadataMutationFn = Apollo.MutationFunction<Inventory_CreateInventoryVariantMetadataMutation, Inventory_CreateInventoryVariantMetadataMutationVariables>;
+
+/**
+ * __useInventory_CreateInventoryVariantMetadataMutation__
+ *
+ * To run a mutation, you first call `useInventory_CreateInventoryVariantMetadataMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_CreateInventoryVariantMetadataMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryCreateInventoryVariantMetadataMutation, { data, loading, error }] = useInventory_CreateInventoryVariantMetadataMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *   },
+ * });
+ */
+export function useInventory_CreateInventoryVariantMetadataMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_CreateInventoryVariantMetadataMutation, Inventory_CreateInventoryVariantMetadataMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_CreateInventoryVariantMetadataMutation, Inventory_CreateInventoryVariantMetadataMutationVariables>(Inventory_CreateInventoryVariantMetadataDocument, options);
+      }
+export type Inventory_CreateInventoryVariantMetadataMutationHookResult = ReturnType<typeof useInventory_CreateInventoryVariantMetadataMutation>;
+export type Inventory_CreateInventoryVariantMetadataMutationResult = Apollo.MutationResult<Inventory_CreateInventoryVariantMetadataMutation>;
+export type Inventory_CreateInventoryVariantMetadataMutationOptions = Apollo.BaseMutationOptions<Inventory_CreateInventoryVariantMetadataMutation, Inventory_CreateInventoryVariantMetadataMutationVariables>;
+export const Inventory_UpdateOneVariantValueByPkDocument = gql`
+    mutation Inventory_UpdateOneVariantValueByPK($id: Int!, $variant_value: String) {
+  update_rocketjaket_inventory_variant_metadata_by_pk(
+    pk_columns: {id: $id}
+    _set: {variant_value: $variant_value}
+  ) {
+    id
+  }
+}
+    `;
+export type Inventory_UpdateOneVariantValueByPkMutationFn = Apollo.MutationFunction<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>;
+
+/**
+ * __useInventory_UpdateOneVariantValueByPkMutation__
+ *
+ * To run a mutation, you first call `useInventory_UpdateOneVariantValueByPkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_UpdateOneVariantValueByPkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryUpdateOneVariantValueByPkMutation, { data, loading, error }] = useInventory_UpdateOneVariantValueByPkMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      variant_value: // value for 'variant_value'
+ *   },
+ * });
+ */
+export function useInventory_UpdateOneVariantValueByPkMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>(Inventory_UpdateOneVariantValueByPkDocument, options);
+      }
+export type Inventory_UpdateOneVariantValueByPkMutationHookResult = ReturnType<typeof useInventory_UpdateOneVariantValueByPkMutation>;
+export type Inventory_UpdateOneVariantValueByPkMutationResult = Apollo.MutationResult<Inventory_UpdateOneVariantValueByPkMutation>;
+export type Inventory_UpdateOneVariantValueByPkMutationOptions = Apollo.BaseMutationOptions<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>;
+export const Inventory_UpdateVariantValueByPkDocument = gql`
+    mutation Inventory_UpdateVariantValueByPK($id: Int!, $variant_value: String) {
+  update_rocketjaket_inventory_variant_metadata_by_pk(
+    pk_columns: {id: $id}
+    _set: {variant_value: $variant_value}
+  ) {
+    id
+  }
+}
+    `;
+export type Inventory_UpdateVariantValueByPkMutationFn = Apollo.MutationFunction<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>;
+
+/**
+ * __useInventory_UpdateVariantValueByPkMutation__
+ *
+ * To run a mutation, you first call `useInventory_UpdateVariantValueByPkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_UpdateVariantValueByPkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryUpdateVariantValueByPkMutation, { data, loading, error }] = useInventory_UpdateVariantValueByPkMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      variant_value: // value for 'variant_value'
+ *   },
+ * });
+ */
+export function useInventory_UpdateVariantValueByPkMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>(Inventory_UpdateVariantValueByPkDocument, options);
+      }
+export type Inventory_UpdateVariantValueByPkMutationHookResult = ReturnType<typeof useInventory_UpdateVariantValueByPkMutation>;
+export type Inventory_UpdateVariantValueByPkMutationResult = Apollo.MutationResult<Inventory_UpdateVariantValueByPkMutation>;
+export type Inventory_UpdateVariantValueByPkMutationOptions = Apollo.BaseMutationOptions<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>;
+export const Inventory_GetAllVariantMetadataDocument = gql`
+    query Inventory_GetAllVariantMetadata {
+  rocketjaket_inventory_variant_metadata(order_by: {id: asc}) {
+    variant_title
+    variant_value
+    id
+  }
+}
+    `;
+
+/**
+ * __useInventory_GetAllVariantMetadataQuery__
+ *
+ * To run a query within a React component, call `useInventory_GetAllVariantMetadataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInventory_GetAllVariantMetadataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInventory_GetAllVariantMetadataQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInventory_GetAllVariantMetadataQuery(baseOptions?: Apollo.QueryHookOptions<Inventory_GetAllVariantMetadataQuery, Inventory_GetAllVariantMetadataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Inventory_GetAllVariantMetadataQuery, Inventory_GetAllVariantMetadataQueryVariables>(Inventory_GetAllVariantMetadataDocument, options);
+      }
+export function useInventory_GetAllVariantMetadataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Inventory_GetAllVariantMetadataQuery, Inventory_GetAllVariantMetadataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Inventory_GetAllVariantMetadataQuery, Inventory_GetAllVariantMetadataQueryVariables>(Inventory_GetAllVariantMetadataDocument, options);
+        }
+export type Inventory_GetAllVariantMetadataQueryHookResult = ReturnType<typeof useInventory_GetAllVariantMetadataQuery>;
+export type Inventory_GetAllVariantMetadataLazyQueryHookResult = ReturnType<typeof useInventory_GetAllVariantMetadataLazyQuery>;
+export type Inventory_GetAllVariantMetadataQueryResult = Apollo.QueryResult<Inventory_GetAllVariantMetadataQuery, Inventory_GetAllVariantMetadataQueryVariables>;
+export const Inventory_GetVariantMetadataByTitleDocument = gql`
+    query Inventory_GetVariantMetadataByTitle($variant_title: String!) {
+  rocketjaket_inventory_variant_metadata(
+    where: {variant_title: {_eq: $variant_title}}
+    order_by: {id: asc}
+  ) {
+    variant_title
+    variant_value
+    id
+  }
+}
+    `;
+
+/**
+ * __useInventory_GetVariantMetadataByTitleQuery__
+ *
+ * To run a query within a React component, call `useInventory_GetVariantMetadataByTitleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInventory_GetVariantMetadataByTitleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInventory_GetVariantMetadataByTitleQuery({
+ *   variables: {
+ *      variant_title: // value for 'variant_title'
+ *   },
+ * });
+ */
+export function useInventory_GetVariantMetadataByTitleQuery(baseOptions: Apollo.QueryHookOptions<Inventory_GetVariantMetadataByTitleQuery, Inventory_GetVariantMetadataByTitleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Inventory_GetVariantMetadataByTitleQuery, Inventory_GetVariantMetadataByTitleQueryVariables>(Inventory_GetVariantMetadataByTitleDocument, options);
+      }
+export function useInventory_GetVariantMetadataByTitleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Inventory_GetVariantMetadataByTitleQuery, Inventory_GetVariantMetadataByTitleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Inventory_GetVariantMetadataByTitleQuery, Inventory_GetVariantMetadataByTitleQueryVariables>(Inventory_GetVariantMetadataByTitleDocument, options);
+        }
+export type Inventory_GetVariantMetadataByTitleQueryHookResult = ReturnType<typeof useInventory_GetVariantMetadataByTitleQuery>;
+export type Inventory_GetVariantMetadataByTitleLazyQueryHookResult = ReturnType<typeof useInventory_GetVariantMetadataByTitleLazyQuery>;
+export type Inventory_GetVariantMetadataByTitleQueryResult = Apollo.QueryResult<Inventory_GetVariantMetadataByTitleQuery, Inventory_GetVariantMetadataByTitleQueryVariables>;
 export const Produk_CreateKategoriProdukDocument = gql`
     mutation Produk_CreateKategoriProduk($description: String, $name: String!) {
   insert_rocketjaket_product_category_one(

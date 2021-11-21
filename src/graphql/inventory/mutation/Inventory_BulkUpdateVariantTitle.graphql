@@ -1,0 +1,11 @@
+mutation Inventory_BatchUpdateVariantTitle(
+  $old_variant_title: String!
+  $new_variant_title: String!
+) {
+  update_rocketjaket_inventory_variant_metadata(
+    where: {variant_title: {_eq: $old_variant_title}}
+    _set: {variant_title: $new_variant_title}
+  ) {
+    affected_rows
+  }
+}

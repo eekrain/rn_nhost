@@ -6,16 +6,15 @@ interface Props extends IButtonProps {
   customText?: string;
 }
 
-const ButtonDelete = ({size, customText, ...rest}: Props) => {
+const ButtonAdd = ({size, customText, ...rest}: Props) => {
   return (
     <Button
       size={size ? size : 'md'}
-      bgColor="milano_red.500"
-      leftIcon={<Icon as={Feather} name="trash-2" size="sm" />}
+      leftIcon={<Icon as={Feather} name="plus-circle" size="sm" />}
       {...rest}>
-      {customText ? customText : 'Delete'}
+      {customText ? customText : 'Add'}
     </Button>
   );
 };
 
-export default ButtonDelete;
+export default ButtonAdd;

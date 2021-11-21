@@ -22,7 +22,7 @@ import {
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ButtonDelete, ButtonEdit} from '../Buttons';
+import {IconButtonDelete, ButtonEdit} from '../Buttons';
 import {
   getStorageFileUrlWImageTransform,
   myNumberFormat,
@@ -49,7 +49,7 @@ const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
           navigation.navigate('UpdateProduk', {productId: id});
         }}
       />
-      <ButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
+      <IconButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
     </HStack>
   );
 };

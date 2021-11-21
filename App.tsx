@@ -81,10 +81,6 @@ const App = () => {
     () => nhostAuth.isLoading || loadingSplashScreen,
     [nhostAuth.isLoading, loadingSplashScreen],
   );
-  // const loading = useMemo(
-  //   () => nhostAuth.isLoading || loadingSplashScreen,
-  //   [nhostAuth.isLoading, loadingSplashScreen],
-  // );
 
   useEffect(() => {
     const splash = setTimeout(() => {

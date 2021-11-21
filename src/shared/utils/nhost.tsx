@@ -16,7 +16,7 @@ export const nhostClient = createClient({
   clientStorage: AsyncStorage,
 });
 
-export const {storage} = nhostClient;
+export const {auth, storage} = nhostClient;
 
 interface INhostAuthStore {
   isLoading: boolean;

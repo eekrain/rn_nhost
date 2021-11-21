@@ -11,7 +11,7 @@ import {
 } from 'native-base';
 import {SigninNavProps} from '../../../types/navigation';
 import {RHTextInput} from '../../../shared/components';
-import {useNhostAuth} from '../../../shared/utils/nhost';
+import {auth, useNhostAuth} from '../../../shared/utils/nhost';
 import {useForm} from 'react-hook-form';
 
 interface ISignInScreenProps extends SigninNavProps {}
@@ -95,6 +95,17 @@ const SignInScreen = ({navigation}: ISignInScreenProps) => {
             onPress={handleSubmit(handleSubmission)}>
             Sign in
           </Button>
+          {/* <Button
+            mt="2"
+            _text={{color: 'white'}}
+            onPress={async () =>
+              await auth.register({
+                email: defaultValues.username,
+                password: defaultValues.password,
+              })
+            }>
+            Register EKA
+          </Button> */}
         </VStack>
       </Box>
     </ScrollView>

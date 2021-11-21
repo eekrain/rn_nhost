@@ -21,7 +21,7 @@ import {
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
-import {ButtonEdit, ButtonDelete} from '../Buttons';
+import {ButtonEdit, IconButtonDelete} from '../Buttons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useMyAppState} from '../../state';
@@ -44,7 +44,7 @@ const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
           navigation.navigate('UpdateKategoriProduk', {categoryId: id});
         }}
       />
-      <ButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
+      <IconButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
     </HStack>
   );
 };

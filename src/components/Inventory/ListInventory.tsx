@@ -21,7 +21,6 @@ import {ButtonEdit, IconButtonDelete} from '../Buttons';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useMyAppState} from '../../state';
-import withAppLayout from '../Layout/AppLayout';
 import {
   ListTokoNavProps,
   TokoStackParamList,
@@ -133,7 +132,7 @@ const TokoHome = ({navigation}: ITokoHomeProps) => {
           alignItems="center"
           mb="10"
           mt="4">
-          <Heading fontSize="xl">List Toko Terdaftar</Heading>
+          <Heading fontSize="xl">List Inventory / Stok Produk</Heading>
           <Button
             onPress={() => {
               navigation.navigate('CreateToko');
@@ -163,4 +162,4 @@ const TokoHome = ({navigation}: ITokoHomeProps) => {
   );
 };
 
-export default withAppLayout(TokoHome);
+export default TokoHome;
