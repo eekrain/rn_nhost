@@ -25,6 +25,7 @@ import {
   ButtonAdd,
   ButtonDelete,
   ButtonCancelDelete,
+  ButtonBack,
 } from '../Buttons';
 import withAppLayout from '../Layout/AppLayout';
 import {UpdateProductVariantsNavProps} from '../../screens/app/InventoryScreen';
@@ -287,11 +288,12 @@ const CreateProductVariants = ({
                   onPress={() => append({value: ''})}
                 />
               </HStack>
-              <HStack justifyContent="flex-end" mt="5">
+              <HStack justifyContent="flex-end" mt="5" space="4">
                 <ButtonSave
                   isLoading={_bulkUpdateVariantMetadataMutationResult.loading}
                   onPress={handleSubmit(handleSubmission)}
                 />
+                <ButtonBack onPress={() => navigation.goBack()} />
               </HStack>
             </VStack>
           </Box>

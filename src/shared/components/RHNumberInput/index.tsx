@@ -5,7 +5,7 @@ import {Control, Controller} from 'react-hook-form';
 import numbro from 'numbro';
 import {myNumberFormat} from '../../utils';
 
-type TFormatNumberType = 'rp' | '-rp';
+type TFormatNumberType = 'rp' | '-rp' | 'thousandSeparated';
 
 interface IRHNumberInputProps extends IInputProps {
   name: string;
@@ -15,18 +15,19 @@ interface IRHNumberInputProps extends IInputProps {
     [x: string]: any;
   };
   format?: TFormatNumberType;
+  description?: string;
 }
 
 const leftElement = (format?: TFormatNumberType) => {
   if (!format) return undefined;
-  if (format === 'rp') {
+  if (format === 'thousandSeparated') return undefined;
+  else if (format === 'rp') {
     return (
       <HStack bgColor="primary.700" h="full" alignItems="center" px="3">
         <Text color="white">Rp</Text>
       </HStack>
     );
-  }
-  if (format === '-rp') {
+  } else if (format === '-rp') {
     return (
       <HStack bgColor="primary.700" h="full" alignItems="center" px="3">
         <Text color="white">- Rp</Text>
@@ -55,11 +56,13 @@ const RHNumberInput = ({
   errors,
   format,
   placeholder,
+  description,
   ...rest
 }: IRHNumberInputProps) => {
   return (
     <FormControl isInvalid={name in errors}>
       <FormControl.Label>{label}</FormControl.Label>
+      {description ? <Text mb="2">{description}</Text> : null}
       <Controller
         name={name}
         control={control}

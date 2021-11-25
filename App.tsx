@@ -107,28 +107,3 @@ const App = () => {
   );
 };
 export default App;
-
-// const SplashScreen = () => {
-//   return (
-//     <Box
-//       safeArea
-//       flex={1}
-//       w="full"
-//       h="full"
-//       justifyContent="center"
-//       alignItems="center">
-//       <VStack justifyContent="center" alignItems="center" space="2">
-//         <Image
-//           source={require('./src/assets/images/logo.png')}
-//           alt="Logo Rocketjaket"
-//           w="xs"
-//           resizeMode="contain"
-//         />
-//         <Heading size="lg" fontWeight="600" color="coolGray.800">
-//           Loading...
-//         </Heading>
-//         <Spinner size="lg" accessibilityLabel="Loading" />
-//       </VStack>
-//     </Box>
-//   );
-// };

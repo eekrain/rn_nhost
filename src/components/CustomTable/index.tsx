@@ -54,7 +54,7 @@ const CustomTable = <T extends Record<string, unknown>>({
   data,
   columns,
   isLoading = true,
-  possibleRowsPerPage = [10, 25, 50, 1000000],
+  possibleRowsPerPage = [10, 25, 50],
   tableWidth = '100%',
   headerHeight = 70,
   rowHeight = 50,

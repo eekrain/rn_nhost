@@ -2646,6 +2646,11 @@
   resolved "https://registry.nlark.com/@types/eslint-visitor-keys/download/@types/eslint-visitor-keys-1.0.0.tgz?cache=0&sync_timestamp=1629707760487&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Feslint-visitor-keys%2Fdownload%2F%40types%2Feslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha1-HuMNeVRMqE1o1LPNsK9PIFZj3S0=
 
+"@types/flexsearch@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.npmmirror.com/@types/flexsearch/download/@types/flexsearch-0.7.2.tgz#05d982d292e70fcb9fc59347a4a4f98c4ecd9e56"
+  integrity sha1-BdmC0pLnD8ufxZNHpKT5jE7NnlY=
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.nlark.com/@types/graceful-fs/download/@types/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -5069,6 +5074,11 @@ flatted@^3.1.0:
   version "3.2.2"
   resolved "https://registry.nlark.com/flatted/download/flatted-3.2.2.tgz#64bfed5cb68fe3ca78b3eb214ad97b63bedce561"
   integrity sha1-ZL/tXLaP48p4s+shStl7Y77c5WE=
+
+flexsearch@^0.7.21:
+  version "0.7.21"
+  resolved "https://registry.npmmirror.com/flexsearch/download/flexsearch-0.7.21.tgz#0f5ede3f2aae67ddc351efbe3b24b69d29e9d48b"
+  integrity sha1-D17ePyquZ93DUe++OyS2nSnp1Is=
 
 flow-parser@0.*:
   version "0.163.0"
@@ -8195,7 +8205,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.7.2:
+prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.nlark.com/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -8361,6 +8371,19 @@ react-native-image-picker@^4.2.1:
   version "4.2.1"
   resolved "https://registry.npmmirror.com/react-native-image-picker/download/react-native-image-picker-4.2.1.tgz#a4f9727c6e14fae9bb86344d65772bb6a6e9895d"
   integrity sha512-hfJk8gOMCqAsCLAM2VuEVuyTJEzJEohaPqAHFT9KytkMMmF6NLLHH7VB79X+jtphcDRwqdFjHfsCMXUD1cC/vw==
+
+react-native-iphone-x-helper@^1.0.3:
+  version "1.3.1"
+  resolved "https://registry.nlark.com/react-native-iphone-x-helper/download/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
+  integrity sha1-IMYD6aDnZf1vlzlmOL3rDlpgsBA=
+
+react-native-keyboard-aware-scroll-view@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.npmmirror.com/react-native-keyboard-aware-scroll-view/download/react-native-keyboard-aware-scroll-view-0.9.5.tgz#e2e9665d320c188e6b1f22f151b94eb358bf9b71"
+  integrity sha1-4ulmXTIMGI5rHyLxUblOs1i/m3E=
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-iphone-x-helper "^1.0.3"
 
 react-native-permissions@^3.1.0:
   version "3.1.0"

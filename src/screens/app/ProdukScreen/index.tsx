@@ -12,7 +12,7 @@ export type ProductStackParamList = {
   CreateKategoriProduk: undefined;
   UpdateKategoriProduk: {categoryId: number};
   CreateProduk: undefined;
-  UpdateProduk: {productId: number};
+  UpdateProduk: {productId: string};
 };
 
 type IProdukRoutes = {

@@ -12,9 +12,9 @@ import {
 import {Alert, RefreshControl} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
-  useStore_DeleteStoreByPkMutation,
-  Store_GetAllStoreDocument,
   useInventory_GetAllVariantMetadataQuery,
+  useInventory_DeleteInventoryVariantsMetadataByTitleMutation,
+  Inventory_GetAllVariantMetadataDocument,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -60,43 +60,49 @@ const ListProductVariants = ({navigation}: IListProductVariantsProps) => {
   const getAllVariantMetadata = useInventory_GetAllVariantMetadataQuery();
   const toast = useToast();
 
-  const [deleteStoreMutation, _deleteStoreMutationResult] =
-    useStore_DeleteStoreByPkMutation({
-      refetchQueries: [{query: Store_GetAllStoreDocument}],
+  const [deleteVariantMetadataMutation, _deleteVariantMetadataMutationResult] =
+    useInventory_DeleteInventoryVariantsMetadataByTitleMutation({
+      refetchQueries: [{query: Inventory_GetAllVariantMetadataDocument}],
     });
   const data = useMemo(() => {
-    // const handleDeleteKategori = async (id: number, name: string) => {
-    //   const mutation = async () => {
-    //     const res = await deleteStoreMutation({variables: {id}});
-    //     if (res.errors) {
-    //       toast.show({
-    //         ...TOAST_TEMPLATE.error(`Hapus toko ${name} gagal.`),
-    //       });
-    //     } else {
-    //       toast.show({
-    //         ...TOAST_TEMPLATE.success(`Hapus toko ${name} berhasil.`),
-    //       });
-    //     }
-    //   };
-    //   Alert.alert(
-    //     'Hapus Toko',
-    //     `Toko ${name} akan dihapus. Lanjutkan?`,
-    //     [
-    //       {
-    //         text: 'Cancel',
-    //         style: 'cancel',
-    //       },
-    //       {
-    //         onPress: () => mutation(),
-    //         text: 'Hapus',
-    //         style: 'destructive',
-    //       },
-    //     ],
-    //     {
-    //       cancelable: true,
-    //     },
-    //   );
-    // };
+    const handleDeleteKategori = async (variant_title: string) => {
+      const mutation = async () => {
+        const res = await deleteVariantMetadataMutation({
+          variables: {variant_title},
+        });
+        if (res.errors) {
+          toast.show({
+            ...TOAST_TEMPLATE.error(
+              `Hapus data variasi ${variant_title} gagal.`,
+            ),
+          });
+        } else {
+          toast.show({
+            ...TOAST_TEMPLATE.success(
+              `Hapus data variasi ${variant_title} berhasil.`,
+            ),
+          });
+        }
+      };
+      Alert.alert(
+        'Hapus Toko',
+        `Variasi ${variant_title} akan dihapus. Lanjutkan?`,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            onPress: () => mutation(),
+            text: 'Hapus',
+            style: 'destructive',
+          },
+        ],
+        {
+          cancelable: true,
+        },
+      );
+    };
     const varianstMetadata =
       getAllVariantMetadata.data?.rocketjaket_inventory_variant_metadata || [];
 
@@ -138,15 +144,17 @@ const ListProductVariants = ({navigation}: IListProductVariantsProps) => {
             variant_title: val.variant_title,
             navigation,
           }}
-          handleDeleteKategori={async () => {}}
+          handleDeleteKategori={() => handleDeleteKategori(val.variant_title)}
         />
       ),
     }));
 
     return withAction;
   }, [
+    deleteVariantMetadataMutation,
     getAllVariantMetadata.data?.rocketjaket_inventory_variant_metadata,
     navigation,
+    toast,
   ]);
 
   return (
@@ -177,7 +185,8 @@ const ListProductVariants = ({navigation}: IListProductVariantsProps) => {
         </HStack>
         <CustomTable
           isLoading={
-            getAllVariantMetadata.loading || _deleteStoreMutationResult.loading
+            getAllVariantMetadata.loading ||
+            _deleteVariantMetadataMutationResult.loading
           }
           rowHeight={80}
           data={data}

@@ -33,7 +33,7 @@ import FastImage from 'react-native-fast-image';
 import {TOAST_TEMPLATE} from '../../shared/constants';
 
 interface IActionProps {
-  id: number;
+  id: string;
   navigation: StackNavigationProp<ProductStackParamList, 'ListProduk'>;
   handleDeleteKategori: () => Promise<void>;
 }
@@ -91,7 +91,7 @@ const Produk = ({navigation}: Props) => {
 
   const data = useMemo(() => {
     const handleDeleteProduk = async (
-      id: number,
+      id: string,
       name: string,
       product_photo_url: string,
     ) => {

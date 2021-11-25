@@ -1,7 +1,0 @@
-mutation Inventory_BulkDeleteInventoryVariantByPKs($deleteIds: [Int!]!) {
-  delete_rocketjaket_inventory_variant_metadata(
-    where: {id: {_in: $deleteIds}}
-  ) {
-    affected_rows
-  }
-}

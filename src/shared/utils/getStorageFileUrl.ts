@@ -7,7 +7,7 @@ export const getStorageFileUrl = (fileUrlKey?: string): string => {
 };
 
 interface IGetImageTransform {
-  fileKey: string | undefined;
+  fileKey?: string | null;
   w?: number;
   h?: number;
   q?: number;

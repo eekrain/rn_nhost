@@ -22,8 +22,8 @@ type IAppRoutes = {
 
 export const rootAppRoutes: IAppRoutes[] = [
   {name: 'Dashboard', component: DashboardScreen, routeNiceName: 'Dashboard'},
-  {name: 'ProdukRoot', component: ProdukScreen, routeNiceName: 'Produk'},
   {name: 'TokoRoot', component: TokoScreen, routeNiceName: 'Toko'},
+  {name: 'ProdukRoot', component: ProdukScreen, routeNiceName: 'Produk'},
   {
     name: 'InventoryRoot',
     component: InventoryScreen,
@@ -33,8 +33,8 @@ export const rootAppRoutes: IAppRoutes[] = [
 
 export const allAppRoutes = [
   ...rootAppRoutes,
-  ...rootProdukRoutes,
   ...rootTokoRoutes,
+  ...rootProdukRoutes,
   ...rootInventoryRoutes,
 ];
 

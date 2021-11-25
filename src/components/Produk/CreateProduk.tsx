@@ -216,7 +216,7 @@ const CreateProduk = ({}: Props) => {
         <Box pb="40">
           <HStack justifyContent="space-between">
             <Heading fontSize="xl" mb="10">
-              Buat Kategori Produk Baru
+              Buat Produk Baru
             </Heading>
           </HStack>
           <Stack direction={containerDirection} space="6">

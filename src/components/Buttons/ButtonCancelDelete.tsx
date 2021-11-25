@@ -6,12 +6,17 @@ interface Props extends IButtonProps {
   customText?: string;
 }
 
-const ButtonCancelDelete = ({size, customText, ...rest}: Props) => {
+const ButtonCancelDelete = ({
+  size,
+  customText,
+  variant = 'outline',
+  ...rest
+}: Props) => {
   return (
     <Button
       size={size ? size : 'md'}
       colorScheme="milano_red"
-      variant="ghost"
+      variant={variant}
       leftIcon={<Icon as={Feather} name="x" size="sm" />}
       {...rest}>
       {customText ? customText : 'Cancel Delete'}

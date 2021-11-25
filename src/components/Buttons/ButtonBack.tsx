@@ -11,7 +11,7 @@ const ButtonBack = ({size, customText, ...rest}: Props) => {
     <Button
       size={size ? size : 'lg'}
       colorScheme="warning"
-      leftIcon={<Icon as={Feather} name="save" size="sm" />}
+      leftIcon={<Icon as={Feather} name="log-out" size="sm" />}
       {...rest}>
       {customText ? customText : 'Kembali'}
     </Button>

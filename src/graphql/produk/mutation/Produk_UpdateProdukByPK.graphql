@@ -1,5 +1,5 @@
 mutation Produk_UpdateProdukByPK(
-  $id: Int!
+  $id: uuid!
   $name: String!
   $photo_url: String
   $product_category_id: Int

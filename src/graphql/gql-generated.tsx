@@ -1455,6 +1455,14 @@ export type Mutation_Root = {
   delete_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** delete single row from the table: "auth.roles" */
   delete_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** delete data from the table: "rocketjaket.inventory_product" */
+  delete_rocketjaket_inventory_product?: Maybe<Rocketjaket_Inventory_Product_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.inventory_product" */
+  delete_rocketjaket_inventory_product_by_pk?: Maybe<Rocketjaket_Inventory_Product>;
+  /** delete data from the table: "rocketjaket.inventory_product_variant" */
+  delete_rocketjaket_inventory_product_variant?: Maybe<Rocketjaket_Inventory_Product_Variant_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.inventory_product_variant" */
+  delete_rocketjaket_inventory_product_variant_by_pk?: Maybe<Rocketjaket_Inventory_Product_Variant>;
   /** delete data from the table: "rocketjaket.inventory_variant_metadata" */
   delete_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.inventory_variant_metadata" */
@@ -1499,6 +1507,14 @@ export type Mutation_Root = {
   insert_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** insert a single row into the table: "auth.roles" */
   insert_auth_roles_one?: Maybe<Auth_Roles>;
+  /** insert data into the table: "rocketjaket.inventory_product" */
+  insert_rocketjaket_inventory_product?: Maybe<Rocketjaket_Inventory_Product_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.inventory_product" */
+  insert_rocketjaket_inventory_product_one?: Maybe<Rocketjaket_Inventory_Product>;
+  /** insert data into the table: "rocketjaket.inventory_product_variant" */
+  insert_rocketjaket_inventory_product_variant?: Maybe<Rocketjaket_Inventory_Product_Variant_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.inventory_product_variant" */
+  insert_rocketjaket_inventory_product_variant_one?: Maybe<Rocketjaket_Inventory_Product_Variant>;
   /** insert data into the table: "rocketjaket.inventory_variant_metadata" */
   insert_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
   /** insert a single row into the table: "rocketjaket.inventory_variant_metadata" */
@@ -1543,6 +1559,14 @@ export type Mutation_Root = {
   update_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** update single row of the table: "auth.roles" */
   update_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** update data of the table: "rocketjaket.inventory_product" */
+  update_rocketjaket_inventory_product?: Maybe<Rocketjaket_Inventory_Product_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.inventory_product" */
+  update_rocketjaket_inventory_product_by_pk?: Maybe<Rocketjaket_Inventory_Product>;
+  /** update data of the table: "rocketjaket.inventory_product_variant" */
+  update_rocketjaket_inventory_product_variant?: Maybe<Rocketjaket_Inventory_Product_Variant_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.inventory_product_variant" */
+  update_rocketjaket_inventory_product_variant_by_pk?: Maybe<Rocketjaket_Inventory_Product_Variant>;
   /** update data of the table: "rocketjaket.inventory_variant_metadata" */
   update_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
   /** update single row of the table: "rocketjaket.inventory_variant_metadata" */
@@ -1649,6 +1673,30 @@ export type Mutation_RootDelete_Auth_Roles_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Inventory_ProductArgs = {
+  where: Rocketjaket_Inventory_Product_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Inventory_Product_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Inventory_Product_VariantArgs = {
+  where: Rocketjaket_Inventory_Product_Variant_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Inventory_Product_Variant_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Inventory_Variant_MetadataArgs = {
   where: Rocketjaket_Inventory_Variant_Metadata_Bool_Exp;
 };
@@ -1668,7 +1716,7 @@ export type Mutation_RootDelete_Rocketjaket_ProductArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Product_By_PkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -1789,6 +1837,34 @@ export type Mutation_RootInsert_Auth_RolesArgs = {
 export type Mutation_RootInsert_Auth_Roles_OneArgs = {
   object: Auth_Roles_Insert_Input;
   on_conflict?: Maybe<Auth_Roles_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Inventory_ProductArgs = {
+  objects: Array<Rocketjaket_Inventory_Product_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Inventory_Product_OneArgs = {
+  object: Rocketjaket_Inventory_Product_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Inventory_Product_VariantArgs = {
+  objects: Array<Rocketjaket_Inventory_Product_Variant_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_Variant_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Inventory_Product_Variant_OneArgs = {
+  object: Rocketjaket_Inventory_Product_Variant_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_Variant_On_Conflict>;
 };
 
 
@@ -1957,6 +2033,38 @@ export type Mutation_RootUpdate_Auth_Roles_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Inventory_ProductArgs = {
+  _inc?: Maybe<Rocketjaket_Inventory_Product_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Inventory_Product_Set_Input>;
+  where: Rocketjaket_Inventory_Product_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Inventory_Product_By_PkArgs = {
+  _inc?: Maybe<Rocketjaket_Inventory_Product_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Inventory_Product_Set_Input>;
+  pk_columns: Rocketjaket_Inventory_Product_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Inventory_Product_VariantArgs = {
+  _inc?: Maybe<Rocketjaket_Inventory_Product_Variant_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Inventory_Product_Variant_Set_Input>;
+  where: Rocketjaket_Inventory_Product_Variant_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Inventory_Product_Variant_By_PkArgs = {
+  _inc?: Maybe<Rocketjaket_Inventory_Product_Variant_Inc_Input>;
+  _set?: Maybe<Rocketjaket_Inventory_Product_Variant_Set_Input>;
+  pk_columns: Rocketjaket_Inventory_Product_Variant_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Rocketjaket_Inventory_Variant_MetadataArgs = {
   _inc?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Inc_Input>;
   _set?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Set_Input>;
@@ -2087,6 +2195,18 @@ export type Query_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.inventory_product" */
+  rocketjaket_inventory_product: Array<Rocketjaket_Inventory_Product>;
+  /** fetch aggregated fields from the table: "rocketjaket.inventory_product" */
+  rocketjaket_inventory_product_aggregate: Rocketjaket_Inventory_Product_Aggregate;
+  /** fetch data from the table: "rocketjaket.inventory_product" using primary key columns */
+  rocketjaket_inventory_product_by_pk?: Maybe<Rocketjaket_Inventory_Product>;
+  /** fetch data from the table: "rocketjaket.inventory_product_variant" */
+  rocketjaket_inventory_product_variant: Array<Rocketjaket_Inventory_Product_Variant>;
+  /** fetch aggregated fields from the table: "rocketjaket.inventory_product_variant" */
+  rocketjaket_inventory_product_variant_aggregate: Rocketjaket_Inventory_Product_Variant_Aggregate;
+  /** fetch data from the table: "rocketjaket.inventory_product_variant" using primary key columns */
+  rocketjaket_inventory_product_variant_by_pk?: Maybe<Rocketjaket_Inventory_Product_Variant>;
   /** fetch data from the table: "rocketjaket.inventory_variant_metadata" */
   rocketjaket_inventory_variant_metadata: Array<Rocketjaket_Inventory_Variant_Metadata>;
   /** fetch aggregated fields from the table: "rocketjaket.inventory_variant_metadata" */
@@ -2258,6 +2378,52 @@ export type Query_RootAuth_Roles_By_PkArgs = {
 };
 
 
+export type Query_RootRocketjaket_Inventory_ProductArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Inventory_Product_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Inventory_Product_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootRocketjaket_Inventory_Product_VariantArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Inventory_Product_Variant_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Inventory_Product_Variant_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootRocketjaket_Inventory_Variant_MetadataArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2300,7 +2466,7 @@ export type Query_RootRocketjaket_Product_AggregateArgs = {
 
 
 export type Query_RootRocketjaket_Product_By_PkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -2372,14 +2538,802 @@ export type Query_RootUsers_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+/** columns and relationships of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product = {
+  __typename?: 'rocketjaket_inventory_product';
+  available_qty: Scalars['Int'];
+  created_at: Scalars['timestamptz'];
+  id: Scalars['uuid'];
+  /** An array relationship */
+  inventory_product_variants: Array<Rocketjaket_Inventory_Product_Variant>;
+  /** An aggregate relationship */
+  inventory_product_variants_aggregate: Rocketjaket_Inventory_Product_Variant_Aggregate;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  /** An object relationship */
+  product: Rocketjaket_Product;
+  product_id: Scalars['uuid'];
+  store_id: Scalars['Int'];
+  updated_at: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_ProductInventory_Product_VariantsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_ProductInventory_Product_Variants_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+/** aggregated selection of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Aggregate = {
+  __typename?: 'rocketjaket_inventory_product_aggregate';
+  aggregate?: Maybe<Rocketjaket_Inventory_Product_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Inventory_Product>;
+};
+
+/** aggregate fields of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Aggregate_Fields = {
+  __typename?: 'rocketjaket_inventory_product_aggregate_fields';
+  avg?: Maybe<Rocketjaket_Inventory_Product_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Inventory_Product_Max_Fields>;
+  min?: Maybe<Rocketjaket_Inventory_Product_Min_Fields>;
+  stddev?: Maybe<Rocketjaket_Inventory_Product_Stddev_Fields>;
+  stddev_pop?: Maybe<Rocketjaket_Inventory_Product_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Rocketjaket_Inventory_Product_Stddev_Samp_Fields>;
+  sum?: Maybe<Rocketjaket_Inventory_Product_Sum_Fields>;
+  var_pop?: Maybe<Rocketjaket_Inventory_Product_Var_Pop_Fields>;
+  var_samp?: Maybe<Rocketjaket_Inventory_Product_Var_Samp_Fields>;
+  variance?: Maybe<Rocketjaket_Inventory_Product_Variance_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Aggregate_Order_By = {
+  avg?: Maybe<Rocketjaket_Inventory_Product_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Rocketjaket_Inventory_Product_Max_Order_By>;
+  min?: Maybe<Rocketjaket_Inventory_Product_Min_Order_By>;
+  stddev?: Maybe<Rocketjaket_Inventory_Product_Stddev_Order_By>;
+  stddev_pop?: Maybe<Rocketjaket_Inventory_Product_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Rocketjaket_Inventory_Product_Stddev_Samp_Order_By>;
+  sum?: Maybe<Rocketjaket_Inventory_Product_Sum_Order_By>;
+  var_pop?: Maybe<Rocketjaket_Inventory_Product_Var_Pop_Order_By>;
+  var_samp?: Maybe<Rocketjaket_Inventory_Product_Var_Samp_Order_By>;
+  variance?: Maybe<Rocketjaket_Inventory_Product_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Arr_Rel_Insert_Input = {
+  data: Array<Rocketjaket_Inventory_Product_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Rocketjaket_Inventory_Product_Avg_Fields = {
+  __typename?: 'rocketjaket_inventory_product_avg_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Avg_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.inventory_product". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Inventory_Product_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Inventory_Product_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Inventory_Product_Bool_Exp>>;
+  available_qty?: Maybe<Int_Comparison_Exp>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  inventory_product_variants?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+  min_available_qty?: Maybe<Int_Comparison_Exp>;
+  override_capital_price?: Maybe<Int_Comparison_Exp>;
+  override_discount?: Maybe<Int_Comparison_Exp>;
+  override_selling_price?: Maybe<Int_Comparison_Exp>;
+  product?: Maybe<Rocketjaket_Product_Bool_Exp>;
+  product_id?: Maybe<Uuid_Comparison_Exp>;
+  store_id?: Maybe<Int_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.inventory_product" */
+export enum Rocketjaket_Inventory_Product_Constraint {
+  /** unique or primary key constraint */
+  InventoryProductPkey = 'inventory_product_pkey'
+}
+
+/** input type for incrementing numeric columns in table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Inc_Input = {
+  available_qty?: Maybe<Scalars['Int']>;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  store_id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Insert_Input = {
+  available_qty?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  inventory_product_variants?: Maybe<Rocketjaket_Inventory_Product_Variant_Arr_Rel_Insert_Input>;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  product?: Maybe<Rocketjaket_Product_Obj_Rel_Insert_Input>;
+  product_id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Inventory_Product_Max_Fields = {
+  __typename?: 'rocketjaket_inventory_product_max_fields';
+  available_qty?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  product_id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by max() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Max_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  product_id?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Inventory_Product_Min_Fields = {
+  __typename?: 'rocketjaket_inventory_product_min_fields';
+  available_qty?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  product_id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** order by min() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Min_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  product_id?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Mutation_Response = {
+  __typename?: 'rocketjaket_inventory_product_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Inventory_Product>;
+};
+
+/** input type for inserting object relation for remote table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Inventory_Product_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_On_Conflict>;
+};
+
+/** on conflict condition type for table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_On_Conflict = {
+  constraint: Rocketjaket_Inventory_Product_Constraint;
+  update_columns?: Array<Rocketjaket_Inventory_Product_Update_Column>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.inventory_product". */
+export type Rocketjaket_Inventory_Product_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  inventory_product_variants_aggregate?: Maybe<Rocketjaket_Inventory_Product_Variant_Aggregate_Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  product?: Maybe<Rocketjaket_Product_Order_By>;
+  product_id?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_inventory_product */
+export type Rocketjaket_Inventory_Product_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "rocketjaket.inventory_product" */
+export enum Rocketjaket_Inventory_Product_Select_Column {
+  /** column name */
+  AvailableQty = 'available_qty',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MinAvailableQty = 'min_available_qty',
+  /** column name */
+  OverrideCapitalPrice = 'override_capital_price',
+  /** column name */
+  OverrideDiscount = 'override_discount',
+  /** column name */
+  OverrideSellingPrice = 'override_selling_price',
+  /** column name */
+  ProductId = 'product_id',
+  /** column name */
+  StoreId = 'store_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Set_Input = {
+  available_qty?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['uuid']>;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  product_id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type Rocketjaket_Inventory_Product_Stddev_Fields = {
+  __typename?: 'rocketjaket_inventory_product_stddev_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Stddev_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Rocketjaket_Inventory_Product_Stddev_Pop_Fields = {
+  __typename?: 'rocketjaket_inventory_product_stddev_pop_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Stddev_Pop_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Rocketjaket_Inventory_Product_Stddev_Samp_Fields = {
+  __typename?: 'rocketjaket_inventory_product_stddev_samp_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Stddev_Samp_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Rocketjaket_Inventory_Product_Sum_Fields = {
+  __typename?: 'rocketjaket_inventory_product_sum_fields';
+  available_qty?: Maybe<Scalars['Int']>;
+  min_available_qty?: Maybe<Scalars['Int']>;
+  override_capital_price?: Maybe<Scalars['Int']>;
+  override_discount?: Maybe<Scalars['Int']>;
+  override_selling_price?: Maybe<Scalars['Int']>;
+  store_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Sum_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** update columns of table "rocketjaket.inventory_product" */
+export enum Rocketjaket_Inventory_Product_Update_Column {
+  /** column name */
+  AvailableQty = 'available_qty',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MinAvailableQty = 'min_available_qty',
+  /** column name */
+  OverrideCapitalPrice = 'override_capital_price',
+  /** column name */
+  OverrideDiscount = 'override_discount',
+  /** column name */
+  OverrideSellingPrice = 'override_selling_price',
+  /** column name */
+  ProductId = 'product_id',
+  /** column name */
+  StoreId = 'store_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** aggregate var_pop on columns */
+export type Rocketjaket_Inventory_Product_Var_Pop_Fields = {
+  __typename?: 'rocketjaket_inventory_product_var_pop_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Var_Pop_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Rocketjaket_Inventory_Product_Var_Samp_Fields = {
+  __typename?: 'rocketjaket_inventory_product_var_samp_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Var_Samp_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Rocketjaket_Inventory_Product_Variance_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variance_fields';
+  available_qty?: Maybe<Scalars['Float']>;
+  min_available_qty?: Maybe<Scalars['Float']>;
+  override_capital_price?: Maybe<Scalars['Float']>;
+  override_discount?: Maybe<Scalars['Float']>;
+  override_selling_price?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_Product_Variance_Order_By = {
+  available_qty?: Maybe<Order_By>;
+  min_available_qty?: Maybe<Order_By>;
+  override_capital_price?: Maybe<Order_By>;
+  override_discount?: Maybe<Order_By>;
+  override_selling_price?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+};
+
+/** columns and relationships of "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant = {
+  __typename?: 'rocketjaket_inventory_product_variant';
+  id: Scalars['Int'];
+  /** An object relationship */
+  inventory_product: Rocketjaket_Inventory_Product;
+  inventory_product_id: Scalars['uuid'];
+  /** An object relationship */
+  inventory_variant_metadata: Rocketjaket_Inventory_Variant_Metadata;
+  inventory_variant_metadata_id: Scalars['Int'];
+};
+
+/** aggregated selection of "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Aggregate = {
+  __typename?: 'rocketjaket_inventory_product_variant_aggregate';
+  aggregate?: Maybe<Rocketjaket_Inventory_Product_Variant_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Inventory_Product_Variant>;
+};
+
+/** aggregate fields of "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Aggregate_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_aggregate_fields';
+  avg?: Maybe<Rocketjaket_Inventory_Product_Variant_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Inventory_Product_Variant_Max_Fields>;
+  min?: Maybe<Rocketjaket_Inventory_Product_Variant_Min_Fields>;
+  stddev?: Maybe<Rocketjaket_Inventory_Product_Variant_Stddev_Fields>;
+  stddev_pop?: Maybe<Rocketjaket_Inventory_Product_Variant_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Rocketjaket_Inventory_Product_Variant_Stddev_Samp_Fields>;
+  sum?: Maybe<Rocketjaket_Inventory_Product_Variant_Sum_Fields>;
+  var_pop?: Maybe<Rocketjaket_Inventory_Product_Variant_Var_Pop_Fields>;
+  var_samp?: Maybe<Rocketjaket_Inventory_Product_Variant_Var_Samp_Fields>;
+  variance?: Maybe<Rocketjaket_Inventory_Product_Variant_Variance_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Aggregate_Order_By = {
+  avg?: Maybe<Rocketjaket_Inventory_Product_Variant_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Rocketjaket_Inventory_Product_Variant_Max_Order_By>;
+  min?: Maybe<Rocketjaket_Inventory_Product_Variant_Min_Order_By>;
+  stddev?: Maybe<Rocketjaket_Inventory_Product_Variant_Stddev_Order_By>;
+  stddev_pop?: Maybe<Rocketjaket_Inventory_Product_Variant_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Rocketjaket_Inventory_Product_Variant_Stddev_Samp_Order_By>;
+  sum?: Maybe<Rocketjaket_Inventory_Product_Variant_Sum_Order_By>;
+  var_pop?: Maybe<Rocketjaket_Inventory_Product_Variant_Var_Pop_Order_By>;
+  var_samp?: Maybe<Rocketjaket_Inventory_Product_Variant_Var_Samp_Order_By>;
+  variance?: Maybe<Rocketjaket_Inventory_Product_Variant_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Arr_Rel_Insert_Input = {
+  data: Array<Rocketjaket_Inventory_Product_Variant_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Inventory_Product_Variant_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Rocketjaket_Inventory_Product_Variant_Avg_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Avg_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.inventory_product_variant". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Inventory_Product_Variant_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Bool_Exp>>;
+  id?: Maybe<Int_Comparison_Exp>;
+  inventory_product?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+  inventory_product_id?: Maybe<Uuid_Comparison_Exp>;
+  inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>;
+  inventory_variant_metadata_id?: Maybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.inventory_product_variant" */
+export enum Rocketjaket_Inventory_Product_Variant_Constraint {
+  /** unique or primary key constraint */
+  InventoryProductVariantPkey = 'inventory_product_variant_pkey'
+}
+
+/** input type for incrementing numeric columns in table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Insert_Input = {
+  id?: Maybe<Scalars['Int']>;
+  inventory_product?: Maybe<Rocketjaket_Inventory_Product_Obj_Rel_Insert_Input>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
+  inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Obj_Rel_Insert_Input>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Inventory_Product_Variant_Max_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_max_fields';
+  id?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Max_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_product_id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Inventory_Product_Variant_Min_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_min_fields';
+  id?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Min_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_product_id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Mutation_Response = {
+  __typename?: 'rocketjaket_inventory_product_variant_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Inventory_Product_Variant>;
+};
+
+/** on conflict condition type for table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_On_Conflict = {
+  constraint: Rocketjaket_Inventory_Product_Variant_Constraint;
+  update_columns?: Array<Rocketjaket_Inventory_Product_Variant_Update_Column>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.inventory_product_variant". */
+export type Rocketjaket_Inventory_Product_Variant_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_product?: Maybe<Rocketjaket_Inventory_Product_Order_By>;
+  inventory_product_id?: Maybe<Order_By>;
+  inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_inventory_product_variant */
+export type Rocketjaket_Inventory_Product_Variant_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "rocketjaket.inventory_product_variant" */
+export enum Rocketjaket_Inventory_Product_Variant_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InventoryProductId = 'inventory_product_id',
+  /** column name */
+  InventoryVariantMetadataId = 'inventory_variant_metadata_id'
+}
+
+/** input type for updating data in table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Set_Input = {
+  id?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Rocketjaket_Inventory_Product_Variant_Stddev_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Stddev_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Rocketjaket_Inventory_Product_Variant_Stddev_Pop_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Stddev_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Rocketjaket_Inventory_Product_Variant_Stddev_Samp_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Stddev_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Rocketjaket_Inventory_Product_Variant_Sum_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Sum_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** update columns of table "rocketjaket.inventory_product_variant" */
+export enum Rocketjaket_Inventory_Product_Variant_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InventoryProductId = 'inventory_product_id',
+  /** column name */
+  InventoryVariantMetadataId = 'inventory_variant_metadata_id'
+}
+
+/** aggregate var_pop on columns */
+export type Rocketjaket_Inventory_Product_Variant_Var_Pop_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Var_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Rocketjaket_Inventory_Product_Variant_Var_Samp_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Var_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Rocketjaket_Inventory_Product_Variant_Variance_Fields = {
+  __typename?: 'rocketjaket_inventory_product_variant_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  inventory_variant_metadata_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "rocketjaket.inventory_product_variant" */
+export type Rocketjaket_Inventory_Product_Variant_Variance_Order_By = {
+  id?: Maybe<Order_By>;
+  inventory_variant_metadata_id?: Maybe<Order_By>;
+};
+
 /** columns and relationships of "rocketjaket.inventory_variant_metadata" */
 export type Rocketjaket_Inventory_Variant_Metadata = {
   __typename?: 'rocketjaket_inventory_variant_metadata';
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
+  /** An array relationship */
+  inventory_product_variants: Array<Rocketjaket_Inventory_Product_Variant>;
+  /** An aggregate relationship */
+  inventory_product_variants_aggregate: Rocketjaket_Inventory_Product_Variant_Aggregate;
   updated_at: Scalars['timestamptz'];
   variant_title: Scalars['String'];
   variant_value: Scalars['String'];
+};
+
+
+/** columns and relationships of "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_MetadataInventory_Product_VariantsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_MetadataInventory_Product_Variants_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
 };
 
 /** aggregated selection of "rocketjaket.inventory_variant_metadata" */
@@ -2425,6 +3379,7 @@ export type Rocketjaket_Inventory_Variant_Metadata_Bool_Exp = {
   _or?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Bool_Exp>>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
+  inventory_product_variants?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
   variant_title?: Maybe<String_Comparison_Exp>;
   variant_value?: Maybe<String_Comparison_Exp>;
@@ -2445,6 +3400,7 @@ export type Rocketjaket_Inventory_Variant_Metadata_Inc_Input = {
 export type Rocketjaket_Inventory_Variant_Metadata_Insert_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
+  inventory_product_variants?: Maybe<Rocketjaket_Inventory_Product_Variant_Arr_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   variant_title?: Maybe<Scalars['String']>;
   variant_value?: Maybe<Scalars['String']>;
@@ -2479,6 +3435,13 @@ export type Rocketjaket_Inventory_Variant_Metadata_Mutation_Response = {
   returning: Array<Rocketjaket_Inventory_Variant_Metadata>;
 };
 
+/** input type for inserting object relation for remote table "rocketjaket.inventory_variant_metadata" */
+export type Rocketjaket_Inventory_Variant_Metadata_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Inventory_Variant_Metadata_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Inventory_Variant_Metadata_On_Conflict>;
+};
+
 /** on conflict condition type for table "rocketjaket.inventory_variant_metadata" */
 export type Rocketjaket_Inventory_Variant_Metadata_On_Conflict = {
   constraint: Rocketjaket_Inventory_Variant_Metadata_Constraint;
@@ -2490,6 +3453,7 @@ export type Rocketjaket_Inventory_Variant_Metadata_On_Conflict = {
 export type Rocketjaket_Inventory_Variant_Metadata_Order_By = {
   created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  inventory_product_variants_aggregate?: Maybe<Rocketjaket_Inventory_Product_Variant_Aggregate_Order_By>;
   updated_at?: Maybe<Order_By>;
   variant_title?: Maybe<Order_By>;
   variant_value?: Maybe<Order_By>;
@@ -2585,7 +3549,11 @@ export type Rocketjaket_Product = {
   capital_price: Scalars['Int'];
   created_at: Scalars['timestamptz'];
   discount: Scalars['Int'];
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
+  /** An array relationship */
+  inventory_products: Array<Rocketjaket_Inventory_Product>;
+  /** An aggregate relationship */
+  inventory_products_aggregate: Rocketjaket_Inventory_Product_Aggregate;
   name: Scalars['String'];
   photo_url?: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -2593,6 +3561,26 @@ export type Rocketjaket_Product = {
   product_category_id: Scalars['Int'];
   selling_price: Scalars['Int'];
   updated_at: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "rocketjaket.product" */
+export type Rocketjaket_ProductInventory_ProductsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.product" */
+export type Rocketjaket_ProductInventory_Products_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
 };
 
 /** aggregated selection of "rocketjaket.product" */
@@ -2652,7 +3640,6 @@ export type Rocketjaket_Product_Avg_Fields = {
   __typename?: 'rocketjaket_product_avg_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -2661,7 +3648,6 @@ export type Rocketjaket_Product_Avg_Fields = {
 export type Rocketjaket_Product_Avg_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -2674,7 +3660,8 @@ export type Rocketjaket_Product_Bool_Exp = {
   capital_price?: Maybe<Int_Comparison_Exp>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   discount?: Maybe<Int_Comparison_Exp>;
-  id?: Maybe<Int_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  inventory_products?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   photo_url?: Maybe<String_Comparison_Exp>;
   product_category?: Maybe<Rocketjaket_Product_Category_Bool_Exp>;
@@ -2912,7 +3899,6 @@ export enum Rocketjaket_Product_Constraint {
 export type Rocketjaket_Product_Inc_Input = {
   capital_price?: Maybe<Scalars['Int']>;
   discount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
   product_category_id?: Maybe<Scalars['Int']>;
   selling_price?: Maybe<Scalars['Int']>;
 };
@@ -2922,7 +3908,8 @@ export type Rocketjaket_Product_Insert_Input = {
   capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['uuid']>;
+  inventory_products?: Maybe<Rocketjaket_Inventory_Product_Arr_Rel_Insert_Input>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category?: Maybe<Rocketjaket_Product_Category_Obj_Rel_Insert_Input>;
@@ -2937,7 +3924,7 @@ export type Rocketjaket_Product_Max_Fields = {
   capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
@@ -2964,7 +3951,7 @@ export type Rocketjaket_Product_Min_Fields = {
   capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
@@ -2994,6 +3981,13 @@ export type Rocketjaket_Product_Mutation_Response = {
   returning: Array<Rocketjaket_Product>;
 };
 
+/** input type for inserting object relation for remote table "rocketjaket.product" */
+export type Rocketjaket_Product_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Product_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Product_On_Conflict>;
+};
+
 /** on conflict condition type for table "rocketjaket.product" */
 export type Rocketjaket_Product_On_Conflict = {
   constraint: Rocketjaket_Product_Constraint;
@@ -3007,6 +4001,7 @@ export type Rocketjaket_Product_Order_By = {
   created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  inventory_products_aggregate?: Maybe<Rocketjaket_Inventory_Product_Aggregate_Order_By>;
   name?: Maybe<Order_By>;
   photo_url?: Maybe<Order_By>;
   product_category?: Maybe<Rocketjaket_Product_Category_Order_By>;
@@ -3017,7 +4012,7 @@ export type Rocketjaket_Product_Order_By = {
 
 /** primary key columns input for table: rocketjaket_product */
 export type Rocketjaket_Product_Pk_Columns_Input = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 /** select columns of table "rocketjaket.product" */
@@ -3047,7 +4042,7 @@ export type Rocketjaket_Product_Set_Input = {
   capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
@@ -3060,7 +4055,6 @@ export type Rocketjaket_Product_Stddev_Fields = {
   __typename?: 'rocketjaket_product_stddev_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -3069,7 +4063,6 @@ export type Rocketjaket_Product_Stddev_Fields = {
 export type Rocketjaket_Product_Stddev_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3079,7 +4072,6 @@ export type Rocketjaket_Product_Stddev_Pop_Fields = {
   __typename?: 'rocketjaket_product_stddev_pop_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -3088,7 +4080,6 @@ export type Rocketjaket_Product_Stddev_Pop_Fields = {
 export type Rocketjaket_Product_Stddev_Pop_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3098,7 +4089,6 @@ export type Rocketjaket_Product_Stddev_Samp_Fields = {
   __typename?: 'rocketjaket_product_stddev_samp_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -3107,7 +4097,6 @@ export type Rocketjaket_Product_Stddev_Samp_Fields = {
 export type Rocketjaket_Product_Stddev_Samp_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3117,7 +4106,6 @@ export type Rocketjaket_Product_Sum_Fields = {
   __typename?: 'rocketjaket_product_sum_fields';
   capital_price?: Maybe<Scalars['Int']>;
   discount?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
   product_category_id?: Maybe<Scalars['Int']>;
   selling_price?: Maybe<Scalars['Int']>;
 };
@@ -3126,7 +4114,6 @@ export type Rocketjaket_Product_Sum_Fields = {
 export type Rocketjaket_Product_Sum_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3158,7 +4145,6 @@ export type Rocketjaket_Product_Var_Pop_Fields = {
   __typename?: 'rocketjaket_product_var_pop_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -3167,7 +4153,6 @@ export type Rocketjaket_Product_Var_Pop_Fields = {
 export type Rocketjaket_Product_Var_Pop_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3177,7 +4162,6 @@ export type Rocketjaket_Product_Var_Samp_Fields = {
   __typename?: 'rocketjaket_product_var_samp_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -3186,7 +4170,6 @@ export type Rocketjaket_Product_Var_Samp_Fields = {
 export type Rocketjaket_Product_Var_Samp_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3196,7 +4179,6 @@ export type Rocketjaket_Product_Variance_Fields = {
   __typename?: 'rocketjaket_product_variance_fields';
   capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
   product_category_id?: Maybe<Scalars['Float']>;
   selling_price?: Maybe<Scalars['Float']>;
 };
@@ -3205,7 +4187,6 @@ export type Rocketjaket_Product_Variance_Fields = {
 export type Rocketjaket_Product_Variance_Order_By = {
   capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
   product_category_id?: Maybe<Order_By>;
   selling_price?: Maybe<Order_By>;
 };
@@ -3479,6 +4460,18 @@ export type Subscription_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.inventory_product" */
+  rocketjaket_inventory_product: Array<Rocketjaket_Inventory_Product>;
+  /** fetch aggregated fields from the table: "rocketjaket.inventory_product" */
+  rocketjaket_inventory_product_aggregate: Rocketjaket_Inventory_Product_Aggregate;
+  /** fetch data from the table: "rocketjaket.inventory_product" using primary key columns */
+  rocketjaket_inventory_product_by_pk?: Maybe<Rocketjaket_Inventory_Product>;
+  /** fetch data from the table: "rocketjaket.inventory_product_variant" */
+  rocketjaket_inventory_product_variant: Array<Rocketjaket_Inventory_Product_Variant>;
+  /** fetch aggregated fields from the table: "rocketjaket.inventory_product_variant" */
+  rocketjaket_inventory_product_variant_aggregate: Rocketjaket_Inventory_Product_Variant_Aggregate;
+  /** fetch data from the table: "rocketjaket.inventory_product_variant" using primary key columns */
+  rocketjaket_inventory_product_variant_by_pk?: Maybe<Rocketjaket_Inventory_Product_Variant>;
   /** fetch data from the table: "rocketjaket.inventory_variant_metadata" */
   rocketjaket_inventory_variant_metadata: Array<Rocketjaket_Inventory_Variant_Metadata>;
   /** fetch aggregated fields from the table: "rocketjaket.inventory_variant_metadata" */
@@ -3650,6 +4643,52 @@ export type Subscription_RootAuth_Roles_By_PkArgs = {
 };
 
 
+export type Subscription_RootRocketjaket_Inventory_ProductArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Product_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Product_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Product_VariantArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Product_Variant_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
+  where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Inventory_Product_Variant_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Subscription_RootRocketjaket_Inventory_Variant_MetadataArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Inventory_Variant_Metadata_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3692,7 +4731,7 @@ export type Subscription_RootRocketjaket_Product_AggregateArgs = {
 
 
 export type Subscription_RootRocketjaket_Product_By_PkArgs = {
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 };
 
 
@@ -3948,21 +4987,6 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type Inventory_BulkDeleteInventoryVariantByPKsMutationVariables = Exact<{
-  deleteIds: Array<Scalars['Int']> | Scalars['Int'];
-}>;
-
-
-export type Inventory_BulkDeleteInventoryVariantByPKsMutation = { __typename?: 'mutation_root', delete_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number } | null | undefined };
-
-export type Inventory_BatchUpdateVariantTitleMutationVariables = Exact<{
-  old_variant_title: Scalars['String'];
-  new_variant_title: Scalars['String'];
-}>;
-
-
-export type Inventory_BatchUpdateVariantTitleMutation = { __typename?: 'mutation_root', update_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number } | null | undefined };
-
 export type Inventory_BulkUpdateVariantsMetadataMutationVariables = Exact<{
   old_variant_title: Scalars['String'];
   new_variant_title: Scalars['String'];
@@ -3974,6 +4998,13 @@ export type Inventory_BulkUpdateVariantsMetadataMutationVariables = Exact<{
 
 export type Inventory_BulkUpdateVariantsMetadataMutation = { __typename?: 'mutation_root', bulkUpdateVariantsMetadata?: { __typename?: 'BulkUpdateVariantsMetadataOutput', variant_title?: string | null | undefined, is_any_update?: boolean | null | undefined } | null | undefined };
 
+export type Inventory_CreateInventoryProductMutationVariables = Exact<{
+  inventory_product: Rocketjaket_Inventory_Product_Insert_Input;
+}>;
+
+
+export type Inventory_CreateInventoryProductMutation = { __typename?: 'mutation_root', insert_rocketjaket_inventory_product_one?: { __typename?: 'rocketjaket_inventory_product', id: any, inventory_product_variants: Array<{ __typename?: 'rocketjaket_inventory_product_variant', inventory_variant_metadata: { __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string } }> } | null | undefined };
+
 export type Inventory_CreateInventoryVariantMetadataMutationVariables = Exact<{
   objects: Array<Rocketjaket_Inventory_Variant_Metadata_Insert_Input> | Rocketjaket_Inventory_Variant_Metadata_Insert_Input;
 }>;
@@ -3981,21 +5012,19 @@ export type Inventory_CreateInventoryVariantMetadataMutationVariables = Exact<{
 
 export type Inventory_CreateInventoryVariantMetadataMutation = { __typename?: 'mutation_root', insert_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'rocketjaket_inventory_variant_metadata', id: number, variant_title: string }> } | null | undefined };
 
-export type Inventory_UpdateOneVariantValueByPkMutationVariables = Exact<{
-  id: Scalars['Int'];
-  variant_value?: Maybe<Scalars['String']>;
+export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationVariables = Exact<{
+  variant_title?: Maybe<Scalars['String']>;
 }>;
 
 
-export type Inventory_UpdateOneVariantValueByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_inventory_variant_metadata_by_pk?: { __typename?: 'rocketjaket_inventory_variant_metadata', id: number } | null | undefined };
+export type Inventory_DeleteInventoryVariantsMetadataByTitleMutation = { __typename?: 'mutation_root', delete_rocketjaket_inventory_variant_metadata?: { __typename?: 'rocketjaket_inventory_variant_metadata_mutation_response', affected_rows: number } | null | undefined };
 
-export type Inventory_UpdateVariantValueByPkMutationVariables = Exact<{
-  id: Scalars['Int'];
-  variant_value?: Maybe<Scalars['String']>;
+export type Inventory_GetAllInventoryProductByStorePkQueryVariables = Exact<{
+  store_id: Scalars['Int'];
 }>;
 
 
-export type Inventory_UpdateVariantValueByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_inventory_variant_metadata_by_pk?: { __typename?: 'rocketjaket_inventory_variant_metadata', id: number } | null | undefined };
+export type Inventory_GetAllInventoryProductByStorePkQuery = { __typename?: 'query_root', rocketjaket_inventory_product: Array<{ __typename?: 'rocketjaket_inventory_product', override_selling_price?: number | null | undefined, override_discount?: number | null | undefined, override_capital_price?: number | null | undefined, min_available_qty?: number | null | undefined, id: any, available_qty: number, product: { __typename?: 'rocketjaket_product', name: string, capital_price: number, selling_price: number, discount: number, photo_url?: string | null | undefined, product_category: { __typename?: 'rocketjaket_product_category', name: string } }, inventory_product_variants: Array<{ __typename?: 'rocketjaket_inventory_product_variant', inventory_variant_metadata: { __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string, variant_value: string } }> }> };
 
 export type Inventory_GetAllVariantMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4027,7 +5056,7 @@ export type Produk_CreateProdukMutationVariables = Exact<{
 }>;
 
 
-export type Produk_CreateProdukMutation = { __typename?: 'mutation_root', insert_rocketjaket_product_one?: { __typename?: 'rocketjaket_product', id: number, name: string } | null | undefined };
+export type Produk_CreateProdukMutation = { __typename?: 'mutation_root', insert_rocketjaket_product_one?: { __typename?: 'rocketjaket_product', id: any, name: string } | null | undefined };
 
 export type Produk_DeleteKategoriProdukMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -4037,11 +5066,11 @@ export type Produk_DeleteKategoriProdukMutationVariables = Exact<{
 export type Produk_DeleteKategoriProdukMutation = { __typename?: 'mutation_root', delete_rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', id: number, name: string } | null | undefined };
 
 export type Produk_DeleteProdukByPkMutationVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 }>;
 
 
-export type Produk_DeleteProdukByPkMutation = { __typename?: 'mutation_root', delete_rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string } | null | undefined };
+export type Produk_DeleteProdukByPkMutation = { __typename?: 'mutation_root', delete_rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: any, name: string } | null | undefined };
 
 export type Produk_UpdateKategoriProdukMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -4053,7 +5082,7 @@ export type Produk_UpdateKategoriProdukMutationVariables = Exact<{
 export type Produk_UpdateKategoriProdukMutation = { __typename?: 'mutation_root', update_rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', name: string, id: number, description?: string | null | undefined } | null | undefined };
 
 export type Produk_UpdateProdukByPkMutationVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
   name: Scalars['String'];
   photo_url?: Maybe<Scalars['String']>;
   product_category_id?: Maybe<Scalars['Int']>;
@@ -4063,7 +5092,7 @@ export type Produk_UpdateProdukByPkMutationVariables = Exact<{
 }>;
 
 
-export type Produk_UpdateProdukByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string } | null | undefined };
+export type Produk_UpdateProdukByPkMutation = { __typename?: 'mutation_root', update_rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: any, name: string } | null | undefined };
 
 export type Produk_GetAllKategoriProdukQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4073,7 +5102,7 @@ export type Produk_GetAllKategoriProdukQuery = { __typename?: 'query_root', rock
 export type Produk_GetAllProdukQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Produk_GetAllProdukQuery = { __typename?: 'query_root', rocketjaket_product: Array<{ __typename?: 'rocketjaket_product', name: string, id: number, photo_url?: string | null | undefined, capital_price: number, discount: number, selling_price: number, product_category: { __typename?: 'rocketjaket_product_category', name: string } }> };
+export type Produk_GetAllProdukQuery = { __typename?: 'query_root', rocketjaket_product: Array<{ __typename?: 'rocketjaket_product', name: string, id: any, photo_url?: string | null | undefined, capital_price: number, discount: number, selling_price: number, product_category: { __typename?: 'rocketjaket_product_category', name: string } }> };
 
 export type Produk_GetKategoriProdukByPkQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -4083,11 +5112,11 @@ export type Produk_GetKategoriProdukByPkQueryVariables = Exact<{
 export type Produk_GetKategoriProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_category_by_pk?: { __typename?: 'rocketjaket_product_category', id: number, name: string, description?: string | null | undefined } | null | undefined };
 
 export type Produk_GetProdukByPkQueryVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['uuid'];
 }>;
 
 
-export type Produk_GetProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: number, name: string, photo_url?: string | null | undefined, selling_price: number, discount: number, capital_price: number, product_category_id: number, created_at: any, updated_at: any } | null | undefined };
+export type Produk_GetProdukByPkQuery = { __typename?: 'query_root', rocketjaket_product_by_pk?: { __typename?: 'rocketjaket_product', id: any, name: string, photo_url?: string | null | undefined, selling_price: number, discount: number, capital_price: number, product_category_id: number, created_at: any, updated_at: any, product_category: { __typename?: 'rocketjaket_product_category', name: string } } | null | undefined };
 
 export type Store_CreateStoreMutationVariables = Exact<{
   name: Scalars['String'];
@@ -4138,6 +5167,7 @@ export type User_GetUserByIdQuery = { __typename?: 'query_root', users_by_pk?: {
 
 export const namedOperations = {
   Query: {
+    Inventory_GetAllInventoryProductByStorePK: 'Inventory_GetAllInventoryProductByStorePK',
     Inventory_GetAllVariantMetadata: 'Inventory_GetAllVariantMetadata',
     Inventory_GetVariantMetadataByTitle: 'Inventory_GetVariantMetadataByTitle',
     Produk_GetAllKategoriProduk: 'Produk_GetAllKategoriProduk',
@@ -4149,12 +5179,10 @@ export const namedOperations = {
     User_GetUserById: 'User_GetUserById'
   },
   Mutation: {
-    Inventory_BulkDeleteInventoryVariantByPKs: 'Inventory_BulkDeleteInventoryVariantByPKs',
-    Inventory_BatchUpdateVariantTitle: 'Inventory_BatchUpdateVariantTitle',
     Inventory_BulkUpdateVariantsMetadata: 'Inventory_BulkUpdateVariantsMetadata',
+    Inventory_CreateInventoryProduct: 'Inventory_CreateInventoryProduct',
     Inventory_CreateInventoryVariantMetadata: 'Inventory_CreateInventoryVariantMetadata',
-    Inventory_UpdateOneVariantValueByPK: 'Inventory_UpdateOneVariantValueByPK',
-    Inventory_UpdateVariantValueByPK: 'Inventory_UpdateVariantValueByPK',
+    Inventory_DeleteInventoryVariantsMetadataByTitle: 'Inventory_DeleteInventoryVariantsMetadataByTitle',
     Produk_CreateKategoriProduk: 'Produk_CreateKategoriProduk',
     Produk_CreateProduk: 'Produk_CreateProduk',
     Produk_DeleteKategoriProduk: 'Produk_DeleteKategoriProduk',
@@ -4167,76 +5195,6 @@ export const namedOperations = {
   }
 }
 
-export const Inventory_BulkDeleteInventoryVariantByPKsDocument = gql`
-    mutation Inventory_BulkDeleteInventoryVariantByPKs($deleteIds: [Int!]!) {
-  delete_rocketjaket_inventory_variant_metadata(where: {id: {_in: $deleteIds}}) {
-    affected_rows
-  }
-}
-    `;
-export type Inventory_BulkDeleteInventoryVariantByPKsMutationFn = Apollo.MutationFunction<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>;
-
-/**
- * __useInventory_BulkDeleteInventoryVariantByPKsMutation__
- *
- * To run a mutation, you first call `useInventory_BulkDeleteInventoryVariantByPKsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInventory_BulkDeleteInventoryVariantByPKsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [inventoryBulkDeleteInventoryVariantByPKsMutation, { data, loading, error }] = useInventory_BulkDeleteInventoryVariantByPKsMutation({
- *   variables: {
- *      deleteIds: // value for 'deleteIds'
- *   },
- * });
- */
-export function useInventory_BulkDeleteInventoryVariantByPKsMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>(Inventory_BulkDeleteInventoryVariantByPKsDocument, options);
-      }
-export type Inventory_BulkDeleteInventoryVariantByPKsMutationHookResult = ReturnType<typeof useInventory_BulkDeleteInventoryVariantByPKsMutation>;
-export type Inventory_BulkDeleteInventoryVariantByPKsMutationResult = Apollo.MutationResult<Inventory_BulkDeleteInventoryVariantByPKsMutation>;
-export type Inventory_BulkDeleteInventoryVariantByPKsMutationOptions = Apollo.BaseMutationOptions<Inventory_BulkDeleteInventoryVariantByPKsMutation, Inventory_BulkDeleteInventoryVariantByPKsMutationVariables>;
-export const Inventory_BatchUpdateVariantTitleDocument = gql`
-    mutation Inventory_BatchUpdateVariantTitle($old_variant_title: String!, $new_variant_title: String!) {
-  update_rocketjaket_inventory_variant_metadata(
-    where: {variant_title: {_eq: $old_variant_title}}
-    _set: {variant_title: $new_variant_title}
-  ) {
-    affected_rows
-  }
-}
-    `;
-export type Inventory_BatchUpdateVariantTitleMutationFn = Apollo.MutationFunction<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>;
-
-/**
- * __useInventory_BatchUpdateVariantTitleMutation__
- *
- * To run a mutation, you first call `useInventory_BatchUpdateVariantTitleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInventory_BatchUpdateVariantTitleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [inventoryBatchUpdateVariantTitleMutation, { data, loading, error }] = useInventory_BatchUpdateVariantTitleMutation({
- *   variables: {
- *      old_variant_title: // value for 'old_variant_title'
- *      new_variant_title: // value for 'new_variant_title'
- *   },
- * });
- */
-export function useInventory_BatchUpdateVariantTitleMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>(Inventory_BatchUpdateVariantTitleDocument, options);
-      }
-export type Inventory_BatchUpdateVariantTitleMutationHookResult = ReturnType<typeof useInventory_BatchUpdateVariantTitleMutation>;
-export type Inventory_BatchUpdateVariantTitleMutationResult = Apollo.MutationResult<Inventory_BatchUpdateVariantTitleMutation>;
-export type Inventory_BatchUpdateVariantTitleMutationOptions = Apollo.BaseMutationOptions<Inventory_BatchUpdateVariantTitleMutation, Inventory_BatchUpdateVariantTitleMutationVariables>;
 export const Inventory_BulkUpdateVariantsMetadataDocument = gql`
     mutation Inventory_BulkUpdateVariantsMetadata($old_variant_title: String!, $new_variant_title: String!, $needDeleteIds: [Int!]!, $needAddVariantMetadata: [InventoryVariantMetadataInsertInput!]!, $needUpdateVariantMetadata: [InventoryVariantMetadataNeedUpdateInput!]!) {
   bulkUpdateVariantsMetadata(
@@ -4281,6 +5239,44 @@ export function useInventory_BulkUpdateVariantsMetadataMutation(baseOptions?: Ap
 export type Inventory_BulkUpdateVariantsMetadataMutationHookResult = ReturnType<typeof useInventory_BulkUpdateVariantsMetadataMutation>;
 export type Inventory_BulkUpdateVariantsMetadataMutationResult = Apollo.MutationResult<Inventory_BulkUpdateVariantsMetadataMutation>;
 export type Inventory_BulkUpdateVariantsMetadataMutationOptions = Apollo.BaseMutationOptions<Inventory_BulkUpdateVariantsMetadataMutation, Inventory_BulkUpdateVariantsMetadataMutationVariables>;
+export const Inventory_CreateInventoryProductDocument = gql`
+    mutation Inventory_CreateInventoryProduct($inventory_product: rocketjaket_inventory_product_insert_input!) {
+  insert_rocketjaket_inventory_product_one(object: $inventory_product) {
+    id
+    inventory_product_variants(order_by: {inventory_variant_metadata_id: asc}) {
+      inventory_variant_metadata {
+        variant_title
+      }
+    }
+  }
+}
+    `;
+export type Inventory_CreateInventoryProductMutationFn = Apollo.MutationFunction<Inventory_CreateInventoryProductMutation, Inventory_CreateInventoryProductMutationVariables>;
+
+/**
+ * __useInventory_CreateInventoryProductMutation__
+ *
+ * To run a mutation, you first call `useInventory_CreateInventoryProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_CreateInventoryProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inventoryCreateInventoryProductMutation, { data, loading, error }] = useInventory_CreateInventoryProductMutation({
+ *   variables: {
+ *      inventory_product: // value for 'inventory_product'
+ *   },
+ * });
+ */
+export function useInventory_CreateInventoryProductMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_CreateInventoryProductMutation, Inventory_CreateInventoryProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Inventory_CreateInventoryProductMutation, Inventory_CreateInventoryProductMutationVariables>(Inventory_CreateInventoryProductDocument, options);
+      }
+export type Inventory_CreateInventoryProductMutationHookResult = ReturnType<typeof useInventory_CreateInventoryProductMutation>;
+export type Inventory_CreateInventoryProductMutationResult = Apollo.MutationResult<Inventory_CreateInventoryProductMutation>;
+export type Inventory_CreateInventoryProductMutationOptions = Apollo.BaseMutationOptions<Inventory_CreateInventoryProductMutation, Inventory_CreateInventoryProductMutationVariables>;
 export const Inventory_CreateInventoryVariantMetadataDocument = gql`
     mutation Inventory_CreateInventoryVariantMetadata($objects: [rocketjaket_inventory_variant_metadata_insert_input!]!) {
   insert_rocketjaket_inventory_variant_metadata(objects: $objects) {
@@ -4318,80 +5314,97 @@ export function useInventory_CreateInventoryVariantMetadataMutation(baseOptions?
 export type Inventory_CreateInventoryVariantMetadataMutationHookResult = ReturnType<typeof useInventory_CreateInventoryVariantMetadataMutation>;
 export type Inventory_CreateInventoryVariantMetadataMutationResult = Apollo.MutationResult<Inventory_CreateInventoryVariantMetadataMutation>;
 export type Inventory_CreateInventoryVariantMetadataMutationOptions = Apollo.BaseMutationOptions<Inventory_CreateInventoryVariantMetadataMutation, Inventory_CreateInventoryVariantMetadataMutationVariables>;
-export const Inventory_UpdateOneVariantValueByPkDocument = gql`
-    mutation Inventory_UpdateOneVariantValueByPK($id: Int!, $variant_value: String) {
-  update_rocketjaket_inventory_variant_metadata_by_pk(
-    pk_columns: {id: $id}
-    _set: {variant_value: $variant_value}
+export const Inventory_DeleteInventoryVariantsMetadataByTitleDocument = gql`
+    mutation Inventory_DeleteInventoryVariantsMetadataByTitle($variant_title: String = "") {
+  delete_rocketjaket_inventory_variant_metadata(
+    where: {variant_title: {_eq: $variant_title}}
   ) {
-    id
+    affected_rows
   }
 }
     `;
-export type Inventory_UpdateOneVariantValueByPkMutationFn = Apollo.MutationFunction<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>;
+export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationFn = Apollo.MutationFunction<Inventory_DeleteInventoryVariantsMetadataByTitleMutation, Inventory_DeleteInventoryVariantsMetadataByTitleMutationVariables>;
 
 /**
- * __useInventory_UpdateOneVariantValueByPkMutation__
+ * __useInventory_DeleteInventoryVariantsMetadataByTitleMutation__
  *
- * To run a mutation, you first call `useInventory_UpdateOneVariantValueByPkMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInventory_UpdateOneVariantValueByPkMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInventory_DeleteInventoryVariantsMetadataByTitleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInventory_DeleteInventoryVariantsMetadataByTitleMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [inventoryUpdateOneVariantValueByPkMutation, { data, loading, error }] = useInventory_UpdateOneVariantValueByPkMutation({
+ * const [inventoryDeleteInventoryVariantsMetadataByTitleMutation, { data, loading, error }] = useInventory_DeleteInventoryVariantsMetadataByTitleMutation({
  *   variables: {
- *      id: // value for 'id'
- *      variant_value: // value for 'variant_value'
+ *      variant_title: // value for 'variant_title'
  *   },
  * });
  */
-export function useInventory_UpdateOneVariantValueByPkMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>) {
+export function useInventory_DeleteInventoryVariantsMetadataByTitleMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_DeleteInventoryVariantsMetadataByTitleMutation, Inventory_DeleteInventoryVariantsMetadataByTitleMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>(Inventory_UpdateOneVariantValueByPkDocument, options);
+        return Apollo.useMutation<Inventory_DeleteInventoryVariantsMetadataByTitleMutation, Inventory_DeleteInventoryVariantsMetadataByTitleMutationVariables>(Inventory_DeleteInventoryVariantsMetadataByTitleDocument, options);
       }
-export type Inventory_UpdateOneVariantValueByPkMutationHookResult = ReturnType<typeof useInventory_UpdateOneVariantValueByPkMutation>;
-export type Inventory_UpdateOneVariantValueByPkMutationResult = Apollo.MutationResult<Inventory_UpdateOneVariantValueByPkMutation>;
-export type Inventory_UpdateOneVariantValueByPkMutationOptions = Apollo.BaseMutationOptions<Inventory_UpdateOneVariantValueByPkMutation, Inventory_UpdateOneVariantValueByPkMutationVariables>;
-export const Inventory_UpdateVariantValueByPkDocument = gql`
-    mutation Inventory_UpdateVariantValueByPK($id: Int!, $variant_value: String) {
-  update_rocketjaket_inventory_variant_metadata_by_pk(
-    pk_columns: {id: $id}
-    _set: {variant_value: $variant_value}
-  ) {
+export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationHookResult = ReturnType<typeof useInventory_DeleteInventoryVariantsMetadataByTitleMutation>;
+export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationResult = Apollo.MutationResult<Inventory_DeleteInventoryVariantsMetadataByTitleMutation>;
+export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationOptions = Apollo.BaseMutationOptions<Inventory_DeleteInventoryVariantsMetadataByTitleMutation, Inventory_DeleteInventoryVariantsMetadataByTitleMutationVariables>;
+export const Inventory_GetAllInventoryProductByStorePkDocument = gql`
+    query Inventory_GetAllInventoryProductByStorePK($store_id: Int!) {
+  rocketjaket_inventory_product(where: {store_id: {_eq: $store_id}}) {
+    override_selling_price
+    override_discount
+    override_capital_price
+    min_available_qty
+    product {
+      name
+      product_category {
+        name
+      }
+      capital_price
+      selling_price
+      discount
+      photo_url
+    }
+    inventory_product_variants(order_by: {inventory_variant_metadata: {id: asc}}) {
+      inventory_variant_metadata {
+        variant_title
+        variant_value
+      }
+    }
     id
+    available_qty
   }
 }
     `;
-export type Inventory_UpdateVariantValueByPkMutationFn = Apollo.MutationFunction<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>;
 
 /**
- * __useInventory_UpdateVariantValueByPkMutation__
+ * __useInventory_GetAllInventoryProductByStorePkQuery__
  *
- * To run a mutation, you first call `useInventory_UpdateVariantValueByPkMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInventory_UpdateVariantValueByPkMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useInventory_GetAllInventoryProductByStorePkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInventory_GetAllInventoryProductByStorePkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [inventoryUpdateVariantValueByPkMutation, { data, loading, error }] = useInventory_UpdateVariantValueByPkMutation({
+ * const { data, loading, error } = useInventory_GetAllInventoryProductByStorePkQuery({
  *   variables: {
- *      id: // value for 'id'
- *      variant_value: // value for 'variant_value'
+ *      store_id: // value for 'store_id'
  *   },
  * });
  */
-export function useInventory_UpdateVariantValueByPkMutation(baseOptions?: Apollo.MutationHookOptions<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>) {
+export function useInventory_GetAllInventoryProductByStorePkQuery(baseOptions: Apollo.QueryHookOptions<Inventory_GetAllInventoryProductByStorePkQuery, Inventory_GetAllInventoryProductByStorePkQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>(Inventory_UpdateVariantValueByPkDocument, options);
+        return Apollo.useQuery<Inventory_GetAllInventoryProductByStorePkQuery, Inventory_GetAllInventoryProductByStorePkQueryVariables>(Inventory_GetAllInventoryProductByStorePkDocument, options);
       }
-export type Inventory_UpdateVariantValueByPkMutationHookResult = ReturnType<typeof useInventory_UpdateVariantValueByPkMutation>;
-export type Inventory_UpdateVariantValueByPkMutationResult = Apollo.MutationResult<Inventory_UpdateVariantValueByPkMutation>;
-export type Inventory_UpdateVariantValueByPkMutationOptions = Apollo.BaseMutationOptions<Inventory_UpdateVariantValueByPkMutation, Inventory_UpdateVariantValueByPkMutationVariables>;
+export function useInventory_GetAllInventoryProductByStorePkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Inventory_GetAllInventoryProductByStorePkQuery, Inventory_GetAllInventoryProductByStorePkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Inventory_GetAllInventoryProductByStorePkQuery, Inventory_GetAllInventoryProductByStorePkQueryVariables>(Inventory_GetAllInventoryProductByStorePkDocument, options);
+        }
+export type Inventory_GetAllInventoryProductByStorePkQueryHookResult = ReturnType<typeof useInventory_GetAllInventoryProductByStorePkQuery>;
+export type Inventory_GetAllInventoryProductByStorePkLazyQueryHookResult = ReturnType<typeof useInventory_GetAllInventoryProductByStorePkLazyQuery>;
+export type Inventory_GetAllInventoryProductByStorePkQueryResult = Apollo.QueryResult<Inventory_GetAllInventoryProductByStorePkQuery, Inventory_GetAllInventoryProductByStorePkQueryVariables>;
 export const Inventory_GetAllVariantMetadataDocument = gql`
     query Inventory_GetAllVariantMetadata {
   rocketjaket_inventory_variant_metadata(order_by: {id: asc}) {
@@ -4582,7 +5595,7 @@ export type Produk_DeleteKategoriProdukMutationHookResult = ReturnType<typeof us
 export type Produk_DeleteKategoriProdukMutationResult = Apollo.MutationResult<Produk_DeleteKategoriProdukMutation>;
 export type Produk_DeleteKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_DeleteKategoriProdukMutation, Produk_DeleteKategoriProdukMutationVariables>;
 export const Produk_DeleteProdukByPkDocument = gql`
-    mutation Produk_DeleteProdukByPK($id: Int!) {
+    mutation Produk_DeleteProdukByPK($id: uuid!) {
   delete_rocketjaket_product_by_pk(id: $id) {
     id
     name
@@ -4656,7 +5669,7 @@ export type Produk_UpdateKategoriProdukMutationHookResult = ReturnType<typeof us
 export type Produk_UpdateKategoriProdukMutationResult = Apollo.MutationResult<Produk_UpdateKategoriProdukMutation>;
 export type Produk_UpdateKategoriProdukMutationOptions = Apollo.BaseMutationOptions<Produk_UpdateKategoriProdukMutation, Produk_UpdateKategoriProdukMutationVariables>;
 export const Produk_UpdateProdukByPkDocument = gql`
-    mutation Produk_UpdateProdukByPK($id: Int!, $name: String!, $photo_url: String, $product_category_id: Int, $selling_price: Int, $capital_price: Int, $discount: Int) {
+    mutation Produk_UpdateProdukByPK($id: uuid!, $name: String!, $photo_url: String, $product_category_id: Int, $selling_price: Int, $capital_price: Int, $discount: Int) {
   update_rocketjaket_product_by_pk(
     pk_columns: {id: $id}
     _set: {name: $name, photo_url: $photo_url, product_category_id: $product_category_id, selling_price: $selling_price, capital_price: $capital_price, discount: $discount}
@@ -4814,7 +5827,7 @@ export type Produk_GetKategoriProdukByPkQueryHookResult = ReturnType<typeof useP
 export type Produk_GetKategoriProdukByPkLazyQueryHookResult = ReturnType<typeof useProduk_GetKategoriProdukByPkLazyQuery>;
 export type Produk_GetKategoriProdukByPkQueryResult = Apollo.QueryResult<Produk_GetKategoriProdukByPkQuery, Produk_GetKategoriProdukByPkQueryVariables>;
 export const Produk_GetProdukByPkDocument = gql`
-    query Produk_GetProdukByPK($id: Int!) {
+    query Produk_GetProdukByPK($id: uuid!) {
   rocketjaket_product_by_pk(id: $id) {
     id
     name
@@ -4825,6 +5838,9 @@ export const Produk_GetProdukByPkDocument = gql`
     product_category_id
     created_at
     updated_at
+    product_category {
+      name
+    }
   }
 }
     `;

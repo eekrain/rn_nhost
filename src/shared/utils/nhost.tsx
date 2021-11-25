@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createClient} from 'nhost-js-sdk';
-import create, {GetState, SetState} from 'zustand';
-import {StoreApiWithPersist, persist} from 'zustand/middleware';
+import create from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createTrackedSelector} from 'react-tracked';
 import {HASURA_ENDPOINT, BACKEND_HBP_ENDPOINT} from '@env';
@@ -32,73 +31,80 @@ interface INhostAuthStore {
   updateRole: (role: string | null | undefined) => void;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  updateUserData: (userData: INhostAuthStore['user']) => void;
+  updateIsAuthenticated: (isAuthenticated: boolean) => void;
 }
 
-const useNhostStore = create<
-  INhostAuthStore,
-  SetState<INhostAuthStore>,
-  GetState<INhostAuthStore>,
-  StoreApiWithPersist<INhostAuthStore>
->(
-  persist(
-    (_set, _get) => ({
-      isLoading: true as INhostAuthStore['isLoading'],
-      isAuthenticated: false as INhostAuthStore['isLoading'],
+const useNhostStore = create<INhostAuthStore>((_set, _get) => ({
+  isLoading: true as INhostAuthStore['isLoading'],
+  isAuthenticated: false as INhostAuthStore['isLoading'],
+  user: {
+    userId: null,
+    displayName: null,
+    email: null,
+    photoURL: null,
+    role: null,
+  } as INhostAuthStore['user'],
+  setLoading: isLoading => {
+    _set(state => ({
+      ...state,
+      isLoading,
+    }));
+  },
+  updateRole: role => {
+    _set(state => ({
+      ...state,
+      user: {
+        ...state.user,
+        role,
+      },
+    }));
+  },
+  signIn: async (email, password) => {
+    const res = await nhostClient.auth.login({email, password});
+
+    _set(state => ({
+      ...state,
+      isAuthenticated: true,
+      user: {
+        ...state.user,
+        userId: res.user?.id,
+        displayName: res.user?.display_name,
+        email: res.user?.email,
+        photoURL: res.user?.avatar_url,
+      },
+    }));
+  },
+  updateUserData: (userData: INhostAuthStore['user']) => {
+    _set(state => ({
+      ...state,
+      user: {
+        ...state.user,
+        ...userData,
+      },
+    }));
+  },
+  updateIsAuthenticated: (isAuthenticated: boolean) => {
+    _set(state => ({
+      ...state,
+      isAuthenticated,
+    }));
+  },
+  signOut: async () => {
+    await nhostClient.auth.logout();
+    _set(state => ({
+      ...state,
+      isAuthenticated: false,
       user: {
         userId: null,
+        role: null,
         displayName: null,
         email: null,
         photoURL: null,
-        role: null,
-      } as INhostAuthStore['user'],
-      setLoading: isLoading => {
-        _set(state => ({
-          ...state,
-          isLoading,
-        }));
       },
-      updateRole: role => {
-        _set(state => ({
-          ...state,
-          user: {
-            ...state.user,
-            role,
-          },
-        }));
-      },
-      signIn: async (email, password) => {
-        const res = await nhostClient.auth.login({email, password});
-
-        _set(state => ({
-          ...state,
-          isAuthenticated: true,
-          user: {
-            ...state.user,
-            userId: res.user?.id,
-            displayName: res.user?.display_name,
-            email: res.user?.email,
-            photoURL: res.user?.avatar_url,
-          },
-        }));
-      },
-      signOut: async () => {
-        await nhostClient.auth.logout();
-        _set(state => ({
-          ...state,
-          isAuthenticated: false,
-          user: {
-            userId: null,
-            role: null,
-            displayName: null,
-            email: null,
-            photoURL: null,
-          },
-        }));
-      },
-    }),
-    {name: 'nhost-auth', getStorage: () => AsyncStorage},
-  ),
-);
+    }));
+  },
+}));
 
 export const useNhostAuth = createTrackedSelector(useNhostStore);
 
@@ -145,17 +151,32 @@ export const NhostCustomProvider = ({children}: INhostProviderProps) => {
 
 const ManageAuthenticatedUser = () => {
   const nhostAuth = useNhostAuth();
+  const [constructorHasRun, setConstructorHasRun] = useState(false);
+  let unsubscribe: Function;
 
-  useEffect(() => {
-    nhostClient.auth.isAuthenticatedAsync().then(isAuth => {
-      if (!isAuth) {
+  const constructor = () => {
+    if (constructorHasRun) return;
+
+    unsubscribe = nhostClient.auth.onAuthStateChanged(isAuthenticated => {
+      nhostAuth.updateIsAuthenticated(isAuthenticated);
+      if (!isAuthenticated) {
         nhostAuth.signOut();
       }
-
       nhostAuth.setLoading(false);
+
+      const userData = nhostClient.auth.user();
+      if (userData) {
+        nhostAuth.updateUserData({
+          userId: userData.id,
+          displayName: userData.display_name,
+          email: userData.email,
+        });
+      }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setConstructorHasRun(true);
+  };
+
+  constructor();
 
   const getUserData = useUser_GetUserByIdQuery({
     variables: {
@@ -163,17 +184,31 @@ const ManageAuthenticatedUser = () => {
     },
     ...getXHasuraContextHeader({role: 'me', withUserId: true}),
   });
+
   useEffect(() => {
     nhostAuth.setLoading(getUserData.loading);
   }, [getUserData.loading, nhostAuth]);
 
   useEffect(() => {
-    if (!getUserData.data || !getUserData.data.users_by_pk) {
-      return;
+    if (getUserData.data?.users_by_pk && nhostAuth.isAuthenticated) {
+      const userData = getUserData.data.users_by_pk;
+      nhostAuth.updateUserData({
+        userId: userData.id,
+        displayName: userData.display_name,
+        email: userData.account?.email,
+        photoURL: userData?.avatar_url || '',
+      });
+      nhostAuth.updateRole(userData.account?.default_role);
     }
-    const data = getUserData?.data?.users_by_pk;
-
-    nhostAuth.updateRole(data.account?.default_role);
   }, [getUserData.loading, getUserData.data, nhostAuth]);
+
+  useEffect(() => {
+    return () => {
+      try {
+        unsubscribe();
+      } catch (error) {}
+    };
+  });
+
   return null;
 };

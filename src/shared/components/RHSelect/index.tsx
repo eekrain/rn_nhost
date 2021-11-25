@@ -17,6 +17,7 @@ interface IRHSelectProps extends ISelectProps {
   errors: {
     [x: string]: any;
   };
+  isDisableLabel?: boolean;
 }
 
 const RHSelect = ({
@@ -26,11 +27,12 @@ const RHSelect = ({
   control,
   errors,
   placeholder,
+  isDisableLabel,
   ...rest
 }: IRHSelectProps) => {
   return (
     <FormControl isInvalid={name in errors}>
-      <FormControl.Label>{label}</FormControl.Label>
+      {!isDisableLabel ? <FormControl.Label>{label}</FormControl.Label> : null}
       <Controller
         name={name}
         control={control}
@@ -38,14 +40,14 @@ const RHSelect = ({
           <Select
             placeholder={placeholder ? placeholder : label}
             selectedValue={value}
-            width={150}
             onValueChange={itemValue => {
               onChange(itemValue);
             }}
             dropdownOpenIcon={<Icon as={Feather} name="chevron-up" size={6} />}
             dropdownCloseIcon={
               <Icon as={Feather} name="chevron-down" size={6} />
-            }>
+            }
+            {...rest}>
             {selectOptions.map(opt => (
               <Select.Item
                 key={`${opt.label}${opt.value}`}
