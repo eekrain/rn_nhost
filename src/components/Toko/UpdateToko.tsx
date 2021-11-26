@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useState} from 'react';
 import {Box, HStack, VStack, Heading, ScrollView, useToast} from 'native-base';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  Store_GetAllStoreDocument,
+  namedOperations,
   useStore_GetStoreByPkQuery,
   useStore_UpdateStoreMutation,
 } from '../../graphql/gql-generated';
@@ -105,7 +104,7 @@ const UpdateToko = ({route, navigation}: IUpdateTokoProps) => {
   const [updateStoreMutation, _updateStoreMutationResult] =
     useStore_UpdateStoreMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
-      refetchQueries: [{query: Store_GetAllStoreDocument}],
+      refetchQueries: [namedOperations.Query.Store_GetAllStore],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {

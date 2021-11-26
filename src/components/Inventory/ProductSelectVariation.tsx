@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useMemo, useEffect, useState} from 'react';
-import {Box, HStack, VStack} from 'native-base';
+import {Box, VStack} from 'native-base';
 import {useInventory_GetAllVariantMetadataQuery} from '../../graphql/gql-generated';
 import {
   Control,
@@ -8,8 +8,8 @@ import {
   UseFormSetValue,
   useWatch,
 } from 'react-hook-form';
-import {IProductInventoryDefaultValues} from './CreateProductInventory';
 import {RHCheckbox, RHSelect} from '../../shared/components';
+import {IProductInventoryDefaultValues} from './types';
 
 interface Props {
   control: Control<IProductInventoryDefaultValues>;
@@ -20,6 +20,7 @@ interface Props {
 const ProductSelectVariation = ({control, errors, setValue}: Props) => {
   const [isDataReady, setDataReady] = useState(false);
   const enabled_variations = useWatch({control, name: 'enabled_variations'});
+  const variation_values = useWatch({control, name: 'variation_values'});
 
   const {fields, append, remove} = useFieldArray({
     name: 'variation_values',
@@ -62,45 +63,41 @@ const ProductSelectVariation = ({control, errors, setValue}: Props) => {
 
   return (
     <Box>
-      <HStack flexWrap="wrap">
-        <RHCheckbox
-          control={control}
-          errors={errors}
-          label="Variasi Produk"
-          name="enabled_variations"
-          checkboxOptions={variantCheckboxOptions}
-          flexDirection="row"
-          flexWrap="wrap"
-          checkboxSpacing={5}
-        />
-        <VStack w="full" mt="4" space="2">
-          {fields.map((field, index) => {
-            const selectOptions = allVariantMetadata
-              .filter(
-                variant => variant.variant_title === field.variation_title,
-              )
-              .map(variant => ({
-                value: variant.id.toString(),
-                label: variant.variant_value,
-              }));
-            const isEnabled = enabled_variations.find(
-              title => title === field.variation_title,
+      <RHCheckbox
+        control={control}
+        errors={errors}
+        label="Variasi Produk"
+        name="enabled_variations"
+        checkboxOptions={variantCheckboxOptions}
+        flexDirection="row"
+        flexWrap="wrap"
+        checkboxSpacing={5}
+      />
+      <VStack w="full" mt="4" space="2">
+        {fields.map((field, index) => {
+          const selectOptions = allVariantMetadata
+            .filter(variant => variant.variant_title === field.variation_title)
+            .map(variant => ({
+              value: variant.id.toString(),
+              label: variant.variant_value,
+            }));
+          const isEnabled = enabled_variations.find(
+            title => title === field.variation_title,
+          );
+          if (isEnabled) {
+            return (
+              <RHSelect
+                key={`${index}${field.variation_title}`}
+                selectOptions={selectOptions}
+                name={`variation_values.${index}.variant_metadata_id`}
+                control={control}
+                errors={errors}
+                label={`Pilih ${field.variation_title}`}
+              />
             );
-            if (isEnabled) {
-              return (
-                <RHSelect
-                  key={`${index}${field.variation_title}`}
-                  selectOptions={selectOptions}
-                  name={`variation_values.${index}.variant_metadata_id`}
-                  control={control}
-                  errors={errors}
-                  label={`Pilih ${field.variation_title}`}
-                />
-              );
-            }
-          })}
-        </VStack>
-      </HStack>
+          }
+        })}
+      </VStack>
     </Box>
   );
 };

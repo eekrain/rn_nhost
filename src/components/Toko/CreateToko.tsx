@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, HStack, VStack, Heading, ScrollView, useToast} from 'native-base';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  Store_GetAllStoreDocument,
+  namedOperations,
   useStore_CreateStoreMutation,
 } from '../../graphql/gql-generated';
 import * as yup from 'yup';
@@ -56,7 +56,7 @@ const CreateToko = ({}: ICreateTokoProps) => {
   const [createStoreMutation, _createStoreMutationResult] =
     useStore_CreateStoreMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
-      refetchQueries: [{query: Store_GetAllStoreDocument}],
+      refetchQueries: [namedOperations.Query.Store_GetAllStore],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {

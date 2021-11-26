@@ -13,7 +13,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {
   useStore_GetAllStoreQuery,
   useStore_DeleteStoreByPkMutation,
-  Store_GetAllStoreDocument,
+  namedOperations,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -58,7 +58,7 @@ const TokoHome = ({navigation}: ITokoHomeProps) => {
 
   const [deleteStoreMutation, _deleteStoreMutationResult] =
     useStore_DeleteStoreByPkMutation({
-      refetchQueries: [{query: Store_GetAllStoreDocument}],
+      refetchQueries: [namedOperations.Query.Store_GetAllStore],
     });
 
   const data = useMemo(() => {

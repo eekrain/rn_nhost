@@ -36,27 +36,31 @@ const RHSelect = ({
       <Controller
         name={name}
         control={control}
-        render={({field: {onChange, value}}) => (
-          <Select
-            placeholder={placeholder ? placeholder : label}
-            selectedValue={value}
-            onValueChange={itemValue => {
-              onChange(itemValue);
-            }}
-            dropdownOpenIcon={<Icon as={Feather} name="chevron-up" size={6} />}
-            dropdownCloseIcon={
-              <Icon as={Feather} name="chevron-down" size={6} />
-            }
-            {...rest}>
-            {selectOptions.map(opt => (
-              <Select.Item
-                key={`${opt.label}${opt.value}`}
-                label={opt.label}
-                value={opt.value}
-              />
-            ))}
-          </Select>
-        )}
+        render={({field: {onChange, value}}) => {
+          return (
+            <Select
+              placeholder={placeholder ? placeholder : label}
+              selectedValue={value}
+              onValueChange={itemValue => {
+                onChange(itemValue);
+              }}
+              dropdownOpenIcon={
+                <Icon as={Feather} name="chevron-up" size={6} />
+              }
+              dropdownCloseIcon={
+                <Icon as={Feather} name="chevron-down" size={6} />
+              }
+              {...rest}>
+              {selectOptions.map(opt => (
+                <Select.Item
+                  key={`${opt.label}${opt.value}`}
+                  label={opt.label}
+                  value={opt.value}
+                />
+              ))}
+            </Select>
+          );
+        }}
       />
       <FormControl.ErrorMessage>
         {errors[name]?.message}

@@ -1,7 +1,6 @@
 import React, {useMemo} from 'react';
 import {Box, Text, VStack, HStack, Pressable} from 'native-base';
 import {useWatch, Control} from 'react-hook-form';
-import {IProductInventoryDefaultValues} from './CreateProductInventory';
 import {RHTextInput} from '../../shared/components';
 import {useProduk_GetAllProdukQuery} from '../../graphql/gql-generated';
 import {MyAvatar} from '../../shared/components';
@@ -10,6 +9,7 @@ import {
   useFlexSearch,
 } from '../../shared/utils';
 import {ButtonCancelDelete} from '../Buttons';
+import {IProductInventoryDefaultValues} from './types';
 
 interface ISearchData {
   id: string;

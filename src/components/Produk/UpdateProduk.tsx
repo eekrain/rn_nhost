@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
 import {
@@ -14,14 +13,12 @@ import {
   Icon,
   Text,
   Center,
-  Spinner,
 } from 'native-base';
 import {Image} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  Produk_GetAllProdukDocument,
-  useProduk_CreateProdukMutation,
+  namedOperations,
   useProduk_GetAllKategoriProdukQuery,
   useProduk_GetProdukByPkQuery,
   useProduk_UpdateProdukByPkMutation,
@@ -50,7 +47,6 @@ import {
 import {useState} from 'react';
 import {UpdateProdukNavProps} from '../../screens/app/ProdukScreen';
 import {useMyAppState} from '../../state';
-import numbro from 'numbro';
 import {Row, Col, Grid} from 'react-native-easy-grid';
 import dayjs from 'dayjs';
 
@@ -104,12 +100,10 @@ const UpdateProduk = ({navigation, route}: Props) => {
   });
 
   const {
-    watch,
     handleSubmit,
     control,
     setValue,
     formState: {errors, isSubmitSuccessful},
-    reset,
   } = useForm({
     defaultValues,
     resolver: yupResolver(schema),
@@ -126,6 +120,7 @@ const UpdateProduk = ({navigation, route}: Props) => {
     variables: {
       id: route.params.productId,
     },
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
@@ -201,7 +196,7 @@ const UpdateProduk = ({navigation, route}: Props) => {
   const [updateProdukMutation, _updateProdukMutationResult] =
     useProduk_UpdateProdukByPkMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
-      refetchQueries: [{query: Produk_GetAllProdukDocument}],
+      refetchQueries: [namedOperations.Query.Produk_GetAllProduk],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {
@@ -252,9 +247,9 @@ const UpdateProduk = ({navigation, route}: Props) => {
         id: route.params.productId,
         name: data.name,
         photo_url: photo_url,
-        capital_price: numbro.unformat(data.capital_price),
-        selling_price: numbro.unformat(data.selling_price),
-        discount: numbro.unformat(data.discount),
+        capital_price: myNumberFormat.unformat(data.capital_price),
+        selling_price: myNumberFormat.unformat(data.selling_price),
+        discount: myNumberFormat.unformat(data.discount),
         product_category_id: parseInt(data.product_category_id, 10),
       },
     });

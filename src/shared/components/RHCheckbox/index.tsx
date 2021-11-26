@@ -6,8 +6,8 @@ import {
   IBoxProps,
   Stack,
 } from 'native-base';
-import React from 'react';
-import {Control, Controller} from 'react-hook-form';
+import React, {useEffect} from 'react';
+import {Control, Controller, useWatch} from 'react-hook-form';
 import Feather from 'react-native-vector-icons/Feather';
 
 interface ICheckboxOptions {
@@ -50,8 +50,10 @@ const RHCheckBox = ({
         control={control}
         render={({field: {onChange, value}}) => (
           <Checkbox.Group
+            value={value}
             onChange={(itemValue: any) => {
               onChange(itemValue);
+              console.log('🚀 ~ file: index.tsx ~ line 55 ~ onChange');
               if (typeof extendedOnChange === 'function') {
                 extendedOnChange(itemValue);
               }

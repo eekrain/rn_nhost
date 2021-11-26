@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
@@ -19,7 +18,7 @@ import {Image} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  Produk_GetAllProdukDocument,
+  namedOperations,
   useProduk_CreateProdukMutation,
   useProduk_GetAllKategoriProdukQuery,
 } from '../../graphql/gql-generated';
@@ -27,6 +26,7 @@ import * as yup from 'yup';
 import {useNavigation} from '@react-navigation/native';
 import {
   getXHasuraContextHeader,
+  myNumberFormat,
   renameFilenameWithAddedNanoid,
   storage,
 } from '../../shared/utils';
@@ -36,7 +36,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import {ButtonSave} from '../Buttons';
 import RHNumberInput from '../../shared/components/RHNumberInput';
-import numbro from 'numbro';
 import {useMemo} from 'react';
 import RHSelect from '../../shared/components/RHSelect';
 import {
@@ -91,8 +90,6 @@ const CreateProduk = ({}: Props) => {
   });
 
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    watch,
     handleSubmit,
     control,
     formState: {errors},
@@ -117,7 +114,7 @@ const CreateProduk = ({}: Props) => {
   const [createKategoriMutation, _createKategoriMutationResult] =
     useProduk_CreateProdukMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
-      refetchQueries: [{query: Produk_GetAllProdukDocument}],
+      refetchQueries: [namedOperations.Query.Produk_GetAllProduk],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {
@@ -156,9 +153,9 @@ const CreateProduk = ({}: Props) => {
       variables: {
         name: data.name,
         photo_url: photo_url,
-        capital_price: numbro.unformat(data.capital_price),
-        selling_price: numbro.unformat(data.selling_price),
-        discount: numbro.unformat(data.discount),
+        capital_price: myNumberFormat.unformat(data.capital_price),
+        selling_price: myNumberFormat.unformat(data.selling_price),
+        discount: myNumberFormat.unformat(data.discount),
         product_category_id: parseInt(data.product_category_id, 10),
       },
     });

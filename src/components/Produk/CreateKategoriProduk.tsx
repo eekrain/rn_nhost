@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, HStack, VStack, Heading, ScrollView, useToast} from 'native-base';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  Produk_GetAllKategoriProdukDocument,
+  namedOperations,
   useProduk_CreateKategoriProdukMutation,
 } from '../../graphql/gql-generated';
 import * as yup from 'yup';
@@ -47,7 +47,7 @@ const CreateKategoriProduk = ({}: Props) => {
   const [createKategoriMutation, _createKategoriMutationResult] =
     useProduk_CreateKategoriProdukMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
-      refetchQueries: [{query: Produk_GetAllKategoriProdukDocument}],
+      refetchQueries: [namedOperations.Query.Produk_GetAllKategoriProduk],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {

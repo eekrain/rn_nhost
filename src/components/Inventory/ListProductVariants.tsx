@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {
   Box,
@@ -14,7 +13,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {
   useInventory_GetAllVariantMetadataQuery,
   useInventory_DeleteInventoryVariantsMetadataByTitleMutation,
-  Inventory_GetAllVariantMetadataDocument,
+  namedOperations,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -62,7 +61,7 @@ const ListProductVariants = ({navigation}: IListProductVariantsProps) => {
 
   const [deleteVariantMetadataMutation, _deleteVariantMetadataMutationResult] =
     useInventory_DeleteInventoryVariantsMetadataByTitleMutation({
-      refetchQueries: [{query: Inventory_GetAllVariantMetadataDocument}],
+      refetchQueries: [namedOperations.Query.Inventory_GetAllVariantMetadata],
     });
   const data = useMemo(() => {
     const handleDeleteKategori = async (variant_title: string) => {

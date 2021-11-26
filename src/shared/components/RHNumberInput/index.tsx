@@ -16,6 +16,8 @@ interface IRHNumberInputProps extends IInputProps {
   };
   format?: TFormatNumberType;
   description?: string;
+  isDisableEmptyToZero?: boolean;
+  minimumIntValue?: number;
 }
 
 const leftElement = (format?: TFormatNumberType) => {
@@ -36,13 +38,24 @@ const leftElement = (format?: TFormatNumberType) => {
   }
 };
 
-const numberFormat = (value: any, format?: TFormatNumberType) => {
+const numberFormat = (
+  value: any,
+  isDisableEmptyToZero?: boolean,
+  minimumIntValue?: number,
+  format?: TFormatNumberType,
+) => {
   let processedVal: string;
 
   if (format) {
     let temp = numbro.unformat(value);
     temp = isNaN(temp) ? 0 : temp;
-    processedVal = myNumberFormat.thousandSeparated(temp);
+    if (minimumIntValue) {
+      temp = temp < minimumIntValue ? minimumIntValue : temp;
+    }
+    processedVal =
+      isDisableEmptyToZero && temp === 0
+        ? ''
+        : myNumberFormat.thousandSeparated(temp);
   } else {
     processedVal = value;
   }
@@ -57,6 +70,8 @@ const RHNumberInput = ({
   format,
   placeholder,
   description,
+  minimumIntValue,
+  isDisableEmptyToZero,
   ...rest
 }: IRHNumberInputProps) => {
   return (
@@ -69,7 +84,16 @@ const RHNumberInput = ({
         render={({field: {onChange, onBlur, value}}) => {
           return (
             <Input
-              onChangeText={val => onChange(numberFormat(val, format))}
+              onChangeText={val =>
+                onChange(
+                  numberFormat(
+                    val,
+                    isDisableEmptyToZero,
+                    minimumIntValue,
+                    format,
+                  ),
+                )
+              }
               placeholder={placeholder ? placeholder : label}
               value={typeof value !== 'string' ? value.toString() : value}
               InputLeftElement={leftElement(format)}

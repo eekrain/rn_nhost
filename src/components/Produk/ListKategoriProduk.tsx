@@ -17,7 +17,7 @@ import {
 import {
   useProduk_GetAllKategoriProdukQuery,
   useProduk_DeleteKategoriProdukMutation,
-  Produk_GetAllKategoriProdukDocument,
+  namedOperations,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -57,7 +57,7 @@ const KategoriProduk = ({navigation}: Props) => {
 
   const [deleteKategoriMutation, _deleteKategoriMutationResult] =
     useProduk_DeleteKategoriProdukMutation({
-      refetchQueries: [{query: Produk_GetAllKategoriProdukDocument}],
+      refetchQueries: [namedOperations.Query.Produk_GetAllKategoriProduk],
     });
 
   const data = useMemo(() => {

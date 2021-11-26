@@ -9,7 +9,7 @@ import {
   Text,
 } from 'native-base';
 import {
-  Inventory_GetAllVariantMetadataDocument,
+  namedOperations,
   useInventory_CreateInventoryVariantMetadataMutation,
 } from '../../graphql/gql-generated';
 import * as yup from 'yup';
@@ -65,7 +65,7 @@ const CreateProductVariants = ({navigation}: ICreateProductVariantsProps) => {
   const [createVariantMetadataMutation, _createVariantMetadataMutationResult] =
     useInventory_CreateInventoryVariantMetadataMutation({
       ...getXHasuraContextHeader({role: 'administrator'}),
-      refetchQueries: [{query: Inventory_GetAllVariantMetadataDocument}],
+      refetchQueries: [namedOperations.Query.Inventory_GetAllVariantMetadata],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {

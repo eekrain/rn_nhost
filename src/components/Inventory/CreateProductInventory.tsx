@@ -13,6 +13,7 @@ import {
 import {Platform} from 'react-native';
 import {
   Inventory_GetAllInventoryProductByStorePkDocument,
+  namedOperations,
   useInventory_CreateInventoryProductMutation,
   useProduk_GetProdukByPkQuery,
 } from '../../graphql/gql-generated';
@@ -30,18 +31,7 @@ import ProductSelectVariation from './ProductSelectVariation';
 import numbro from 'numbro';
 import {useMyAppState} from '../../state';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
-export interface IProductInventoryDefaultValues {
-  product_search_term: string;
-  product_id: string | null;
-  enabled_variations: string[];
-  variation_values: {variation_title: string; variant_metadata_id?: number}[];
-  override_capital_price: string;
-  override_selling_price: string;
-  override_discount: string;
-  available_qty: string;
-  min_available_qty: string;
-}
+import {IProductInventoryDefaultValues} from './types';
 
 const schema = yup
   .object({
@@ -61,7 +51,7 @@ const defaultValues: IProductInventoryDefaultValues = {
   override_selling_price: '',
   override_discount: '',
   available_qty: '0',
-  min_available_qty: '0',
+  min_available_qty: '1',
 };
 
 interface ICreateProductInventoryProps extends CreateProductInventoryNavProps {}
@@ -95,6 +85,7 @@ const CreateProductInventory = ({
     variables: {
       id: selectedProductId,
     },
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
@@ -122,7 +113,7 @@ const CreateProductInventory = ({
   ] = useInventory_CreateInventoryProductMutation({
     ...getXHasuraContextHeader({role: 'administrator'}),
     refetchQueries: [
-      {query: Inventory_GetAllInventoryProductByStorePkDocument},
+      namedOperations.Query.Inventory_GetAllInventoryProductByStorePK,
     ],
   });
 
@@ -142,21 +133,26 @@ const CreateProductInventory = ({
         const found = data.variation_values.find(
           fnd => fnd.variation_title === enabled_variations_title,
         );
-        return {inventory_variant_metadata_id: found!.variant_metadata_id!};
+        return {
+          inventory_variant_metadata_id: parseInt(
+            found!.variant_metadata_id!,
+            10,
+          ),
+        };
       });
     const price = {
       override_capital_price:
         data.override_capital_price === ''
           ? null
-          : numbro.unformat(data.override_capital_price),
+          : myNumberFormat.unformat(data.override_capital_price),
       override_selling_price:
         data.override_selling_price === ''
           ? null
-          : numbro.unformat(data.override_selling_price),
+          : myNumberFormat.unformat(data.override_selling_price),
       override_discount:
         data.override_discount === ''
           ? null
-          : numbro.unformat(data.override_discount),
+          : myNumberFormat.unformat(data.override_discount),
     };
 
     try {
@@ -168,8 +164,12 @@ const CreateProductInventory = ({
             override_selling_price: price.override_selling_price,
             override_discount: price.override_discount,
             store_id: route.params.storeId,
-            available_qty: numbro.unformat(data.available_qty),
-            min_available_qty: numbro.unformat(data.min_available_qty),
+            available_qty: myNumberFormat.unformat(data.available_qty),
+            min_available_qty: myNumberFormat.unformat(
+              data.min_available_qty,
+              1,
+              1,
+            ),
             inventory_product_variants: {
               data: inventoryProductVariants,
             },
@@ -201,7 +201,9 @@ const CreateProductInventory = ({
   };
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid={true}>
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableResetScrollToCoords={false}>
       <DismissKeyboardWrapper>
         <Box pb="200">
           <Heading fontSize="xl" mb="10">

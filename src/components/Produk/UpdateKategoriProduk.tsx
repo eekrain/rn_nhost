@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Box, HStack, VStack, Heading, ScrollView, useToast} from 'native-base';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  Produk_GetAllKategoriProdukDocument,
+  namedOperations,
   useProduk_GetKategoriProdukByPkQuery,
   useProduk_UpdateKategoriProdukMutation,
 } from '../../graphql/gql-generated';
@@ -86,7 +86,7 @@ const UpdateKategoriProduk = ({navigation, route}: Props) => {
 
   const [updateKategoriMutation, _updateKategoriMutationResult] =
     useProduk_UpdateKategoriProdukMutation({
-      refetchQueries: [{query: Produk_GetAllKategoriProdukDocument}],
+      refetchQueries: [namedOperations.Query.Produk_GetAllKategoriProduk],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {

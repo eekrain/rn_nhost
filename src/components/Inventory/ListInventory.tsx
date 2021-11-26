@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useState} from 'react';
 import {
   Box,
@@ -13,9 +12,9 @@ import {Alert, RefreshControl} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
   useStore_GetAllStoreQuery,
-  useStore_DeleteStoreByPkMutation,
-  Store_GetAllStoreDocument,
   useInventory_GetAllInventoryProductByStorePkQuery,
+  namedOperations,
+  useInventory_BulkDeleteOneInventoryProductByPkMutation,
 } from '../../graphql/gql-generated';
 import CustomTable from '../CustomTable';
 import {useMemo} from 'react';
@@ -33,14 +32,23 @@ import {
   getStorageFileUrlWImageTransform,
   myNumberFormat,
 } from '../../shared/utils';
+import {nanoid} from 'nanoid/non-secure';
 
 interface IActionProps {
-  id: number;
   navigation: StackNavigationProp<InventoryRootStackParamList, 'InventoryHome'>;
   handleDeleteKategori: () => Promise<void>;
+  storeId: string;
+  storeName: string;
+  inventoryProductId: string;
 }
 
-const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
+const Action = ({
+  storeId,
+  storeName,
+  inventoryProductId,
+  navigation,
+  handleDeleteKategori,
+}: IActionProps) => {
   const myAppState = useMyAppState();
 
   return (
@@ -49,7 +57,12 @@ const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
         size="sm"
         onPress={() => {
           myAppState.setLoadingWholePage(true);
-          // navigation.navigate('CreateProductInventory', {storeId: id});
+          navigation.navigate('UpdateProductInventory', {
+            storeId: parseInt(storeId, 10),
+            storeName,
+            inventoryProductId,
+            token: nanoid(),
+          });
         }}
       />
       <IconButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
@@ -75,11 +88,9 @@ const ListInventory = ({navigation}: IListInventoryProps) => {
 
   const {
     watch,
-    handleSubmit,
     control,
     setValue,
     formState: {errors},
-    reset,
   } = useForm<InventoryForm>({
     defaultValues,
   });
@@ -123,7 +134,9 @@ const ListInventory = ({navigation}: IListInventoryProps) => {
     variables: {
       store_id: selectedStoreId ? parseInt(selectedStoreId, 10) : 0,
     },
+    fetchPolicy: 'cache-first',
   });
+
   const allInventoryProduct = useMemo(() => {
     const products = getAllInventory.data?.rocketjaket_inventory_product || [];
 
@@ -151,33 +164,37 @@ const ListInventory = ({navigation}: IListInventoryProps) => {
       photo_url: pdk.product.photo_url,
     }));
   }, [getAllInventory.data?.rocketjaket_inventory_product]);
-  console.log(
-    '🚀 ~ file: ListInventory.tsx ~ line 134 ~ allInventoryProduct ~ allInventoryProduct',
-    allInventoryProduct,
-  );
 
-  const [deleteStoreMutation, _deleteStoreMutationResult] =
-    useStore_DeleteStoreByPkMutation({
-      refetchQueries: [{query: Store_GetAllStoreDocument}],
-    });
+  const [
+    deleteInventoryProductMutation,
+    _deleteInventoryProductMutationResult,
+  ] = useInventory_BulkDeleteOneInventoryProductByPkMutation({
+    refetchQueries: [
+      namedOperations.Query.Inventory_GetAllInventoryProductByStorePK,
+    ],
+  });
 
   const data = useMemo(() => {
-    const handleDeleteKategori = async (id: number, name: string) => {
+    const handleDeleteKategori = async (id: string, name: string) => {
       const mutation = async () => {
-        const res = await deleteStoreMutation({variables: {id}});
+        const res = await deleteInventoryProductMutation({
+          variables: {inventory_product_id: id},
+        });
         if (res.errors) {
           toast.show({
-            ...TOAST_TEMPLATE.error(`Hapus toko ${name} gagal.`),
+            ...TOAST_TEMPLATE.error(`Hapus inventory produk ${name} gagal.`),
           });
         } else {
           toast.show({
-            ...TOAST_TEMPLATE.success(`Hapus toko ${name} berhasil.`),
+            ...TOAST_TEMPLATE.success(
+              `Hapus inventory produk ${name} berhasil.`,
+            ),
           });
         }
       };
       Alert.alert(
         'Hapus Toko',
-        `Toko ${name} akan dihapus. Lanjutkan?`,
+        `Inventory produk ${name} akan dihapus. Lanjutkan?`,
         [
           {
             text: 'Cancel',
@@ -212,18 +229,26 @@ const ListInventory = ({navigation}: IListInventoryProps) => {
       component: (
         <Action
           {...{
-            id: val.id,
+            storeId: selectedStoreId || '',
+            storeName: selectedStoreName,
+            inventoryProductId: val.id,
+            handleDeleteKategori: () =>
+              handleDeleteKategori(val.id, val.product_label),
             navigation,
           }}
-          handleDeleteKategori={() =>
-            handleDeleteKategori(val.id, val.product_name)
-          }
         />
       ),
     }));
 
     return withAction;
-  }, [allInventoryProduct, deleteStoreMutation, navigation, toast]);
+  }, [
+    allInventoryProduct,
+    deleteInventoryProductMutation,
+    navigation,
+    selectedStoreId,
+    selectedStoreName,
+    toast,
+  ]);
 
   return (
     <ScrollView
@@ -279,7 +304,9 @@ const ListInventory = ({navigation}: IListInventoryProps) => {
           </Button>
         </HStack>
         <CustomTable
-          isLoading={getAllToko.loading || _deleteStoreMutationResult.loading}
+          isLoading={
+            getAllToko.loading || _deleteInventoryProductMutationResult.loading
+          }
           rowHeight={80}
           data={data}
           tableWidth={1500}

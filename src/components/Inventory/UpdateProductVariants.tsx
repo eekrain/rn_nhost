@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useState} from 'react';
 import {
   Box,
@@ -12,7 +11,7 @@ import {
 import {
   useInventory_GetVariantMetadataByTitleQuery,
   useInventory_BulkUpdateVariantsMetadataMutation,
-  Inventory_GetAllVariantMetadataDocument,
+  namedOperations,
 } from '../../graphql/gql-generated';
 import * as yup from 'yup';
 import {getXHasuraContextHeader} from '../../shared/utils';
@@ -138,7 +137,7 @@ const CreateProductVariants = ({
     _bulkUpdateVariantMetadataMutationResult,
   ] = useInventory_BulkUpdateVariantsMetadataMutation({
     ...getXHasuraContextHeader({role: 'administrator'}),
-    refetchQueries: [{query: Inventory_GetAllVariantMetadataDocument}],
+    refetchQueries: [namedOperations.Query.Inventory_GetAllVariantMetadata],
   });
 
   const handleSubmission = async (data: IDefaultValues) => {

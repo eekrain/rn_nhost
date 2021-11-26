@@ -15,7 +15,7 @@ import {
   ProductStackParamList,
 } from '../../screens/app/ProdukScreen';
 import {
-  Produk_GetAllProdukDocument,
+  namedOperations,
   useProduk_DeleteProdukByPkMutation,
   useProduk_GetAllProdukQuery,
 } from '../../graphql/gql-generated';
@@ -85,7 +85,7 @@ const Produk = ({navigation}: Props) => {
   const getAllProduk = useProduk_GetAllProdukQuery();
   const [deleteProdukMutation, _deleteProdukMutationResult] =
     useProduk_DeleteProdukByPkMutation({
-      refetchQueries: [{query: Produk_GetAllProdukDocument}],
+      refetchQueries: [namedOperations.Query.Produk_GetAllProduk],
     });
   const toast = useToast();
 

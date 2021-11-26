@@ -4,6 +4,7 @@ import InventoryHome from '../../../components/Inventory';
 import CreateProductVariants from '../../../components/Inventory/CreateProductVariants';
 import UpdateProductVariants from '../../../components/Inventory/UpdateProductVariants';
 import CreateProductInventory from '../../../components/Inventory/CreateProductInventory';
+import UpdateProductInventory from '../../../components/Inventory/UpdateProductInventory';
 import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
 
 export type InventoryRootStackParamList = {
@@ -11,6 +12,12 @@ export type InventoryRootStackParamList = {
   CreateProductVariants: undefined;
   UpdateProductVariants: {variant_title: string};
   CreateProductInventory: {storeId: number; storeName: string};
+  UpdateProductInventory: {
+    storeId: number;
+    storeName: string;
+    inventoryProductId: string;
+    token?: string;
+  };
 };
 
 type ITokoRoutes = {
@@ -36,6 +43,11 @@ export const rootInventoryRoutes: ITokoRoutes[] = [
     component: CreateProductInventory,
     routeNiceName: 'Inventory / Variasi Produk',
   },
+  {
+    name: 'UpdateProductInventory',
+    component: UpdateProductInventory,
+    routeNiceName: 'Inventory / Variasi Produk',
+  },
 ];
 
 export type InventoryRootStackNavProps = StackScreenProps<
@@ -57,6 +69,10 @@ export type UpdateProductVariantsNavProps = StackScreenProps<
 export type CreateProductInventoryNavProps = StackScreenProps<
   InventoryRootStackParamList,
   'CreateProductInventory'
+>;
+export type UpdateProductInventoryNavProps = StackScreenProps<
+  InventoryRootStackParamList,
+  'UpdateProductInventory'
 >;
 
 const TokoStack = createStackNavigator<InventoryRootStackParamList>();
