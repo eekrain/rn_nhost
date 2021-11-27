@@ -5210,6 +5210,15 @@ export type Store_GetStoreByPkQueryVariables = Exact<{
 
 export type Store_GetStoreByPkQuery = { __typename?: 'query_root', rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string, latitude?: string | null | undefined, longitude?: string | null | undefined, address?: string | null | undefined, created_at: any, updated_at: any } | null | undefined };
 
+export type User_BulkUpdateUserByUserIdMutationVariables = Exact<{
+  user_id: Scalars['uuid'];
+  update_user: Users_Set_Input;
+  update_account?: Maybe<Auth_Accounts_Set_Input>;
+}>;
+
+
+export type User_BulkUpdateUserByUserIdMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', display_name?: string | null | undefined } | null | undefined, update_auth_accounts?: { __typename?: 'auth_accounts_mutation_response', affected_rows: number } | null | undefined };
+
 export type User_GetUserByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -5246,7 +5255,8 @@ export const namedOperations = {
     Produk_UpdateProdukByPK: 'Produk_UpdateProdukByPK',
     Store_CreateStore: 'Store_CreateStore',
     Store_DeleteStoreByPK: 'Store_DeleteStoreByPK',
-    Store_UpdateStore: 'Store_UpdateStore'
+    Store_UpdateStore: 'Store_UpdateStore',
+    User_BulkUpdateUserByUserId: 'User_BulkUpdateUserByUserId'
   }
 }
 
@@ -6267,6 +6277,44 @@ export function useStore_GetStoreByPkLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type Store_GetStoreByPkQueryHookResult = ReturnType<typeof useStore_GetStoreByPkQuery>;
 export type Store_GetStoreByPkLazyQueryHookResult = ReturnType<typeof useStore_GetStoreByPkLazyQuery>;
 export type Store_GetStoreByPkQueryResult = Apollo.QueryResult<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>;
+export const User_BulkUpdateUserByUserIdDocument = gql`
+    mutation User_BulkUpdateUserByUserId($user_id: uuid!, $update_user: users_set_input!, $update_account: auth_accounts_set_input = {}) {
+  update_users_by_pk(pk_columns: {id: $user_id}, _set: $update_user) {
+    display_name
+  }
+  update_auth_accounts(where: {user_id: {_eq: $user_id}}, _set: $update_account) {
+    affected_rows
+  }
+}
+    `;
+export type User_BulkUpdateUserByUserIdMutationFn = Apollo.MutationFunction<User_BulkUpdateUserByUserIdMutation, User_BulkUpdateUserByUserIdMutationVariables>;
+
+/**
+ * __useUser_BulkUpdateUserByUserIdMutation__
+ *
+ * To run a mutation, you first call `useUser_BulkUpdateUserByUserIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUser_BulkUpdateUserByUserIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userBulkUpdateUserByUserIdMutation, { data, loading, error }] = useUser_BulkUpdateUserByUserIdMutation({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *      update_user: // value for 'update_user'
+ *      update_account: // value for 'update_account'
+ *   },
+ * });
+ */
+export function useUser_BulkUpdateUserByUserIdMutation(baseOptions?: Apollo.MutationHookOptions<User_BulkUpdateUserByUserIdMutation, User_BulkUpdateUserByUserIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<User_BulkUpdateUserByUserIdMutation, User_BulkUpdateUserByUserIdMutationVariables>(User_BulkUpdateUserByUserIdDocument, options);
+      }
+export type User_BulkUpdateUserByUserIdMutationHookResult = ReturnType<typeof useUser_BulkUpdateUserByUserIdMutation>;
+export type User_BulkUpdateUserByUserIdMutationResult = Apollo.MutationResult<User_BulkUpdateUserByUserIdMutation>;
+export type User_BulkUpdateUserByUserIdMutationOptions = Apollo.BaseMutationOptions<User_BulkUpdateUserByUserIdMutation, User_BulkUpdateUserByUserIdMutationVariables>;
 export const User_GetUserByIdDocument = gql`
     query User_GetUserById($id: uuid!) {
   users_by_pk(id: $id) {

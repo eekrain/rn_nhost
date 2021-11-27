@@ -229,7 +229,7 @@ const UpdateProduk = ({navigation, route}: Props) => {
             `/${getProdukData.data?.rocketjaket_product_by_pk?.photo_url}`,
           );
         }
-        photo_url = res?.key ? res.key : '';
+        photo_url = res?.key ? res.key : 'error key undefined';
       } catch (error) {
         console.log(
           '🚀 ~ file: CreateProduk.tsx ~ line 145 ~ handleSubmission ~ error',

@@ -1,28 +1,41 @@
 import React, {useState} from 'react';
-import FastImage, {FastImageProps} from 'react-native-fast-image';
-import {Box, HStack, Text} from 'native-base';
+import FastImage, {Source} from 'react-native-fast-image';
+import {Box, HStack, Text, IBoxProps} from 'native-base';
 import {generateAvatarName} from '../../utils';
 
 interface Props {
   fallbackText: string;
-  source: FastImageProps['source'];
+  source: Source;
   size: number;
   borderRadius?: number;
+  bgColor?: IBoxProps['bgColor'];
+  textColor?: IBoxProps['color'];
+  fontWeight?: IBoxProps['fontWeight'];
 }
 
-const MyAvatar = ({fallbackText, source, size, borderRadius = 100}: Props) => {
+const MyAvatar = ({
+  fallbackText,
+  source,
+  size,
+  borderRadius = 100,
+  bgColor = 'gray.200',
+  textColor,
+  fontWeight = 'bold',
+}: Props) => {
   const [isError, setError] = useState(false);
   return (
     <Box>
-      {isError ? (
+      {isError || !source?.uri ? (
         <HStack
           justifyContent="center"
           alignItems="center"
           w={size}
           h={size}
-          backgroundColor="gray.200"
+          bgColor={bgColor}
           borderRadius={borderRadius === 100 ? 'full' : borderRadius}>
-          <Text>{generateAvatarName(fallbackText)}</Text>
+          <Text fontWeight={fontWeight} color={textColor} letterSpacing="2xl">
+            {generateAvatarName(fallbackText)}
+          </Text>
         </HStack>
       ) : (
         <FastImage

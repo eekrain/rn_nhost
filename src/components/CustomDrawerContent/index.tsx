@@ -32,42 +32,46 @@ const CustomDrawerContent = (props: Props) => {
         </Box>
         <VStack divider={<Divider />} space="4">
           <VStack space="3">
-            {rootAppRoutes.map((route, index) => (
-              <Pressable
-                key={`${route.name}${route.routeNiceName}`}
-                px="5"
-                py="5"
-                rounded="md"
-                bg={
-                  index === props.state.index
-                    ? 'rgba(236, 171, 73, 0.2)'
-                    : 'transparent'
-                }
-                onPress={_event => {
-                  props.navigation.navigate(route.name);
-                }}>
-                <HStack space="7" alignItems="center">
-                  <Icon
-                    color={
-                      index === props.state.index
-                        ? 'milano_red.500'
-                        : 'gray.500'
-                    }
-                    size="5"
-                    as={<FeatherIcon name={getAppIcon(route.name) as string} />}
-                  />
-                  <Text
-                    fontWeight="500"
-                    color={
-                      index === props.state.index
-                        ? 'milano_red.500'
-                        : 'gray.700'
-                    }>
-                    {route.routeNiceName}
-                  </Text>
-                </HStack>
-              </Pressable>
-            ))}
+            {rootAppRoutes.map((route, index) =>
+              !route.isHideOnDrawer ? (
+                <Pressable
+                  key={`${route.name}${route.routeNiceName}`}
+                  px="5"
+                  py="5"
+                  rounded="md"
+                  bg={
+                    index === props.state.index
+                      ? 'rgba(236, 171, 73, 0.2)'
+                      : 'transparent'
+                  }
+                  onPress={_event => {
+                    props.navigation.navigate(route.name);
+                  }}>
+                  <HStack space="7" alignItems="center">
+                    <Icon
+                      color={
+                        index === props.state.index
+                          ? 'milano_red.500'
+                          : 'gray.500'
+                      }
+                      size="5"
+                      as={
+                        <FeatherIcon name={getAppIcon(route.name) as string} />
+                      }
+                    />
+                    <Text
+                      fontWeight="500"
+                      color={
+                        index === props.state.index
+                          ? 'milano_red.500'
+                          : 'gray.700'
+                      }>
+                      {route.routeNiceName}
+                    </Text>
+                  </HStack>
+                </Pressable>
+              ) : null,
+            )}
           </VStack>
         </VStack>
       </VStack>
