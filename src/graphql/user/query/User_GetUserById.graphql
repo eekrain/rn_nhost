@@ -3,9 +3,17 @@ query User_GetUserById($id: uuid!) {
     id
     display_name
     avatar_url
+    store_id
     account {
       email
       default_role
+      active
+      account_roles {
+        role
+        is_custom
+        id
+        account_id
+      }
     }
   }
 }

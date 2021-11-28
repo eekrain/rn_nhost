@@ -53,7 +53,7 @@ const RHCheckBox = ({
             value={value}
             onChange={(itemValue: any) => {
               onChange(itemValue);
-              console.log('🚀 ~ file: index.tsx ~ line 55 ~ onChange');
+              // console.log('🚀 ~ file: index.tsx ~ line 55 ~ onChange');
               if (typeof extendedOnChange === 'function') {
                 extendedOnChange(itemValue);
               }

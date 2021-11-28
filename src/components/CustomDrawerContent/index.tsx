@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   DrawerContentScrollView,
   DrawerContentComponentProps,
@@ -14,11 +14,63 @@ import {
   Image,
 } from 'native-base';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {rootAppRoutes, getAppIcon} from '../../screens/app';
+import {rootAppRoutes, getAppIcon, IAppRoutes} from '../../screens/app';
+import {useNhostAuth} from '../../shared/utils';
+import {TUserRoleOptions} from '../../types/user';
 
 interface Props extends DrawerContentComponentProps {}
 
 const CustomDrawerContent = (props: Props) => {
+  const nhostAuth = useNhostAuth();
+
+  const routeItem = useCallback(
+    (route: IAppRoutes, index: number) => {
+      return (
+        <Pressable
+          key={`${route.name}${route.routeNiceName}`}
+          px="5"
+          py="5"
+          rounded="md"
+          bg={
+            index === props.state.index
+              ? 'rgba(236, 171, 73, 0.2)'
+              : 'transparent'
+          }
+          onPress={_event => {
+            props.navigation.navigate(route.name);
+          }}>
+          <HStack space="7" alignItems="center">
+            <Icon
+              color={
+                index === props.state.index ? 'milano_red.500' : 'gray.500'
+              }
+              size="5"
+              as={<FeatherIcon name={getAppIcon(route.name) as string} />}
+            />
+            <Text
+              fontWeight="500"
+              color={
+                index === props.state.index ? 'milano_red.500' : 'gray.700'
+              }>
+              {route.routeNiceName}
+            </Text>
+          </HStack>
+        </Pressable>
+      );
+    },
+    [props.navigation, props.state.index],
+  );
+
+  const routes = useMemo(() => {
+    return rootAppRoutes.map((route, index) => {
+      const temp1 = route.role.includes(nhostAuth.user.role as TUserRoleOptions)
+        ? routeItem(route, index)
+        : null;
+      const temp2 = !route.isHideOnDrawer ? temp1 : null;
+      return temp2;
+    });
+  }, [nhostAuth.user.role, routeItem]);
+
   return (
     <DrawerContentScrollView {...props}>
       <VStack space="6" my="2" mx="1">
@@ -31,48 +83,7 @@ const CustomDrawerContent = (props: Props) => {
           />
         </Box>
         <VStack divider={<Divider />} space="4">
-          <VStack space="3">
-            {rootAppRoutes.map((route, index) =>
-              !route.isHideOnDrawer ? (
-                <Pressable
-                  key={`${route.name}${route.routeNiceName}`}
-                  px="5"
-                  py="5"
-                  rounded="md"
-                  bg={
-                    index === props.state.index
-                      ? 'rgba(236, 171, 73, 0.2)'
-                      : 'transparent'
-                  }
-                  onPress={_event => {
-                    props.navigation.navigate(route.name);
-                  }}>
-                  <HStack space="7" alignItems="center">
-                    <Icon
-                      color={
-                        index === props.state.index
-                          ? 'milano_red.500'
-                          : 'gray.500'
-                      }
-                      size="5"
-                      as={
-                        <FeatherIcon name={getAppIcon(route.name) as string} />
-                      }
-                    />
-                    <Text
-                      fontWeight="500"
-                      color={
-                        index === props.state.index
-                          ? 'milano_red.500'
-                          : 'gray.700'
-                      }>
-                      {route.routeNiceName}
-                    </Text>
-                  </HStack>
-                </Pressable>
-              ) : null,
-            )}
-          </VStack>
+          <VStack space="3">{routes}</VStack>
         </VStack>
       </VStack>
     </DrawerContentScrollView>

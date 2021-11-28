@@ -33,7 +33,11 @@ const MyAvatar = ({
           h={size}
           bgColor={bgColor}
           borderRadius={borderRadius === 100 ? 'full' : borderRadius}>
-          <Text fontWeight={fontWeight} color={textColor} letterSpacing="2xl">
+          <Text
+            fontWeight={fontWeight}
+            color={textColor}
+            letterSpacing="2xl"
+            textTransform="uppercase">
             {generateAvatarName(fallbackText)}
           </Text>
         </HStack>

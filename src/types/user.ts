@@ -6,4 +6,9 @@ export enum UserRolesEnum {
   karyawan = 'karyawan',
 }
 
+export const UserRoleValues = Object.values(UserRolesEnum);
+export const PossibleDefaultRoleUser = [
+  UserRolesEnum.administrator,
+  UserRolesEnum.karyawan,
+];
 export type TUserRoleOptions = keyof typeof UserRolesEnum;

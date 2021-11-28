@@ -306,6 +306,7 @@ export type Auth_Account_Roles = {
   account_id: Scalars['uuid'];
   created_at: Scalars['timestamptz'];
   id: Scalars['uuid'];
+  is_custom?: Maybe<Scalars['Boolean']>;
   role: Scalars['String'];
   /** An object relationship */
   roleByRole: Auth_Roles;
@@ -356,6 +357,7 @@ export type Auth_Account_Roles_Bool_Exp = {
   account_id?: Maybe<Uuid_Comparison_Exp>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  is_custom?: Maybe<Boolean_Comparison_Exp>;
   role?: Maybe<String_Comparison_Exp>;
   roleByRole?: Maybe<Auth_Roles_Bool_Exp>;
 };
@@ -374,6 +376,7 @@ export type Auth_Account_Roles_Insert_Input = {
   account_id?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
+  is_custom?: Maybe<Scalars['Boolean']>;
   role?: Maybe<Scalars['String']>;
   roleByRole?: Maybe<Auth_Roles_Obj_Rel_Insert_Input>;
 };
@@ -434,6 +437,7 @@ export type Auth_Account_Roles_Order_By = {
   account_id?: Maybe<Order_By>;
   created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  is_custom?: Maybe<Order_By>;
   role?: Maybe<Order_By>;
   roleByRole?: Maybe<Auth_Roles_Order_By>;
 };
@@ -452,6 +456,8 @@ export enum Auth_Account_Roles_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  IsCustom = 'is_custom',
+  /** column name */
   Role = 'role'
 }
 
@@ -460,6 +466,7 @@ export type Auth_Account_Roles_Set_Input = {
   account_id?: Maybe<Scalars['uuid']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['uuid']>;
+  is_custom?: Maybe<Scalars['Boolean']>;
   role?: Maybe<Scalars['String']>;
 };
 
@@ -471,6 +478,8 @@ export enum Auth_Account_Roles_Update_Column {
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsCustom = 'is_custom',
   /** column name */
   Role = 'role'
 }
@@ -2150,6 +2159,7 @@ export type Mutation_RootUpdate_Rocketjaket_Store_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
+  _inc?: Maybe<Users_Inc_Input>;
   _set?: Maybe<Users_Set_Input>;
   where: Users_Bool_Exp;
 };
@@ -2157,6 +2167,7 @@ export type Mutation_RootUpdate_UsersArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Users_By_PkArgs = {
+  _inc?: Maybe<Users_Inc_Input>;
   _set?: Maybe<Users_Set_Input>;
   pk_columns: Users_Pk_Columns_Input;
 };
@@ -4330,6 +4341,13 @@ export type Rocketjaket_Store_Mutation_Response = {
   returning: Array<Rocketjaket_Store>;
 };
 
+/** input type for inserting object relation for remote table "rocketjaket.store" */
+export type Rocketjaket_Store_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Store_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Store_On_Conflict>;
+};
+
 /** on conflict condition type for table "rocketjaket.store" */
 export type Rocketjaket_Store_On_Conflict = {
   constraint: Rocketjaket_Store_Constraint;
@@ -4854,6 +4872,9 @@ export type Users = {
   created_at: Scalars['timestamptz'];
   display_name?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
+  /** An object relationship */
+  store?: Maybe<Rocketjaket_Store>;
+  store_id?: Maybe<Scalars['Int']>;
   updated_at: Scalars['timestamptz'];
 };
 
@@ -4867,9 +4888,17 @@ export type Users_Aggregate = {
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
   __typename?: 'users_aggregate_fields';
+  avg?: Maybe<Users_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
+  stddev?: Maybe<Users_Stddev_Fields>;
+  stddev_pop?: Maybe<Users_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Users_Stddev_Samp_Fields>;
+  sum?: Maybe<Users_Sum_Fields>;
+  var_pop?: Maybe<Users_Var_Pop_Fields>;
+  var_samp?: Maybe<Users_Var_Samp_Fields>;
+  variance?: Maybe<Users_Variance_Fields>;
 };
 
 
@@ -4877,6 +4906,12 @@ export type Users_Aggregate_Fields = {
 export type Users_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Users_Select_Column>>;
   distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Users_Avg_Fields = {
+  __typename?: 'users_avg_fields';
+  store_id?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
@@ -4889,6 +4924,8 @@ export type Users_Bool_Exp = {
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   display_name?: Maybe<String_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  store?: Maybe<Rocketjaket_Store_Bool_Exp>;
+  store_id?: Maybe<Int_Comparison_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -4898,6 +4935,11 @@ export enum Users_Constraint {
   UsersPkey = 'users_pkey'
 }
 
+/** input type for incrementing numeric columns in table "users" */
+export type Users_Inc_Input = {
+  store_id?: Maybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   account?: Maybe<Auth_Accounts_Obj_Rel_Insert_Input>;
@@ -4905,6 +4947,8 @@ export type Users_Insert_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   display_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  store?: Maybe<Rocketjaket_Store_Obj_Rel_Insert_Input>;
+  store_id?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -4915,6 +4959,7 @@ export type Users_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   display_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -4925,6 +4970,7 @@ export type Users_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   display_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -4958,6 +5004,8 @@ export type Users_Order_By = {
   created_at?: Maybe<Order_By>;
   display_name?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  store?: Maybe<Rocketjaket_Store_Order_By>;
+  store_id?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
@@ -4977,6 +5025,8 @@ export enum Users_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  StoreId = 'store_id',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
 
@@ -4986,7 +5036,32 @@ export type Users_Set_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   display_name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
+  store_id?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type Users_Stddev_Fields = {
+  __typename?: 'users_stddev_fields';
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Users_Stddev_Pop_Fields = {
+  __typename?: 'users_stddev_pop_fields';
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Users_Stddev_Samp_Fields = {
+  __typename?: 'users_stddev_samp_fields';
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Users_Sum_Fields = {
+  __typename?: 'users_sum_fields';
+  store_id?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "users" */
@@ -5000,8 +5075,28 @@ export enum Users_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  StoreId = 'store_id',
+  /** column name */
   UpdatedAt = 'updated_at'
 }
+
+/** aggregate var_pop on columns */
+export type Users_Var_Pop_Fields = {
+  __typename?: 'users_var_pop_fields';
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Users_Var_Samp_Fields = {
+  __typename?: 'users_var_samp_fields';
+  store_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Users_Variance_Fields = {
+  __typename?: 'users_variance_fields';
+  store_id?: Maybe<Scalars['Float']>;
+};
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
@@ -5210,21 +5305,51 @@ export type Store_GetStoreByPkQueryVariables = Exact<{
 
 export type Store_GetStoreByPkQuery = { __typename?: 'query_root', rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string, latitude?: string | null | undefined, longitude?: string | null | undefined, address?: string | null | undefined, created_at: any, updated_at: any } | null | undefined };
 
-export type User_BulkUpdateUserByUserIdMutationVariables = Exact<{
+export type User_BulkDeleteOneUserMutationVariables = Exact<{
+  account_id: Scalars['uuid'];
   user_id: Scalars['uuid'];
-  update_user: Users_Set_Input;
-  update_account?: Maybe<Auth_Accounts_Set_Input>;
 }>;
 
 
-export type User_BulkUpdateUserByUserIdMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', display_name?: string | null | undefined } | null | undefined, update_auth_accounts?: { __typename?: 'auth_accounts_mutation_response', affected_rows: number } | null | undefined };
+export type User_BulkDeleteOneUserMutation = { __typename?: 'mutation_root', delete_auth_refresh_tokens?: { __typename?: 'auth_refresh_tokens_mutation_response', affected_rows: number } | null | undefined, delete_auth_account_roles?: { __typename?: 'auth_account_roles_mutation_response', affected_rows: number } | null | undefined, delete_auth_accounts?: { __typename?: 'auth_accounts_mutation_response', affected_rows: number } | null | undefined, delete_users_by_pk?: { __typename?: 'users', id: any, display_name?: string | null | undefined } | null | undefined };
+
+export type User_BulkUpdateUserByUserIdMutationVariables = Exact<{
+  user_id: Scalars['uuid'];
+  update_user: Users_Set_Input;
+}>;
+
+
+export type User_BulkUpdateUserByUserIdMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', display_name?: string | null | undefined } | null | undefined };
+
+export type User_CreateCustomAuthAccountRoleOneMutationVariables = Exact<{
+  insert_auth_account_roles_one: Auth_Account_Roles_Insert_Input;
+}>;
+
+
+export type User_CreateCustomAuthAccountRoleOneMutation = { __typename?: 'mutation_root', insert_auth_account_roles_one?: { __typename?: 'auth_account_roles', id: any, is_custom?: boolean | null | undefined, role: string } | null | undefined };
+
+export type User_UpdateUserRoleStoreByUserIdMutationVariables = Exact<{
+  user_id: Scalars['uuid'];
+  update_auth_accounts: Auth_Accounts_Set_Input;
+  update_user: Users_Set_Input;
+  account_id: Scalars['uuid'];
+  update_auth_account_roles: Auth_Account_Roles_Set_Input;
+}>;
+
+
+export type User_UpdateUserRoleStoreByUserIdMutation = { __typename?: 'mutation_root', update_auth_accounts?: { __typename?: 'auth_accounts_mutation_response', affected_rows: number } | null | undefined, update_users_by_pk?: { __typename?: 'users', id: any, display_name?: string | null | undefined } | null | undefined, update_auth_account_roles?: { __typename?: 'auth_account_roles_mutation_response', affected_rows: number, returning: Array<{ __typename?: 'auth_account_roles', role: string, is_custom?: boolean | null | undefined, id: any }> } | null | undefined };
+
+export type User_GetAllUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type User_GetAllUserQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: any, display_name?: string | null | undefined, avatar_url?: string | null | undefined, account?: { __typename?: 'auth_accounts', default_role: string, email?: any | null | undefined, id: any } | null | undefined, store?: { __typename?: 'rocketjaket_store', id: number, name: string } | null | undefined }> };
 
 export type User_GetUserByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type User_GetUserByIdQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', id: any, display_name?: string | null | undefined, avatar_url?: string | null | undefined, account?: { __typename?: 'auth_accounts', email?: any | null | undefined, default_role: string } | null | undefined } | null | undefined };
+export type User_GetUserByIdQuery = { __typename?: 'query_root', users_by_pk?: { __typename?: 'users', id: any, display_name?: string | null | undefined, avatar_url?: string | null | undefined, store_id?: number | null | undefined, account?: { __typename?: 'auth_accounts', email?: any | null | undefined, default_role: string, active: boolean, account_roles: Array<{ __typename?: 'auth_account_roles', role: string, is_custom?: boolean | null | undefined, id: any, account_id: any }> } | null | undefined } | null | undefined };
 
 export const namedOperations = {
   Query: {
@@ -5238,6 +5363,7 @@ export const namedOperations = {
     Produk_GetProdukByPK: 'Produk_GetProdukByPK',
     Store_GetAllStore: 'Store_GetAllStore',
     Store_GetStoreByPK: 'Store_GetStoreByPK',
+    User_GetAllUser: 'User_GetAllUser',
     User_GetUserById: 'User_GetUserById'
   },
   Mutation: {
@@ -5256,7 +5382,10 @@ export const namedOperations = {
     Store_CreateStore: 'Store_CreateStore',
     Store_DeleteStoreByPK: 'Store_DeleteStoreByPK',
     Store_UpdateStore: 'Store_UpdateStore',
-    User_BulkUpdateUserByUserId: 'User_BulkUpdateUserByUserId'
+    User_BulkDeleteOneUser: 'User_BulkDeleteOneUser',
+    User_BulkUpdateUserByUserId: 'User_BulkUpdateUserByUserId',
+    User_CreateCustomAuthAccountRoleOne: 'User_CreateCustomAuthAccountRoleOne',
+    User_UpdateUserRoleStoreByUserId: 'User_UpdateUserRoleStoreByUserId'
   }
 }
 
@@ -6277,13 +6406,54 @@ export function useStore_GetStoreByPkLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type Store_GetStoreByPkQueryHookResult = ReturnType<typeof useStore_GetStoreByPkQuery>;
 export type Store_GetStoreByPkLazyQueryHookResult = ReturnType<typeof useStore_GetStoreByPkLazyQuery>;
 export type Store_GetStoreByPkQueryResult = Apollo.QueryResult<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>;
-export const User_BulkUpdateUserByUserIdDocument = gql`
-    mutation User_BulkUpdateUserByUserId($user_id: uuid!, $update_user: users_set_input!, $update_account: auth_accounts_set_input = {}) {
-  update_users_by_pk(pk_columns: {id: $user_id}, _set: $update_user) {
+export const User_BulkDeleteOneUserDocument = gql`
+    mutation User_BulkDeleteOneUser($account_id: uuid!, $user_id: uuid!) {
+  delete_auth_refresh_tokens(where: {account_id: {_eq: $account_id}}) {
+    affected_rows
+  }
+  delete_auth_account_roles(where: {account_id: {_eq: $account_id}}) {
+    affected_rows
+  }
+  delete_auth_accounts(where: {id: {_eq: $account_id}}) {
+    affected_rows
+  }
+  delete_users_by_pk(id: $user_id) {
+    id
     display_name
   }
-  update_auth_accounts(where: {user_id: {_eq: $user_id}}, _set: $update_account) {
-    affected_rows
+}
+    `;
+export type User_BulkDeleteOneUserMutationFn = Apollo.MutationFunction<User_BulkDeleteOneUserMutation, User_BulkDeleteOneUserMutationVariables>;
+
+/**
+ * __useUser_BulkDeleteOneUserMutation__
+ *
+ * To run a mutation, you first call `useUser_BulkDeleteOneUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUser_BulkDeleteOneUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userBulkDeleteOneUserMutation, { data, loading, error }] = useUser_BulkDeleteOneUserMutation({
+ *   variables: {
+ *      account_id: // value for 'account_id'
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useUser_BulkDeleteOneUserMutation(baseOptions?: Apollo.MutationHookOptions<User_BulkDeleteOneUserMutation, User_BulkDeleteOneUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<User_BulkDeleteOneUserMutation, User_BulkDeleteOneUserMutationVariables>(User_BulkDeleteOneUserDocument, options);
+      }
+export type User_BulkDeleteOneUserMutationHookResult = ReturnType<typeof useUser_BulkDeleteOneUserMutation>;
+export type User_BulkDeleteOneUserMutationResult = Apollo.MutationResult<User_BulkDeleteOneUserMutation>;
+export type User_BulkDeleteOneUserMutationOptions = Apollo.BaseMutationOptions<User_BulkDeleteOneUserMutation, User_BulkDeleteOneUserMutationVariables>;
+export const User_BulkUpdateUserByUserIdDocument = gql`
+    mutation User_BulkUpdateUserByUserId($user_id: uuid!, $update_user: users_set_input!) {
+  update_users_by_pk(pk_columns: {id: $user_id}, _set: $update_user) {
+    display_name
   }
 }
     `;
@@ -6304,7 +6474,6 @@ export type User_BulkUpdateUserByUserIdMutationFn = Apollo.MutationFunction<User
  *   variables: {
  *      user_id: // value for 'user_id'
  *      update_user: // value for 'update_user'
- *      update_account: // value for 'update_account'
  *   },
  * });
  */
@@ -6315,15 +6484,158 @@ export function useUser_BulkUpdateUserByUserIdMutation(baseOptions?: Apollo.Muta
 export type User_BulkUpdateUserByUserIdMutationHookResult = ReturnType<typeof useUser_BulkUpdateUserByUserIdMutation>;
 export type User_BulkUpdateUserByUserIdMutationResult = Apollo.MutationResult<User_BulkUpdateUserByUserIdMutation>;
 export type User_BulkUpdateUserByUserIdMutationOptions = Apollo.BaseMutationOptions<User_BulkUpdateUserByUserIdMutation, User_BulkUpdateUserByUserIdMutationVariables>;
+export const User_CreateCustomAuthAccountRoleOneDocument = gql`
+    mutation User_CreateCustomAuthAccountRoleOne($insert_auth_account_roles_one: auth_account_roles_insert_input!) {
+  insert_auth_account_roles_one(object: $insert_auth_account_roles_one) {
+    id
+    is_custom
+    role
+  }
+}
+    `;
+export type User_CreateCustomAuthAccountRoleOneMutationFn = Apollo.MutationFunction<User_CreateCustomAuthAccountRoleOneMutation, User_CreateCustomAuthAccountRoleOneMutationVariables>;
+
+/**
+ * __useUser_CreateCustomAuthAccountRoleOneMutation__
+ *
+ * To run a mutation, you first call `useUser_CreateCustomAuthAccountRoleOneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUser_CreateCustomAuthAccountRoleOneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userCreateCustomAuthAccountRoleOneMutation, { data, loading, error }] = useUser_CreateCustomAuthAccountRoleOneMutation({
+ *   variables: {
+ *      insert_auth_account_roles_one: // value for 'insert_auth_account_roles_one'
+ *   },
+ * });
+ */
+export function useUser_CreateCustomAuthAccountRoleOneMutation(baseOptions?: Apollo.MutationHookOptions<User_CreateCustomAuthAccountRoleOneMutation, User_CreateCustomAuthAccountRoleOneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<User_CreateCustomAuthAccountRoleOneMutation, User_CreateCustomAuthAccountRoleOneMutationVariables>(User_CreateCustomAuthAccountRoleOneDocument, options);
+      }
+export type User_CreateCustomAuthAccountRoleOneMutationHookResult = ReturnType<typeof useUser_CreateCustomAuthAccountRoleOneMutation>;
+export type User_CreateCustomAuthAccountRoleOneMutationResult = Apollo.MutationResult<User_CreateCustomAuthAccountRoleOneMutation>;
+export type User_CreateCustomAuthAccountRoleOneMutationOptions = Apollo.BaseMutationOptions<User_CreateCustomAuthAccountRoleOneMutation, User_CreateCustomAuthAccountRoleOneMutationVariables>;
+export const User_UpdateUserRoleStoreByUserIdDocument = gql`
+    mutation User_UpdateUserRoleStoreByUserId($user_id: uuid!, $update_auth_accounts: auth_accounts_set_input!, $update_user: users_set_input!, $account_id: uuid!, $update_auth_account_roles: auth_account_roles_set_input!) {
+  update_auth_accounts(
+    where: {user_id: {_eq: $user_id}}
+    _set: $update_auth_accounts
+  ) {
+    affected_rows
+  }
+  update_users_by_pk(pk_columns: {id: $user_id}, _set: $update_user) {
+    id
+    display_name
+  }
+  update_auth_account_roles(
+    where: {is_custom: {_eq: true}, account_id: {_eq: $account_id}}
+    _set: $update_auth_account_roles
+  ) {
+    affected_rows
+    returning {
+      role
+      is_custom
+      id
+    }
+  }
+}
+    `;
+export type User_UpdateUserRoleStoreByUserIdMutationFn = Apollo.MutationFunction<User_UpdateUserRoleStoreByUserIdMutation, User_UpdateUserRoleStoreByUserIdMutationVariables>;
+
+/**
+ * __useUser_UpdateUserRoleStoreByUserIdMutation__
+ *
+ * To run a mutation, you first call `useUser_UpdateUserRoleStoreByUserIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUser_UpdateUserRoleStoreByUserIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userUpdateUserRoleStoreByUserIdMutation, { data, loading, error }] = useUser_UpdateUserRoleStoreByUserIdMutation({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *      update_auth_accounts: // value for 'update_auth_accounts'
+ *      update_user: // value for 'update_user'
+ *      account_id: // value for 'account_id'
+ *      update_auth_account_roles: // value for 'update_auth_account_roles'
+ *   },
+ * });
+ */
+export function useUser_UpdateUserRoleStoreByUserIdMutation(baseOptions?: Apollo.MutationHookOptions<User_UpdateUserRoleStoreByUserIdMutation, User_UpdateUserRoleStoreByUserIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<User_UpdateUserRoleStoreByUserIdMutation, User_UpdateUserRoleStoreByUserIdMutationVariables>(User_UpdateUserRoleStoreByUserIdDocument, options);
+      }
+export type User_UpdateUserRoleStoreByUserIdMutationHookResult = ReturnType<typeof useUser_UpdateUserRoleStoreByUserIdMutation>;
+export type User_UpdateUserRoleStoreByUserIdMutationResult = Apollo.MutationResult<User_UpdateUserRoleStoreByUserIdMutation>;
+export type User_UpdateUserRoleStoreByUserIdMutationOptions = Apollo.BaseMutationOptions<User_UpdateUserRoleStoreByUserIdMutation, User_UpdateUserRoleStoreByUserIdMutationVariables>;
+export const User_GetAllUserDocument = gql`
+    query User_GetAllUser {
+  users {
+    id
+    display_name
+    avatar_url
+    account {
+      default_role
+      email
+      id
+    }
+    store {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useUser_GetAllUserQuery__
+ *
+ * To run a query within a React component, call `useUser_GetAllUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUser_GetAllUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUser_GetAllUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUser_GetAllUserQuery(baseOptions?: Apollo.QueryHookOptions<User_GetAllUserQuery, User_GetAllUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<User_GetAllUserQuery, User_GetAllUserQueryVariables>(User_GetAllUserDocument, options);
+      }
+export function useUser_GetAllUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User_GetAllUserQuery, User_GetAllUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<User_GetAllUserQuery, User_GetAllUserQueryVariables>(User_GetAllUserDocument, options);
+        }
+export type User_GetAllUserQueryHookResult = ReturnType<typeof useUser_GetAllUserQuery>;
+export type User_GetAllUserLazyQueryHookResult = ReturnType<typeof useUser_GetAllUserLazyQuery>;
+export type User_GetAllUserQueryResult = Apollo.QueryResult<User_GetAllUserQuery, User_GetAllUserQueryVariables>;
 export const User_GetUserByIdDocument = gql`
     query User_GetUserById($id: uuid!) {
   users_by_pk(id: $id) {
     id
     display_name
     avatar_url
+    store_id
     account {
       email
       default_role
+      active
+      account_roles {
+        role
+        is_custom
+        id
+        account_id
+      }
     }
   }
 }

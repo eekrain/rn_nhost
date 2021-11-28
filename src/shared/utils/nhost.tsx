@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {createClient} from 'nhost-js-sdk';
 import create from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -182,16 +182,20 @@ const ManageAuthenticatedUser = () => {
     variables: {
       id: nhostAuth.user?.userId,
     },
+    pollInterval: 1000 * 60,
     ...getXHasuraContextHeader({role: 'me', withUserId: true}),
   });
+
+  const userData = useMemo(() => {
+    return getUserData.data?.users_by_pk;
+  }, [getUserData.data?.users_by_pk]);
 
   useEffect(() => {
     nhostAuth.setLoading(getUserData.loading);
   }, [getUserData.loading, nhostAuth]);
 
   useEffect(() => {
-    if (getUserData.data?.users_by_pk && nhostAuth.isAuthenticated) {
-      const userData = getUserData.data.users_by_pk;
+    if (userData && nhostAuth.isAuthenticated) {
       nhostAuth.updateUserData({
         userId: userData.id,
         displayName: userData.display_name,
@@ -200,7 +204,7 @@ const ManageAuthenticatedUser = () => {
       });
       nhostAuth.updateRole(userData.account?.default_role);
     }
-  }, [getUserData.loading, getUserData.data, nhostAuth]);
+  }, [getUserData.loading, nhostAuth, userData]);
 
   useEffect(() => {
     return () => {

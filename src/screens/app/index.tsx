@@ -6,7 +6,9 @@ import CustomDrawerContent from '../../components/CustomDrawerContent';
 import ProdukScreen, {rootProdukRoutes} from './ProdukScreen';
 import TokoScreen, {rootTokoRoutes} from './TokoScreen';
 import InventoryScreen, {rootInventoryRoutes} from './InventoryScreen';
+import UserScreen, {rootUserRoutes} from './UserScreen';
 import {DrawerScreenProps} from '@react-navigation/drawer';
+import {TUserRoleOptions} from '../../types/user';
 
 export type AppNavigationParamList = {
   Dashboard: undefined;
@@ -14,29 +16,54 @@ export type AppNavigationParamList = {
   ProdukRoot: undefined;
   TokoRoot: undefined;
   InventoryRoot: undefined;
+  UserRoot: undefined;
 };
 
-type IAppRoutes = {
+export type IAppRoutes = {
   name: keyof AppNavigationParamList;
   component: React.ComponentType<any>;
   routeNiceName: string;
   isHideOnDrawer?: boolean;
+  role: TUserRoleOptions[];
 };
 
 export const rootAppRoutes: IAppRoutes[] = [
-  {name: 'Dashboard', component: DashboardScreen, routeNiceName: 'Dashboard'},
+  {
+    name: 'Dashboard',
+    component: DashboardScreen,
+    routeNiceName: 'Dashboard',
+    role: ['administrator'],
+  },
   {
     name: 'Profile',
     component: ProfileScreen,
     routeNiceName: 'Profile',
     isHideOnDrawer: true,
+    role: ['administrator', 'karyawan'],
   },
-  {name: 'TokoRoot', component: TokoScreen, routeNiceName: 'Toko'},
-  {name: 'ProdukRoot', component: ProdukScreen, routeNiceName: 'Produk'},
+  {
+    name: 'TokoRoot',
+    component: TokoScreen,
+    routeNiceName: 'Toko',
+    role: ['administrator'],
+  },
+  {
+    name: 'ProdukRoot',
+    component: ProdukScreen,
+    routeNiceName: 'Produk',
+    role: ['administrator', 'karyawan'],
+  },
   {
     name: 'InventoryRoot',
     component: InventoryScreen,
     routeNiceName: 'Inventory',
+    role: ['administrator', 'karyawan'],
+  },
+  {
+    name: 'UserRoot',
+    component: UserScreen,
+    routeNiceName: 'Pengguna',
+    role: ['administrator'],
   },
 ];
 
@@ -45,6 +72,7 @@ export const allAppRoutes = [
   ...rootTokoRoutes,
   ...rootProdukRoutes,
   ...rootInventoryRoutes,
+  ...rootUserRoutes,
 ];
 
 export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
@@ -68,6 +96,10 @@ export type TokoRootNavProps = DrawerScreenProps<
 export type InventoryRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'InventoryRoot'
+>;
+export type UserRootNavProps = DrawerScreenProps<
+  AppNavigationParamList,
+  'UserRoot'
 >;
 
 const AppDrawer = createDrawerNavigator<AppNavigationParamList>();
@@ -98,5 +130,6 @@ export const getAppIcon = (screenName: keyof AppNavigationParamList) => {
   if (screenName === 'ProdukRoot') return 'shopping-bag';
   if (screenName === 'TokoRoot') return 'home';
   if (screenName === 'InventoryRoot') return 'archive';
+  if (screenName === 'UserRoot') return 'user';
   return '';
 };

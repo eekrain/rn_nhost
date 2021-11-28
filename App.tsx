@@ -91,7 +91,6 @@ const App = () => {
       clearTimeout(splash);
     };
   });
-
   if (loading) {
     return <SplashScreen />;
   }

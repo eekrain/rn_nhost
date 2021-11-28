@@ -34,8 +34,8 @@ import {DismissKeyboardWrapper, RHTextInput} from '../../../shared/components';
 import {ButtonSave, ButtonBack} from '../../../components/Buttons';
 import {useMyAppState} from '../../../state';
 import {ProfileNavProps} from '../index';
-import ChangePassword from './ChangePassword';
-import ChangeEmail from './ChangeEmail';
+import ChangePassword from '../../../components/Users/ChangePassword';
+import ChangeEmail from '../../../components/Users/ChangeEmail';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {MyAvatar} from '../../../shared/components';
 import {
@@ -142,7 +142,10 @@ const ProfileScreen = ({route, navigation}: IProfileScreenProps) => {
   const [updateUserMutation, _updateUserMutationResult] =
     useUser_BulkUpdateUserByUserIdMutation({
       ...getXHasuraContextHeader({role: 'me', withUserId: true}),
-      refetchQueries: [namedOperations.Query.User_GetUserById],
+      refetchQueries: [
+        namedOperations.Query.User_GetAllUser,
+        namedOperations.Query.User_GetUserById,
+      ],
     });
 
   const handleSubmission = async (data: IDefaultValues) => {
@@ -183,6 +186,8 @@ const ProfileScreen = ({route, navigation}: IProfileScreenProps) => {
           });
       }
       photo_url = res?.key ? res.key : 'error key undefined';
+    } else {
+      photo_url = data.photo.current_avatar_url;
     }
 
     if (!isDirty) {
@@ -197,9 +202,6 @@ const ProfileScreen = ({route, navigation}: IProfileScreenProps) => {
         update_user: {
           avatar_url: photo_url,
           display_name: data.display_name,
-        },
-        update_account: {
-          default_role: data.default_role,
         },
       },
     });

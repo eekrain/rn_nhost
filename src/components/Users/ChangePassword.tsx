@@ -3,11 +3,11 @@ import React, {useState} from 'react';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {useForm} from 'react-hook-form';
-import {RHTextInput} from '../../../shared/components';
+import {RHTextInput} from '../../shared/components';
 import {Button, Box, Icon, useToast} from 'native-base';
 import Feather from 'react-native-vector-icons/Feather';
-import {auth} from '../../../shared/utils';
-import {TOAST_TEMPLATE} from '../../../shared/constants';
+import {auth} from '../../shared/utils';
+import {TOAST_TEMPLATE} from '../../shared/constants';
 
 interface IDefaultValues {
   oldPassword: string;
