@@ -5111,6 +5111,11 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type Cashier_GetAllProductQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Cashier_GetAllProductQuery = { __typename?: 'query_root', rocketjaket_product: Array<{ __typename?: 'rocketjaket_product', id: any, name: string, capital_price: number, selling_price: number, discount: number, photo_url?: string | null | undefined, product_category: { __typename?: 'rocketjaket_product_category', name: string }, inventory_products: Array<{ __typename?: 'rocketjaket_inventory_product', id: any, available_qty: number, min_available_qty?: number | null | undefined, override_selling_price?: number | null | undefined, override_discount?: number | null | undefined, override_capital_price?: number | null | undefined, inventory_product_variants: Array<{ __typename?: 'rocketjaket_inventory_product_variant', inventory_variant_metadata: { __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string, variant_value: string } }> }> }> };
+
 export type Inventory_BulkDeleteOneInventoryProductByPkMutationVariables = Exact<{
   inventory_product_id: Scalars['uuid'];
 }>;
@@ -5164,7 +5169,7 @@ export type Inventory_GetAllInventoryProductByStorePkQueryVariables = Exact<{
 }>;
 
 
-export type Inventory_GetAllInventoryProductByStorePkQuery = { __typename?: 'query_root', rocketjaket_inventory_product: Array<{ __typename?: 'rocketjaket_inventory_product', override_selling_price?: number | null | undefined, override_discount?: number | null | undefined, override_capital_price?: number | null | undefined, min_available_qty?: number | null | undefined, id: any, available_qty: number, product: { __typename?: 'rocketjaket_product', name: string, capital_price: number, selling_price: number, discount: number, photo_url?: string | null | undefined, product_category: { __typename?: 'rocketjaket_product_category', name: string } }, inventory_product_variants: Array<{ __typename?: 'rocketjaket_inventory_product_variant', inventory_variant_metadata: { __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string, variant_value: string } }> }> };
+export type Inventory_GetAllInventoryProductByStorePkQuery = { __typename?: 'query_root', rocketjaket_inventory_product: Array<{ __typename?: 'rocketjaket_inventory_product', id: any, available_qty: number, min_available_qty?: number | null | undefined, override_selling_price?: number | null | undefined, override_discount?: number | null | undefined, override_capital_price?: number | null | undefined, product: { __typename?: 'rocketjaket_product', name: string, capital_price: number, selling_price: number, discount: number, photo_url?: string | null | undefined, product_category: { __typename?: 'rocketjaket_product_category', id: number, name: string } }, inventory_product_variants: Array<{ __typename?: 'rocketjaket_inventory_product_variant', inventory_variant_metadata: { __typename?: 'rocketjaket_inventory_variant_metadata', variant_title: string, variant_value: string } }> }> };
 
 export type Inventory_GetAllVariantMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5353,6 +5358,7 @@ export type User_GetUserByIdQuery = { __typename?: 'query_root', users_by_pk?: {
 
 export const namedOperations = {
   Query: {
+    Cashier_GetAllProduct: 'Cashier_GetAllProduct',
     Inventory_GetAllInventoryProductByStorePK: 'Inventory_GetAllInventoryProductByStorePK',
     Inventory_GetAllVariantMetadata: 'Inventory_GetAllVariantMetadata',
     Inventory_GetInventoryProductByPK: 'Inventory_GetInventoryProductByPK',
@@ -5389,6 +5395,62 @@ export const namedOperations = {
   }
 }
 
+export const Cashier_GetAllProductDocument = gql`
+    query Cashier_GetAllProduct {
+  rocketjaket_product {
+    id
+    name
+    product_category {
+      name
+    }
+    capital_price
+    selling_price
+    discount
+    photo_url
+    inventory_products {
+      id
+      available_qty
+      min_available_qty
+      override_selling_price
+      override_discount
+      override_capital_price
+      inventory_product_variants {
+        inventory_variant_metadata {
+          variant_title
+          variant_value
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useCashier_GetAllProductQuery__
+ *
+ * To run a query within a React component, call `useCashier_GetAllProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCashier_GetAllProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCashier_GetAllProductQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCashier_GetAllProductQuery(baseOptions?: Apollo.QueryHookOptions<Cashier_GetAllProductQuery, Cashier_GetAllProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Cashier_GetAllProductQuery, Cashier_GetAllProductQueryVariables>(Cashier_GetAllProductDocument, options);
+      }
+export function useCashier_GetAllProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Cashier_GetAllProductQuery, Cashier_GetAllProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Cashier_GetAllProductQuery, Cashier_GetAllProductQueryVariables>(Cashier_GetAllProductDocument, options);
+        }
+export type Cashier_GetAllProductQueryHookResult = ReturnType<typeof useCashier_GetAllProductQuery>;
+export type Cashier_GetAllProductLazyQueryHookResult = ReturnType<typeof useCashier_GetAllProductLazyQuery>;
+export type Cashier_GetAllProductQueryResult = Apollo.QueryResult<Cashier_GetAllProductQuery, Cashier_GetAllProductQueryVariables>;
 export const Inventory_BulkDeleteOneInventoryProductByPkDocument = gql`
     mutation Inventory_BulkDeleteOneInventoryProductByPK($inventory_product_id: uuid!) {
   delete_rocketjaket_inventory_product_variant(
@@ -5642,14 +5704,20 @@ export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationResult = Apo
 export type Inventory_DeleteInventoryVariantsMetadataByTitleMutationOptions = Apollo.BaseMutationOptions<Inventory_DeleteInventoryVariantsMetadataByTitleMutation, Inventory_DeleteInventoryVariantsMetadataByTitleMutationVariables>;
 export const Inventory_GetAllInventoryProductByStorePkDocument = gql`
     query Inventory_GetAllInventoryProductByStorePK($store_id: Int!) {
-  rocketjaket_inventory_product(where: {store_id: {_eq: $store_id}}) {
+  rocketjaket_inventory_product(
+    where: {store_id: {_eq: $store_id}}
+    order_by: {product: {name: asc}}
+  ) {
+    id
+    available_qty
+    min_available_qty
     override_selling_price
     override_discount
     override_capital_price
-    min_available_qty
     product {
       name
       product_category {
+        id
         name
       }
       capital_price
@@ -5663,8 +5731,6 @@ export const Inventory_GetAllInventoryProductByStorePkDocument = gql`
         variant_value
       }
     }
-    id
-    available_qty
   }
 }
     `;
@@ -6054,7 +6120,7 @@ export type Produk_UpdateProdukByPkMutationResult = Apollo.MutationResult<Produk
 export type Produk_UpdateProdukByPkMutationOptions = Apollo.BaseMutationOptions<Produk_UpdateProdukByPkMutation, Produk_UpdateProdukByPkMutationVariables>;
 export const Produk_GetAllKategoriProdukDocument = gql`
     query Produk_GetAllKategoriProduk {
-  rocketjaket_product_category {
+  rocketjaket_product_category(order_by: {name: asc}) {
     id
     name
     description

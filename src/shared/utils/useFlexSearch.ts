@@ -1,9 +1,5 @@
 import {useState, useEffect, useMemo} from 'react';
-import {
-  Document,
-  IndexOptionsForDocumentSearch,
-  DocumentSearchOptions,
-} from 'flexsearch';
+import {Document, IndexOptionsForDocumentSearch} from 'flexsearch';
 
 interface IFlexSearchResult<T extends Record<any, any>> {
   field: string;
@@ -17,7 +13,7 @@ export const useFlexSearch = <T extends Record<any, any>>(
   query: string,
   store: T[],
   indexOptions: IndexOptionsForDocumentSearch<T>,
-  searchOptions?: DocumentSearchOptions<boolean>,
+  searchOptions?: any,
 ) => {
   const [myIndex, setMyIndex] = useState<Document<T> | null>(null);
 
@@ -39,7 +35,6 @@ export const useFlexSearch = <T extends Record<any, any>>(
 
     const searchRes = myIndex.search(
       query,
-      // @ts-ignore:next-line
       searchOptions,
     ) as unknown as IFlexSearchResult<T>[];
     return searchRes;

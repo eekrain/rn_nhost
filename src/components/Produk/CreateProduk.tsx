@@ -254,7 +254,7 @@ const CreateProduk = ({}: Props) => {
                   control={control}
                   errors={errors}
                   label="Default Diskon"
-                  format="-rp"
+                  format="discountPercentage"
                 />
               </VStack>
             </Box>

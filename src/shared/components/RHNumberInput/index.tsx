@@ -5,7 +5,11 @@ import {Control, Controller} from 'react-hook-form';
 import numbro from 'numbro';
 import {myNumberFormat} from '../../utils';
 
-type TFormatNumberType = 'rp' | '-rp' | 'thousandSeparated';
+type TFormatNumberType =
+  | 'rp'
+  | '-rp'
+  | 'thousandSeparated'
+  | 'discountPercentage';
 
 interface IRHNumberInputProps extends IInputProps {
   name: string;
@@ -18,12 +22,21 @@ interface IRHNumberInputProps extends IInputProps {
   description?: string;
   isDisableEmptyToZero?: boolean;
   minimumIntValue?: number;
+  maximumIntValue?: number;
 }
 
 const leftElement = (format?: TFormatNumberType) => {
   if (!format) return undefined;
   if (format === 'thousandSeparated') return undefined;
-  else if (format === 'rp') {
+  else if (format === 'discountPercentage') {
+    return (
+      <HStack bgColor="primary.700" h="full" alignItems="center" px="3">
+        <Text color="white" fontWeight="semibold">
+          - %
+        </Text>
+      </HStack>
+    );
+  } else if (format === 'rp') {
     return (
       <HStack bgColor="primary.700" h="full" alignItems="center" px="3">
         <Text color="white">Rp</Text>
@@ -42,6 +55,7 @@ const numberFormat = (
   value: any,
   isDisableEmptyToZero?: boolean,
   minimumIntValue?: number,
+  maximumIntValue?: number,
   format?: TFormatNumberType,
 ) => {
   let processedVal: string;
@@ -51,6 +65,9 @@ const numberFormat = (
     temp = isNaN(temp) ? 0 : temp;
     if (minimumIntValue) {
       temp = temp < minimumIntValue ? minimumIntValue : temp;
+    }
+    if (maximumIntValue) {
+      temp = temp > maximumIntValue ? maximumIntValue : temp;
     }
     processedVal =
       isDisableEmptyToZero && temp === 0
@@ -71,6 +88,7 @@ const RHNumberInput = ({
   placeholder,
   description,
   minimumIntValue,
+  maximumIntValue,
   isDisableEmptyToZero,
   ...rest
 }: IRHNumberInputProps) => {
@@ -89,7 +107,8 @@ const RHNumberInput = ({
                   numberFormat(
                     val,
                     isDisableEmptyToZero,
-                    minimumIntValue,
+                    format === 'discountPercentage' ? 0 : minimumIntValue,
+                    format === 'discountPercentage' ? 100 : maximumIntValue,
                     format,
                   ),
                 )

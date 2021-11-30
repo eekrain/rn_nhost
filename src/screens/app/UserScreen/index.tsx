@@ -11,13 +11,13 @@ export type UserRootStackParamList = {
   UpdateUser: {userId: string};
 };
 
-type ITokoRoutes = {
+type IUserRoutes = {
   name: keyof UserRootStackParamList;
   component: React.ComponentType<any>;
   routeNiceName: string;
 };
 
-export const rootUserRoutes: ITokoRoutes[] = [
+export const rootUserRoutes: IUserRoutes[] = [
   {name: 'ListUser', component: UsersHome, routeNiceName: 'Pengguna'},
   {name: 'CreateUser', component: CreateUser, routeNiceName: 'Pengguna'},
   {name: 'UpdateUser', component: UpdateUser, routeNiceName: 'Pengguna'},
@@ -39,27 +39,23 @@ export type UpdateUserNavProps = StackScreenProps<
   UserRootStackParamList,
   'UpdateUser'
 >;
-// export type UpdateTokoNavProps = StackScreenProps<
-//   TokoStackParamList,
-//   'UpdateToko'
-// >;
 
-const TokoStack = createStackNavigator<UserRootStackParamList>();
+const UserStack = createStackNavigator<UserRootStackParamList>();
 
 interface IUserScreenProps extends UserRootNavProps {}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UserScreen = (props: IUserScreenProps) => {
   return (
-    <TokoStack.Navigator screenOptions={{headerShown: false}}>
+    <UserStack.Navigator screenOptions={{headerShown: false}}>
       {rootUserRoutes.map(route => (
-        <TokoStack.Screen
+        <UserStack.Screen
           key={`${route.name}${route.routeNiceName}`}
           name={route.name}
           component={route.component}
         />
       ))}
-    </TokoStack.Navigator>
+    </UserStack.Navigator>
   );
 };
 

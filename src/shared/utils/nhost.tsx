@@ -26,6 +26,7 @@ interface INhostAuthStore {
     email?: string | null;
     photoURL?: string | null;
     role?: string | null;
+    store_id?: number | null;
   };
   setLoading: (isLoading: boolean) => void;
   updateRole: (role: string | null | undefined) => void;
@@ -44,6 +45,7 @@ const useNhostStore = create<INhostAuthStore>((_set, _get) => ({
     email: null,
     photoURL: null,
     role: null,
+    store_id: null,
   } as INhostAuthStore['user'],
   setLoading: isLoading => {
     _set(state => ({
@@ -201,8 +203,9 @@ const ManageAuthenticatedUser = () => {
         displayName: userData.display_name,
         email: userData.account?.email,
         photoURL: userData?.avatar_url || '',
+        role: userData.account?.default_role,
+        store_id: userData.store_id,
       });
-      nhostAuth.updateRole(userData.account?.default_role);
     }
   }, [getUserData.loading, nhostAuth, userData]);
 

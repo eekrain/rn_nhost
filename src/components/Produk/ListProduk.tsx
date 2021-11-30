@@ -139,7 +139,7 @@ const Produk = ({navigation}: Props) => {
       ...produk,
       capital_price: myNumberFormat.rp(produk.capital_price),
       selling_price: myNumberFormat.rp(produk.selling_price),
-      discount: myNumberFormat.rpDiscount(produk.discount || 0),
+      discount: myNumberFormat.percentageDiscount(produk.discount || 0),
       category: produk.product_category.name,
       photo: (
         <ProductPhoto photo_url={produk?.photo_url ? produk.photo_url : ''} />

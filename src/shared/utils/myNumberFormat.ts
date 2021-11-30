@@ -27,6 +27,16 @@ export const myNumberFormat = {
       prefix: '- Rp ',
     });
   },
+  percentageDiscount(num?: number | null, options?: 'nullAsEmpty') {
+    if (!num && options === 'nullAsEmpty') {
+      return '';
+    } else if (!num) num = 0;
+    return numbro(num).format({
+      thousandSeparated: true,
+      prefix: '- ',
+      postfix: '%',
+    });
+  },
   unformat(
     strNum?: string | null,
     defaultValue?: number,

@@ -1,6 +1,7 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import DashboardScreen from './DashboardScreen';
+import CashierScreen, {rootCashierRoutes} from './CashierScreen';
 import ProfileScreen from './ProfileScreen';
 import CustomDrawerContent from '../../components/CustomDrawerContent';
 import ProdukScreen, {rootProdukRoutes} from './ProdukScreen';
@@ -17,6 +18,7 @@ export type AppNavigationParamList = {
   TokoRoot: undefined;
   InventoryRoot: undefined;
   UserRoot: undefined;
+  CashierRoot: undefined;
 };
 
 export type IAppRoutes = {
@@ -29,11 +31,18 @@ export type IAppRoutes = {
 
 export const rootAppRoutes: IAppRoutes[] = [
   {
+    name: 'CashierRoot',
+    component: CashierScreen,
+    routeNiceName: 'Kasir',
+    role: ['administrator', 'karyawan'],
+  },
+  {
     name: 'Dashboard',
     component: DashboardScreen,
     routeNiceName: 'Dashboard',
     role: ['administrator'],
   },
+
   {
     name: 'Profile',
     component: ProfileScreen,
@@ -73,6 +82,7 @@ export const allAppRoutes = [
   ...rootProdukRoutes,
   ...rootInventoryRoutes,
   ...rootUserRoutes,
+  ...rootCashierRoutes,
 ];
 
 export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
@@ -80,6 +90,10 @@ export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
 export type DashboardNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'Dashboard'
+>;
+export type CashierRootNavProps = DrawerScreenProps<
+  AppNavigationParamList,
+  'CashierRoot'
 >;
 export type ProfileNavProps = DrawerScreenProps<
   AppNavigationParamList,
@@ -125,6 +139,7 @@ const AppNavigation = ({}: Props) => {
 export default AppNavigation;
 
 export const getAppIcon = (screenName: keyof AppNavigationParamList) => {
+  if (screenName === 'CashierRoot') return 'monitor';
   if (screenName === 'Dashboard') return 'bar-chart';
   if (screenName === 'Profile') return 'user';
   if (screenName === 'ProdukRoot') return 'shopping-bag';

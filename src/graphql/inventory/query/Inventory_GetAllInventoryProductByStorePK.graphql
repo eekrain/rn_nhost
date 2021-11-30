@@ -1,12 +1,18 @@
 query Inventory_GetAllInventoryProductByStorePK($store_id: Int!) {
-  rocketjaket_inventory_product(where: {store_id: {_eq: $store_id}}) {
+  rocketjaket_inventory_product(
+    where: {store_id: {_eq: $store_id}}
+    order_by: {product: {name: asc}}
+  ) {
+    id
+    available_qty
+    min_available_qty
     override_selling_price
     override_discount
     override_capital_price
-    min_available_qty
     product {
       name
       product_category {
+        id
         name
       }
       capital_price
@@ -22,7 +28,5 @@ query Inventory_GetAllInventoryProductByStorePK($store_id: Int!) {
         variant_value
       }
     }
-    id
-    available_qty
   }
 }
