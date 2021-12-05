@@ -25,6 +25,10 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import SplashScreen from './src/components/Overlay/Splashscreen';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
+import notifee from '@notifee/react-native';
 
 const appPermission = async () => {
   checkMultiple([
@@ -71,6 +75,39 @@ const appPermission = async () => {
 
 const App = () => {
   const nhostAuth = useNhostAuth();
+
+  useEffect(() => {
+    const onDisplayNotification = async (
+      remoteMessage: FirebaseMessagingTypes.RemoteMessage,
+    ) => {
+      console.log(
+        '🚀 ~ file: App.tsx ~ line 82 ~ useEffect ~ remoteMessage',
+        remoteMessage,
+      );
+      // Create a channel
+      const channelId = await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
+      });
+
+      // Display a notification
+      await notifee.displayNotification({
+        title: remoteMessage.notification?.title || 'Notification Title',
+        body:
+          remoteMessage.notification?.body ||
+          'Main body content of the notification',
+        android: {
+          channelId,
+          // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+        },
+      });
+    };
+
+    const unsubscribe = messaging().onMessage(onDisplayNotification);
+    messaging().setBackgroundMessageHandler(onDisplayNotification);
+
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     appPermission();

@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+// Add this line
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -197,6 +199,10 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     implementation project(':react-native-fs') //<-- added : React Native FS
+
+     // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:29.0.1')
+
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
