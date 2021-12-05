@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {
   Box,
@@ -10,19 +9,15 @@ import {
   ScrollView,
   Heading,
   Button,
-  VStack,
   Center,
 } from 'native-base';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {
-  getStorageFileUrlWImageTransform,
-  myNumberFormat,
-  useNhostAuth,
-} from '../../shared/utils';
+import {myNumberFormat, useNhostAuth} from '../../shared/utils';
 import {UserRolesEnum} from '../../types/user';
 import {Control, UseFormSetValue} from 'react-hook-form';
 import {MyAvatar, RHTextInput} from '../../shared/components';
 import {IDefaultValues, IInventoryProductData} from '.';
+import {useMyCart} from '../../state';
 
 interface Props {
   searchTerm: string;
@@ -124,8 +119,12 @@ const ProductsContent = ({
         )}
         <HStack flexWrap="wrap" w="full" justifyContent="space-evenly" mt="2">
           {!searchTerm
-            ? filteredByCategoryProductData.map(product => productItem(product))
-            : searchedInventoryProductData.map(product => productItem(product))}
+            ? filteredByCategoryProductData.map(product => (
+                <ProductItem product={product} key={product.id} />
+              ))
+            : searchedInventoryProductData.map(product => (
+                <ProductItem product={product} key={product.id} />
+              ))}
         </HStack>
       </Stack>
     </ScrollView>
@@ -134,52 +133,70 @@ const ProductsContent = ({
 
 export default ProductsContent;
 
-const productItem = (product: IInventoryProductData) => {
+const ProductItem = ({product}: {product: IInventoryProductData}) => {
+  const myCart = useMyCart();
   return (
-    <Box w="32%" bgColor="white" borderRadius={10} mb="4" key={product.id}>
-      <MyAvatar
-        fallbackText={product.product_name}
-        source={{
-          uri: product.product_photo_url,
-        }}
-        height={150}
-        width="100%"
-        borderTopRadius={10}
-        fontSize="4xl"
-        topRightElement={
-          product.discount !== 0 ? (
-            <Box
-              bgColor="white"
-              py="2"
-              px="12"
-              shadow="9"
-              style={{
-                transform: [
-                  {rotate: '45deg'},
-                  {translateX: 35},
-                  {translateY: -20},
-                ],
-              }}>
-              <Text fontWeight="bold" fontSize="md" color="milano_red.500">
-                {myNumberFormat.percentageDiscount(product.discount)}
-              </Text>
-            </Box>
-          ) : undefined
-        }
-      />
-      <Box px="4" py="2">
-        <Center>
-          <Text fontWeight="bold" fontSize="md">
-            {product.product_name}
-          </Text>
-          <Text mt="2">{product.product_category}</Text>
-          <Text>{product.variant}</Text>
-          <Text>Tersedia: {product.available_qty}</Text>
-          <Text fontWeight="semibold" color="green.700">
-            {myNumberFormat.rp(product.selling_price)}
-          </Text>
-        </Center>
+    <Pressable
+      w="32%"
+      onPress={() => {
+        myCart.handleAddToCart({
+          product_inventory_id: product.id,
+          product_name: product.product_name,
+          variant: product.variant,
+          product_photo_url: product.product_photo_url,
+          capital_price: product.capital_price,
+          selling_price: product.selling_price,
+          discount: product.discount,
+          available_qty: product.available_qty,
+          inventory_product_updated_at: product.inventory_product_updated_at,
+          product_updated_at: product.product_updated_at,
+        });
+      }}>
+      <Box bgColor="white" borderRadius={10} mb="4">
+        <MyAvatar
+          fallbackText={product.product_name}
+          source={{
+            uri: product.product_photo_url,
+          }}
+          height={150}
+          width="100%"
+          borderTopRadius={10}
+          fontSize="4xl"
+          topRightElement={
+            product.discount !== 0 ? (
+              <Box
+                bgColor="white"
+                py="2"
+                px="12"
+                shadow="9"
+                style={{
+                  transform: [
+                    {rotate: '45deg'},
+                    {translateX: 35},
+                    {translateY: -20},
+                  ],
+                }}>
+                <Text fontWeight="bold" fontSize="md" color="milano_red.500">
+                  {myNumberFormat.percentageDiscount(product.discount)}
+                </Text>
+              </Box>
+            ) : undefined
+          }
+        />
+        <Box px="4" py="2">
+          <Center>
+            <Text fontWeight="bold" fontSize="md">
+              {product.product_name}
+            </Text>
+            <Text mt="2">{product.product_category}</Text>
+            <Text>{product.variant}</Text>
+            <Text>Tersedia: {product.available_qty}</Text>
+            <Text fontWeight="semibold" color="green.700">
+              {myNumberFormat.rp(product.selling_price)}
+            </Text>
+          </Center>
+        </Box>
       </Box>
-    </Box>
+    </Pressable>
   );
 };

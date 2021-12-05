@@ -5,6 +5,11 @@ import {Control, Controller} from 'react-hook-form';
 import numbro from 'numbro';
 import {myNumberFormat} from '../../utils';
 
+export type TRHNumberValueType = {
+  formattedValue: string;
+  value: number;
+};
+
 type TFormatNumberType =
   | 'rp'
   | '-rp'
@@ -103,18 +108,19 @@ const RHNumberInput = ({
           return (
             <Input
               onChangeText={val =>
-                onChange(
-                  numberFormat(
+                onChange({
+                  value: numbro.unformat(val),
+                  formattedValue: numberFormat(
                     val,
                     isDisableEmptyToZero,
                     format === 'discountPercentage' ? 0 : minimumIntValue,
                     format === 'discountPercentage' ? 100 : maximumIntValue,
                     format,
                   ),
-                )
+                })
               }
               placeholder={placeholder ? placeholder : label}
-              value={typeof value !== 'string' ? value.toString() : value}
+              value={value.formattedValue}
               InputLeftElement={leftElement(format)}
               {...rest}
             />

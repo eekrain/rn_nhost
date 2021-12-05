@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useMemo, useState} from 'react';
-import {Box, Text, Stack, Modal, VStack} from 'native-base';
+import {Box, Stack, Modal} from 'native-base';
 import ProductsContent from './ProductsContent';
 import withAppLayout from '../Layout/AppLayout';
 import {
@@ -11,14 +10,14 @@ import {
 } from '../../graphql/gql-generated';
 import {
   getStorageFileUrlWImageTransform,
-  myNumberFormat,
   useFlexSearch,
   useNhostAuth,
 } from '../../shared/utils';
 import {UserRolesEnum} from '../../types/user';
 import {useForm} from 'react-hook-form';
-import {RHTextInput, RHSelect} from '../../shared/components';
+import {RHSelect} from '../../shared/components';
 import {Alert} from 'react-native';
+import CashierCart from './CashierCart';
 
 export interface IDefaultValues {
   search_term: string;
@@ -36,11 +35,14 @@ const defaultValues: IDefaultValues = {
 
 export interface IInventoryProductData {
   id: string;
+  product_updated_at: any;
+  inventory_product_updated_at: any;
   product_name: string;
   product_category: string;
   product_category_id: number;
   available_qty: number;
   variant: string;
+  capital_price: number;
   selling_price: number;
   discount: number;
   product_photo_url: string;
@@ -103,6 +105,8 @@ const CashierHome = ({}: Props) => {
     const processed: IInventoryProductData[] = data.map(pdk => {
       return {
         id: pdk.id,
+        product_updated_at: pdk.product.updated_at,
+        inventory_product_updated_at: pdk.updated_at,
         product_name: pdk.product.name,
         product_category: pdk.product.product_category.name,
         product_category_id: pdk.product.product_category.id,
@@ -110,27 +114,9 @@ const CashierHome = ({}: Props) => {
         variant: pdk.inventory_product_variants
           .map(variant => variant.inventory_variant_metadata.variant_value)
           .join(' / '),
-        // capital_price_text: myNumberFormat.rp(
-        //   pdk.override_capital_price
-        //     ? pdk.override_capital_price
-        //     : pdk.product.capital_price,
-        // ),
-        // selling_price_text: myNumberFormat.rp(
-        //   pdk.override_selling_price
-        //     ? pdk.override_selling_price
-        //     : pdk.product.selling_price,
-        // ),
-        // discount_text:
-        //   pdk.override_discount || pdk.product.discount
-        //     ? myNumberFormat.percentageDiscount(
-        //         pdk.override_discount
-        //           ? pdk.override_discount
-        //           : pdk.product.discount,
-        //       )
-        //     : null,
-        // capital_price: pdk.override_capital_price
-        //   ? pdk.override_capital_price
-        //   : pdk.product.capital_price,
+        capital_price: pdk.override_capital_price
+          ? pdk.override_capital_price
+          : pdk.product.capital_price,
         selling_price: pdk.override_selling_price
           ? pdk.override_selling_price
           : pdk.product.selling_price,
@@ -154,7 +140,6 @@ const CashierHome = ({}: Props) => {
     activeCategory,
     getAllInventoryProduct.data?.rocketjaket_inventory_product,
   ]);
-
   const flexSearch = useFlexSearch<IInventoryProductData>(
     searchTerm,
     inventoryProductData.raw,
@@ -281,15 +266,7 @@ const CashierHome = ({}: Props) => {
           }
           searchedInventoryProductData={searchedInventoryProductData}
         />
-        <VStack
-          direction="column"
-          bgColor="white"
-          w={['full', 'full', '2/6']}
-          h={['container', 'container', '89%']}
-          borderRadius="xl"
-          p="4">
-          <Text>ANJING</Text>
-        </VStack>
+        <CashierCart />
       </Stack>
     </Box>
   );
