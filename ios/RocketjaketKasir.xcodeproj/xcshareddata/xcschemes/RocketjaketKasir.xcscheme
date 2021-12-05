@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "rn_nhost.app"
-               BlueprintName = "rn_nhost"
-               ReferencedContainer = "container:rn_nhost.xcodeproj">
+               BuildableName = "RocketjaketKasir.app"
+               BlueprintName = "RocketjaketKasir"
+               ReferencedContainer = "container:RocketjaketKasir.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "rn_nhostTests.xctest"
-               BlueprintName = "rn_nhostTests"
-               ReferencedContainer = "container:rn_nhost.xcodeproj">
+               BuildableName = "RocketjaketKasirTests.xctest"
+               BlueprintName = "RocketjaketKasirTests"
+               ReferencedContainer = "container:RocketjaketKasir.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "rn_nhost.app"
-            BlueprintName = "rn_nhost"
-            ReferencedContainer = "container:rn_nhost.xcodeproj">
+            BuildableName = "RocketjaketKasir.app"
+            BlueprintName = "RocketjaketKasir"
+            ReferencedContainer = "container:RocketjaketKasir.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "rn_nhost.app"
-            BlueprintName = "rn_nhost"
-            ReferencedContainer = "container:rn_nhost.xcodeproj">
+            BuildableName = "RocketjaketKasir.app"
+            BlueprintName = "RocketjaketKasir"
+            ReferencedContainer = "container:RocketjaketKasir.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

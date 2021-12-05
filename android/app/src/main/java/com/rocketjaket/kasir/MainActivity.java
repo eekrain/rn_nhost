@@ -1,4 +1,4 @@
-package com.rn_nhost;
+package com.rocketjaket.kasir;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "rn_nhost";
+    return "RocketjaketKasir";
   }
 }
