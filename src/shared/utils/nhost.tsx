@@ -20,6 +20,7 @@ export const {auth, storage} = nhostClient;
 interface INhostAuthStore {
   isLoading: boolean;
   isAuthenticated: boolean;
+  fcmToken: string | null;
   user: {
     userId?: string | null;
     displayName?: string | null;
@@ -28,10 +29,11 @@ interface INhostAuthStore {
     role?: string | null;
     store_id?: number | null;
   };
+  updateFcmToken: (newFcmToken: string) => void;
   setLoading: (isLoading: boolean) => void;
   updateRole: (role: string | null | undefined) => void;
   signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
+  signOut: (deleteFcm?: () => Promise<void>) => Promise<void>;
   updateUserData: (userData: INhostAuthStore['user']) => void;
   updateIsAuthenticated: (isAuthenticated: boolean) => void;
 }
@@ -39,6 +41,7 @@ interface INhostAuthStore {
 const useNhostStore = create<INhostAuthStore>((_set, _get) => ({
   isLoading: true as INhostAuthStore['isLoading'],
   isAuthenticated: false as INhostAuthStore['isLoading'],
+  fcmToken: null,
   user: {
     userId: null,
     displayName: null,
@@ -47,6 +50,9 @@ const useNhostStore = create<INhostAuthStore>((_set, _get) => ({
     role: null,
     store_id: null,
   } as INhostAuthStore['user'],
+  updateFcmToken: newFcmToken => {
+    _set(state => ({...state, fcmToken: newFcmToken}));
+  },
   setLoading: isLoading => {
     _set(state => ({
       ...state,
@@ -92,7 +98,10 @@ const useNhostStore = create<INhostAuthStore>((_set, _get) => ({
       isAuthenticated,
     }));
   },
-  signOut: async () => {
+  signOut: async deleteFcm => {
+    if (deleteFcm) {
+      await deleteFcm();
+    }
     await nhostClient.auth.logout();
     _set(state => ({
       ...state,

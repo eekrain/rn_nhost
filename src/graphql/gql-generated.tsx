@@ -1495,6 +1495,10 @@ export type Mutation_Root = {
   delete_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.inventory_variant_metadata" */
   delete_rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
+  /** delete data from the table: "rocketjaket.notification" */
+  delete_rocketjaket_notification?: Maybe<Rocketjaket_Notification_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.notification" */
+  delete_rocketjaket_notification_by_pk?: Maybe<Rocketjaket_Notification>;
   /** delete data from the table: "rocketjaket.product" */
   delete_rocketjaket_product?: Maybe<Rocketjaket_Product_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.product" */
@@ -1519,6 +1523,10 @@ export type Mutation_Root = {
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
+  /** delete data from the table: "users_fcm_token" */
+  delete_users_fcm_token?: Maybe<Users_Fcm_Token_Mutation_Response>;
+  /** delete single row from the table: "users_fcm_token" */
+  delete_users_fcm_token_by_pk?: Maybe<Users_Fcm_Token>;
   /** insert data into the table: "auth.account_providers" */
   insert_auth_account_providers?: Maybe<Auth_Account_Providers_Mutation_Response>;
   /** insert a single row into the table: "auth.account_providers" */
@@ -1555,6 +1563,10 @@ export type Mutation_Root = {
   insert_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
   /** insert a single row into the table: "rocketjaket.inventory_variant_metadata" */
   insert_rocketjaket_inventory_variant_metadata_one?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
+  /** insert data into the table: "rocketjaket.notification" */
+  insert_rocketjaket_notification?: Maybe<Rocketjaket_Notification_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.notification" */
+  insert_rocketjaket_notification_one?: Maybe<Rocketjaket_Notification>;
   /** insert data into the table: "rocketjaket.product" */
   insert_rocketjaket_product?: Maybe<Rocketjaket_Product_Mutation_Response>;
   /** insert data into the table: "rocketjaket.product_category" */
@@ -1577,6 +1589,10 @@ export type Mutation_Root = {
   insert_rocketjaket_transaction_one?: Maybe<Rocketjaket_Transaction>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
+  /** insert data into the table: "users_fcm_token" */
+  insert_users_fcm_token?: Maybe<Users_Fcm_Token_Mutation_Response>;
+  /** insert a single row into the table: "users_fcm_token" */
+  insert_users_fcm_token_one?: Maybe<Users_Fcm_Token>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
   /** update data of the table: "auth.account_providers" */
@@ -1615,6 +1631,10 @@ export type Mutation_Root = {
   update_rocketjaket_inventory_variant_metadata?: Maybe<Rocketjaket_Inventory_Variant_Metadata_Mutation_Response>;
   /** update single row of the table: "rocketjaket.inventory_variant_metadata" */
   update_rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
+  /** update data of the table: "rocketjaket.notification" */
+  update_rocketjaket_notification?: Maybe<Rocketjaket_Notification_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.notification" */
+  update_rocketjaket_notification_by_pk?: Maybe<Rocketjaket_Notification>;
   /** update data of the table: "rocketjaket.product" */
   update_rocketjaket_product?: Maybe<Rocketjaket_Product_Mutation_Response>;
   /** update single row of the table: "rocketjaket.product" */
@@ -1639,6 +1659,10 @@ export type Mutation_Root = {
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
   update_users_by_pk?: Maybe<Users>;
+  /** update data of the table: "users_fcm_token" */
+  update_users_fcm_token?: Maybe<Users_Fcm_Token_Mutation_Response>;
+  /** update single row of the table: "users_fcm_token" */
+  update_users_fcm_token_by_pk?: Maybe<Users_Fcm_Token>;
 };
 
 
@@ -1779,6 +1803,18 @@ export type Mutation_RootDelete_Rocketjaket_Inventory_Variant_Metadata_By_PkArgs
 
 
 /** mutation root */
+export type Mutation_RootDelete_Rocketjaket_NotificationArgs = {
+  where: Rocketjaket_Notification_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Notification_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Rocketjaket_ProductArgs = {
   where: Rocketjaket_Product_Bool_Exp;
 };
@@ -1846,6 +1882,18 @@ export type Mutation_RootDelete_UsersArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Users_Fcm_TokenArgs = {
+  where: Users_Fcm_Token_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Users_Fcm_Token_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1977,6 +2025,20 @@ export type Mutation_RootInsert_Rocketjaket_Inventory_Variant_Metadata_OneArgs =
 
 
 /** mutation root */
+export type Mutation_RootInsert_Rocketjaket_NotificationArgs = {
+  objects: Array<Rocketjaket_Notification_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Notification_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Notification_OneArgs = {
+  object: Rocketjaket_Notification_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Notification_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Rocketjaket_ProductArgs = {
   objects: Array<Rocketjaket_Product_Insert_Input>;
   on_conflict?: Maybe<Rocketjaket_Product_On_Conflict>;
@@ -2050,6 +2112,20 @@ export type Mutation_RootInsert_Rocketjaket_Transaction_OneArgs = {
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: Maybe<Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Users_Fcm_TokenArgs = {
+  objects: Array<Users_Fcm_Token_Insert_Input>;
+  on_conflict?: Maybe<Users_Fcm_Token_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Users_Fcm_Token_OneArgs = {
+  object: Users_Fcm_Token_Insert_Input;
+  on_conflict?: Maybe<Users_Fcm_Token_On_Conflict>;
 };
 
 
@@ -2203,6 +2279,20 @@ export type Mutation_RootUpdate_Rocketjaket_Inventory_Variant_Metadata_By_PkArgs
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_NotificationArgs = {
+  _set?: Maybe<Rocketjaket_Notification_Set_Input>;
+  where: Rocketjaket_Notification_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Notification_By_PkArgs = {
+  _set?: Maybe<Rocketjaket_Notification_Set_Input>;
+  pk_columns: Rocketjaket_Notification_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Rocketjaket_ProductArgs = {
   _inc?: Maybe<Rocketjaket_Product_Inc_Input>;
   _set?: Maybe<Rocketjaket_Product_Set_Input>;
@@ -2297,6 +2387,20 @@ export type Mutation_RootUpdate_Users_By_PkArgs = {
   pk_columns: Users_Pk_Columns_Input;
 };
 
+
+/** mutation root */
+export type Mutation_RootUpdate_Users_Fcm_TokenArgs = {
+  _set?: Maybe<Users_Fcm_Token_Set_Input>;
+  where: Users_Fcm_Token_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Users_Fcm_Token_By_PkArgs = {
+  _set?: Maybe<Users_Fcm_Token_Set_Input>;
+  pk_columns: Users_Fcm_Token_Pk_Columns_Input;
+};
+
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
@@ -2369,6 +2473,12 @@ export type Query_Root = {
   rocketjaket_inventory_variant_metadata_aggregate: Rocketjaket_Inventory_Variant_Metadata_Aggregate;
   /** fetch data from the table: "rocketjaket.inventory_variant_metadata" using primary key columns */
   rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
+  /** fetch data from the table: "rocketjaket.notification" */
+  rocketjaket_notification: Array<Rocketjaket_Notification>;
+  /** fetch aggregated fields from the table: "rocketjaket.notification" */
+  rocketjaket_notification_aggregate: Rocketjaket_Notification_Aggregate;
+  /** fetch data from the table: "rocketjaket.notification" using primary key columns */
+  rocketjaket_notification_by_pk?: Maybe<Rocketjaket_Notification>;
   /** fetch data from the table: "rocketjaket.product" */
   rocketjaket_product: Array<Rocketjaket_Product>;
   /** fetch aggregated fields from the table: "rocketjaket.product" */
@@ -2405,6 +2515,12 @@ export type Query_Root = {
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+  /** fetch data from the table: "users_fcm_token" */
+  users_fcm_token: Array<Users_Fcm_Token>;
+  /** fetch aggregated fields from the table: "users_fcm_token" */
+  users_fcm_token_aggregate: Users_Fcm_Token_Aggregate;
+  /** fetch data from the table: "users_fcm_token" using primary key columns */
+  users_fcm_token_by_pk?: Maybe<Users_Fcm_Token>;
 };
 
 
@@ -2615,6 +2731,29 @@ export type Query_RootRocketjaket_Inventory_Variant_Metadata_By_PkArgs = {
 };
 
 
+export type Query_RootRocketjaket_NotificationArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Notification_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Notification_Order_By>>;
+  where?: Maybe<Rocketjaket_Notification_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Notification_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Notification_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Notification_Order_By>>;
+  where?: Maybe<Rocketjaket_Notification_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Notification_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootRocketjaket_ProductArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Product_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2749,6 +2888,29 @@ export type Query_RootUsers_AggregateArgs = {
 
 
 export type Query_RootUsers_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootUsers_Fcm_TokenArgs = {
+  distinct_on?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Fcm_Token_Order_By>>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
+};
+
+
+export type Query_RootUsers_Fcm_Token_AggregateArgs = {
+  distinct_on?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Fcm_Token_Order_By>>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
+};
+
+
+export type Query_RootUsers_Fcm_Token_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -3757,6 +3919,130 @@ export type Rocketjaket_Inventory_Variant_Metadata_Variance_Fields = {
   id?: Maybe<Scalars['Float']>;
 };
 
+/** columns and relationships of "rocketjaket.notification" */
+export type Rocketjaket_Notification = {
+  __typename?: 'rocketjaket_notification';
+  id: Scalars['uuid'];
+  notification_body: Scalars['String'];
+  notification_title: Scalars['String'];
+};
+
+/** aggregated selection of "rocketjaket.notification" */
+export type Rocketjaket_Notification_Aggregate = {
+  __typename?: 'rocketjaket_notification_aggregate';
+  aggregate?: Maybe<Rocketjaket_Notification_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Notification>;
+};
+
+/** aggregate fields of "rocketjaket.notification" */
+export type Rocketjaket_Notification_Aggregate_Fields = {
+  __typename?: 'rocketjaket_notification_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Notification_Max_Fields>;
+  min?: Maybe<Rocketjaket_Notification_Min_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.notification" */
+export type Rocketjaket_Notification_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Notification_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.notification". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Notification_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Notification_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Notification_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Notification_Bool_Exp>>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  notification_body?: Maybe<String_Comparison_Exp>;
+  notification_title?: Maybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.notification" */
+export enum Rocketjaket_Notification_Constraint {
+  /** unique or primary key constraint */
+  NotificationPkey = 'notification_pkey'
+}
+
+/** input type for inserting data into table "rocketjaket.notification" */
+export type Rocketjaket_Notification_Insert_Input = {
+  id?: Maybe<Scalars['uuid']>;
+  notification_body?: Maybe<Scalars['String']>;
+  notification_title?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Notification_Max_Fields = {
+  __typename?: 'rocketjaket_notification_max_fields';
+  id?: Maybe<Scalars['uuid']>;
+  notification_body?: Maybe<Scalars['String']>;
+  notification_title?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Notification_Min_Fields = {
+  __typename?: 'rocketjaket_notification_min_fields';
+  id?: Maybe<Scalars['uuid']>;
+  notification_body?: Maybe<Scalars['String']>;
+  notification_title?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.notification" */
+export type Rocketjaket_Notification_Mutation_Response = {
+  __typename?: 'rocketjaket_notification_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Notification>;
+};
+
+/** on conflict condition type for table "rocketjaket.notification" */
+export type Rocketjaket_Notification_On_Conflict = {
+  constraint: Rocketjaket_Notification_Constraint;
+  update_columns?: Array<Rocketjaket_Notification_Update_Column>;
+  where?: Maybe<Rocketjaket_Notification_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.notification". */
+export type Rocketjaket_Notification_Order_By = {
+  id?: Maybe<Order_By>;
+  notification_body?: Maybe<Order_By>;
+  notification_title?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_notification */
+export type Rocketjaket_Notification_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "rocketjaket.notification" */
+export enum Rocketjaket_Notification_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NotificationBody = 'notification_body',
+  /** column name */
+  NotificationTitle = 'notification_title'
+}
+
+/** input type for updating data in table "rocketjaket.notification" */
+export type Rocketjaket_Notification_Set_Input = {
+  id?: Maybe<Scalars['uuid']>;
+  notification_body?: Maybe<Scalars['String']>;
+  notification_title?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "rocketjaket.notification" */
+export enum Rocketjaket_Notification_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NotificationBody = 'notification_body',
+  /** column name */
+  NotificationTitle = 'notification_title'
+}
+
 /** columns and relationships of "rocketjaket.product" */
 export type Rocketjaket_Product = {
   __typename?: 'rocketjaket_product';
@@ -4763,12 +5049,15 @@ export type Rocketjaket_Transaction_Insert_Input = {
 /** columns and relationships of "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item = {
   __typename?: 'rocketjaket_transaction_item';
+  capital_price: Scalars['Int'];
   created_at: Scalars['timestamptz'];
   discount: Scalars['Int'];
   id: Scalars['uuid'];
-  price: Scalars['Int'];
+  inventory_product_id: Scalars['uuid'];
   product_name: Scalars['String'];
+  profit: Scalars['Int'];
   purchase_qty: Scalars['Int'];
+  selling_price: Scalars['Int'];
   subtotal: Scalars['Int'];
   /** An object relationship */
   transaction: Rocketjaket_Transaction;
@@ -4832,17 +5121,21 @@ export type Rocketjaket_Transaction_Item_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Rocketjaket_Transaction_Item_Avg_Fields = {
   __typename?: 'rocketjaket_transaction_item_avg_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Avg_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
@@ -4851,12 +5144,15 @@ export type Rocketjaket_Transaction_Item_Bool_Exp = {
   _and?: Maybe<Array<Rocketjaket_Transaction_Item_Bool_Exp>>;
   _not?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
   _or?: Maybe<Array<Rocketjaket_Transaction_Item_Bool_Exp>>;
+  capital_price?: Maybe<Int_Comparison_Exp>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   discount?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
-  price?: Maybe<Int_Comparison_Exp>;
+  inventory_product_id?: Maybe<Uuid_Comparison_Exp>;
   product_name?: Maybe<String_Comparison_Exp>;
+  profit?: Maybe<Int_Comparison_Exp>;
   purchase_qty?: Maybe<Int_Comparison_Exp>;
+  selling_price?: Maybe<Int_Comparison_Exp>;
   subtotal?: Maybe<Int_Comparison_Exp>;
   transaction?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
   transaction_invoice_number?: Maybe<String_Comparison_Exp>;
@@ -4872,20 +5168,25 @@ export enum Rocketjaket_Transaction_Item_Constraint {
 
 /** input type for incrementing numeric columns in table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Inc_Input = {
+  capital_price?: Maybe<Scalars['Int']>;
   discount?: Maybe<Scalars['Int']>;
-  price?: Maybe<Scalars['Int']>;
+  profit?: Maybe<Scalars['Int']>;
   purchase_qty?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Insert_Input = {
+  capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
-  price?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
   product_name?: Maybe<Scalars['String']>;
+  profit?: Maybe<Scalars['Int']>;
   purchase_qty?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
   transaction?: Maybe<Rocketjaket_Transaction_Obj_Rel_Insert_Input>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
@@ -4896,12 +5197,15 @@ export type Rocketjaket_Transaction_Item_Insert_Input = {
 /** aggregate max on columns */
 export type Rocketjaket_Transaction_Item_Max_Fields = {
   __typename?: 'rocketjaket_transaction_item_max_fields';
+  capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
-  price?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
   product_name?: Maybe<Scalars['String']>;
+  profit?: Maybe<Scalars['Int']>;
   purchase_qty?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -4910,12 +5214,15 @@ export type Rocketjaket_Transaction_Item_Max_Fields = {
 
 /** order by max() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Max_Order_By = {
+  capital_price?: Maybe<Order_By>;
   created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  inventory_product_id?: Maybe<Order_By>;
   product_name?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
@@ -4925,12 +5232,15 @@ export type Rocketjaket_Transaction_Item_Max_Order_By = {
 /** aggregate min on columns */
 export type Rocketjaket_Transaction_Item_Min_Fields = {
   __typename?: 'rocketjaket_transaction_item_min_fields';
+  capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
-  price?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
   product_name?: Maybe<Scalars['String']>;
+  profit?: Maybe<Scalars['Int']>;
   purchase_qty?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -4939,12 +5249,15 @@ export type Rocketjaket_Transaction_Item_Min_Fields = {
 
 /** order by min() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Min_Order_By = {
+  capital_price?: Maybe<Order_By>;
   created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  inventory_product_id?: Maybe<Order_By>;
   product_name?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
@@ -4969,12 +5282,15 @@ export type Rocketjaket_Transaction_Item_On_Conflict = {
 
 /** Ordering options when selecting data from "rocketjaket.transaction_item". */
 export type Rocketjaket_Transaction_Item_Order_By = {
+  capital_price?: Maybe<Order_By>;
   created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  inventory_product_id?: Maybe<Order_By>;
   product_name?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
   transaction?: Maybe<Rocketjaket_Transaction_Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
@@ -4990,17 +5306,23 @@ export type Rocketjaket_Transaction_Item_Pk_Columns_Input = {
 /** select columns of table "rocketjaket.transaction_item" */
 export enum Rocketjaket_Transaction_Item_Select_Column {
   /** column name */
+  CapitalPrice = 'capital_price',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Discount = 'discount',
   /** column name */
   Id = 'id',
   /** column name */
-  Price = 'price',
+  InventoryProductId = 'inventory_product_id',
   /** column name */
   ProductName = 'product_name',
   /** column name */
+  Profit = 'profit',
+  /** column name */
   PurchaseQty = 'purchase_qty',
+  /** column name */
+  SellingPrice = 'selling_price',
   /** column name */
   Subtotal = 'subtotal',
   /** column name */
@@ -5013,12 +5335,15 @@ export enum Rocketjaket_Transaction_Item_Select_Column {
 
 /** input type for updating data in table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Set_Input = {
+  capital_price?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
-  price?: Maybe<Scalars['Int']>;
+  inventory_product_id?: Maybe<Scalars['uuid']>;
   product_name?: Maybe<Scalars['String']>;
+  profit?: Maybe<Scalars['Int']>;
   purchase_qty?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
@@ -5028,73 +5353,91 @@ export type Rocketjaket_Transaction_Item_Set_Input = {
 /** aggregate stddev on columns */
 export type Rocketjaket_Transaction_Item_Stddev_Fields = {
   __typename?: 'rocketjaket_transaction_item_stddev_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Stddev_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Rocketjaket_Transaction_Item_Stddev_Pop_Fields = {
   __typename?: 'rocketjaket_transaction_item_stddev_pop_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Stddev_Pop_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Rocketjaket_Transaction_Item_Stddev_Samp_Fields = {
   __typename?: 'rocketjaket_transaction_item_stddev_samp_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Stddev_Samp_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
 /** aggregate sum on columns */
 export type Rocketjaket_Transaction_Item_Sum_Fields = {
   __typename?: 'rocketjaket_transaction_item_sum_fields';
+  capital_price?: Maybe<Scalars['Int']>;
   discount?: Maybe<Scalars['Int']>;
-  price?: Maybe<Scalars['Int']>;
+  profit?: Maybe<Scalars['Int']>;
   purchase_qty?: Maybe<Scalars['Int']>;
+  selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Sum_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
 /** update columns of table "rocketjaket.transaction_item" */
 export enum Rocketjaket_Transaction_Item_Update_Column {
+  /** column name */
+  CapitalPrice = 'capital_price',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -5102,11 +5445,15 @@ export enum Rocketjaket_Transaction_Item_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Price = 'price',
+  InventoryProductId = 'inventory_product_id',
   /** column name */
   ProductName = 'product_name',
   /** column name */
+  Profit = 'profit',
+  /** column name */
   PurchaseQty = 'purchase_qty',
+  /** column name */
+  SellingPrice = 'selling_price',
   /** column name */
   Subtotal = 'subtotal',
   /** column name */
@@ -5120,51 +5467,63 @@ export enum Rocketjaket_Transaction_Item_Update_Column {
 /** aggregate var_pop on columns */
 export type Rocketjaket_Transaction_Item_Var_Pop_Fields = {
   __typename?: 'rocketjaket_transaction_item_var_pop_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Var_Pop_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Rocketjaket_Transaction_Item_Var_Samp_Fields = {
   __typename?: 'rocketjaket_transaction_item_var_samp_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Var_Samp_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Rocketjaket_Transaction_Item_Variance_Fields = {
   __typename?: 'rocketjaket_transaction_item_variance_fields';
+  capital_price?: Maybe<Scalars['Float']>;
   discount?: Maybe<Scalars['Float']>;
-  price?: Maybe<Scalars['Float']>;
+  profit?: Maybe<Scalars['Float']>;
   purchase_qty?: Maybe<Scalars['Float']>;
+  selling_price?: Maybe<Scalars['Float']>;
   subtotal?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "rocketjaket.transaction_item" */
 export type Rocketjaket_Transaction_Item_Variance_Order_By = {
+  capital_price?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
-  price?: Maybe<Order_By>;
+  profit?: Maybe<Order_By>;
   purchase_qty?: Maybe<Order_By>;
+  selling_price?: Maybe<Order_By>;
   subtotal?: Maybe<Order_By>;
 };
 
@@ -5399,6 +5758,12 @@ export type Subscription_Root = {
   rocketjaket_inventory_variant_metadata_aggregate: Rocketjaket_Inventory_Variant_Metadata_Aggregate;
   /** fetch data from the table: "rocketjaket.inventory_variant_metadata" using primary key columns */
   rocketjaket_inventory_variant_metadata_by_pk?: Maybe<Rocketjaket_Inventory_Variant_Metadata>;
+  /** fetch data from the table: "rocketjaket.notification" */
+  rocketjaket_notification: Array<Rocketjaket_Notification>;
+  /** fetch aggregated fields from the table: "rocketjaket.notification" */
+  rocketjaket_notification_aggregate: Rocketjaket_Notification_Aggregate;
+  /** fetch data from the table: "rocketjaket.notification" using primary key columns */
+  rocketjaket_notification_by_pk?: Maybe<Rocketjaket_Notification>;
   /** fetch data from the table: "rocketjaket.product" */
   rocketjaket_product: Array<Rocketjaket_Product>;
   /** fetch aggregated fields from the table: "rocketjaket.product" */
@@ -5435,6 +5800,12 @@ export type Subscription_Root = {
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+  /** fetch data from the table: "users_fcm_token" */
+  users_fcm_token: Array<Users_Fcm_Token>;
+  /** fetch aggregated fields from the table: "users_fcm_token" */
+  users_fcm_token_aggregate: Users_Fcm_Token_Aggregate;
+  /** fetch data from the table: "users_fcm_token" using primary key columns */
+  users_fcm_token_by_pk?: Maybe<Users_Fcm_Token>;
 };
 
 
@@ -5645,6 +6016,29 @@ export type Subscription_RootRocketjaket_Inventory_Variant_Metadata_By_PkArgs = 
 };
 
 
+export type Subscription_RootRocketjaket_NotificationArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Notification_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Notification_Order_By>>;
+  where?: Maybe<Rocketjaket_Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Notification_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Notification_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Notification_Order_By>>;
+  where?: Maybe<Rocketjaket_Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Notification_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootRocketjaket_ProductArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Product_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -5782,6 +6176,29 @@ export type Subscription_RootUsers_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+
+export type Subscription_RootUsers_Fcm_TokenArgs = {
+  distinct_on?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Fcm_Token_Order_By>>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
+};
+
+
+export type Subscription_RootUsers_Fcm_Token_AggregateArgs = {
+  distinct_on?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Fcm_Token_Order_By>>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
+};
+
+
+export type Subscription_RootUsers_Fcm_Token_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq?: Maybe<Scalars['timestamptz']>;
@@ -5796,14 +6213,14 @@ export type Timestamptz_Comparison_Exp = {
 };
 
 export type Transaction_Items = {
-  capital_price?: Maybe<Scalars['Int']>;
-  discount?: Maybe<Scalars['Int']>;
-  inventory_product_updated_at?: Maybe<Scalars['String']>;
+  capital_price: Scalars['Int'];
+  discount: Scalars['Int'];
+  inventory_product_updated_at: Scalars['String'];
   product_inventory_id: Scalars['uuid'];
   product_name: Scalars['String'];
-  product_updated_at?: Maybe<Scalars['String']>;
-  purchace_qty?: Maybe<Scalars['Int']>;
-  selling_price?: Maybe<Scalars['Int']>;
+  product_updated_at: Scalars['String'];
+  purchace_qty: Scalars['Int'];
+  selling_price: Scalars['Int'];
   variant: Scalars['String'];
 };
 
@@ -5886,6 +6303,137 @@ export type Users_Bool_Exp = {
 export enum Users_Constraint {
   /** unique or primary key constraint */
   UsersPkey = 'users_pkey'
+}
+
+/** columns and relationships of "users_fcm_token" */
+export type Users_Fcm_Token = {
+  __typename?: 'users_fcm_token';
+  fcm_token: Scalars['String'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  user: Users;
+  user_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "users_fcm_token" */
+export type Users_Fcm_Token_Aggregate = {
+  __typename?: 'users_fcm_token_aggregate';
+  aggregate?: Maybe<Users_Fcm_Token_Aggregate_Fields>;
+  nodes: Array<Users_Fcm_Token>;
+};
+
+/** aggregate fields of "users_fcm_token" */
+export type Users_Fcm_Token_Aggregate_Fields = {
+  __typename?: 'users_fcm_token_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Users_Fcm_Token_Max_Fields>;
+  min?: Maybe<Users_Fcm_Token_Min_Fields>;
+};
+
+
+/** aggregate fields of "users_fcm_token" */
+export type Users_Fcm_Token_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "users_fcm_token". All fields are combined with a logical 'AND'. */
+export type Users_Fcm_Token_Bool_Exp = {
+  _and?: Maybe<Array<Users_Fcm_Token_Bool_Exp>>;
+  _not?: Maybe<Users_Fcm_Token_Bool_Exp>;
+  _or?: Maybe<Array<Users_Fcm_Token_Bool_Exp>>;
+  fcm_token?: Maybe<String_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  user?: Maybe<Users_Bool_Exp>;
+  user_id?: Maybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "users_fcm_token" */
+export enum Users_Fcm_Token_Constraint {
+  /** unique or primary key constraint */
+  UsersFcmTokenFcmTokenKey = 'users_fcm_token_fcm_token_key',
+  /** unique or primary key constraint */
+  UsersFcmTokenPkey = 'users_fcm_token_pkey'
+}
+
+/** input type for inserting data into table "users_fcm_token" */
+export type Users_Fcm_Token_Insert_Input = {
+  fcm_token?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  user?: Maybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Users_Fcm_Token_Max_Fields = {
+  __typename?: 'users_fcm_token_max_fields';
+  fcm_token?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Users_Fcm_Token_Min_Fields = {
+  __typename?: 'users_fcm_token_min_fields';
+  fcm_token?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "users_fcm_token" */
+export type Users_Fcm_Token_Mutation_Response = {
+  __typename?: 'users_fcm_token_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Users_Fcm_Token>;
+};
+
+/** on conflict condition type for table "users_fcm_token" */
+export type Users_Fcm_Token_On_Conflict = {
+  constraint: Users_Fcm_Token_Constraint;
+  update_columns?: Array<Users_Fcm_Token_Update_Column>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "users_fcm_token". */
+export type Users_Fcm_Token_Order_By = {
+  fcm_token?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  user?: Maybe<Users_Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: users_fcm_token */
+export type Users_Fcm_Token_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "users_fcm_token" */
+export enum Users_Fcm_Token_Select_Column {
+  /** column name */
+  FcmToken = 'fcm_token',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "users_fcm_token" */
+export type Users_Fcm_Token_Set_Input = {
+  fcm_token?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** update columns of table "users_fcm_token" */
+export enum Users_Fcm_Token_Update_Column {
+  /** column name */
+  FcmToken = 'fcm_token',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserId = 'user_id'
 }
 
 /** input type for incrementing numeric columns in table "users" */
@@ -6297,6 +6845,21 @@ export type User_CreateCustomAuthAccountRoleOneMutationVariables = Exact<{
 
 export type User_CreateCustomAuthAccountRoleOneMutation = { __typename?: 'mutation_root', insert_auth_account_roles_one?: { __typename?: 'auth_account_roles', id: any, is_custom?: boolean | null | undefined, role: string } | null | undefined };
 
+export type User_CreateOneUserFcmTokenMutationVariables = Exact<{
+  insert_users_fcm_token: Users_Fcm_Token_Insert_Input;
+}>;
+
+
+export type User_CreateOneUserFcmTokenMutation = { __typename?: 'mutation_root', insert_users_fcm_token_one?: { __typename?: 'users_fcm_token', id: any, fcm_token: string } | null | undefined };
+
+export type User_DeleteFcmTokenByUserIdMutationVariables = Exact<{
+  fcm_token?: Maybe<Scalars['String']>;
+  user_id: Scalars['uuid'];
+}>;
+
+
+export type User_DeleteFcmTokenByUserIdMutation = { __typename?: 'mutation_root', delete_users_fcm_token?: { __typename?: 'users_fcm_token_mutation_response', affected_rows: number } | null | undefined };
+
 export type User_UpdateUserRoleStoreByUserIdMutationVariables = Exact<{
   user_id: Scalars['uuid'];
   update_auth_accounts: Auth_Accounts_Set_Input;
@@ -6312,6 +6875,13 @@ export type User_GetAllUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type User_GetAllUserQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: any, display_name?: string | null | undefined, avatar_url?: string | null | undefined, account?: { __typename?: 'auth_accounts', default_role: string, email?: any | null | undefined, id: any } | null | undefined, store?: { __typename?: 'rocketjaket_store', id: number, name: string } | null | undefined }> };
+
+export type User_GetAllUserFcmTokensByIdQueryVariables = Exact<{
+  user_id: Scalars['uuid'];
+}>;
+
+
+export type User_GetAllUserFcmTokensByIdQuery = { __typename?: 'query_root', users_fcm_token: Array<{ __typename?: 'users_fcm_token', id: any, user_id: any, fcm_token: string }> };
 
 export type User_GetUserByIdQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -6334,6 +6904,7 @@ export const namedOperations = {
     Store_GetAllStore: 'Store_GetAllStore',
     Store_GetStoreByPK: 'Store_GetStoreByPK',
     User_GetAllUser: 'User_GetAllUser',
+    User_GetAllUserFcmTokensById: 'User_GetAllUserFcmTokensById',
     User_GetUserById: 'User_GetUserById'
   },
   Mutation: {
@@ -6356,6 +6927,8 @@ export const namedOperations = {
     User_BulkDeleteOneUser: 'User_BulkDeleteOneUser',
     User_BulkUpdateUserByUserId: 'User_BulkUpdateUserByUserId',
     User_CreateCustomAuthAccountRoleOne: 'User_CreateCustomAuthAccountRoleOne',
+    User_CreateOneUserFcmToken: 'User_CreateOneUserFcmToken',
+    User_DeleteFcmTokenByUserId: 'User_DeleteFcmTokenByUserId',
     User_UpdateUserRoleStoreByUserId: 'User_UpdateUserRoleStoreByUserId'
   }
 }
@@ -7596,6 +8169,76 @@ export function useUser_CreateCustomAuthAccountRoleOneMutation(baseOptions?: Apo
 export type User_CreateCustomAuthAccountRoleOneMutationHookResult = ReturnType<typeof useUser_CreateCustomAuthAccountRoleOneMutation>;
 export type User_CreateCustomAuthAccountRoleOneMutationResult = Apollo.MutationResult<User_CreateCustomAuthAccountRoleOneMutation>;
 export type User_CreateCustomAuthAccountRoleOneMutationOptions = Apollo.BaseMutationOptions<User_CreateCustomAuthAccountRoleOneMutation, User_CreateCustomAuthAccountRoleOneMutationVariables>;
+export const User_CreateOneUserFcmTokenDocument = gql`
+    mutation User_CreateOneUserFcmToken($insert_users_fcm_token: users_fcm_token_insert_input!) {
+  insert_users_fcm_token_one(object: $insert_users_fcm_token) {
+    id
+    fcm_token
+  }
+}
+    `;
+export type User_CreateOneUserFcmTokenMutationFn = Apollo.MutationFunction<User_CreateOneUserFcmTokenMutation, User_CreateOneUserFcmTokenMutationVariables>;
+
+/**
+ * __useUser_CreateOneUserFcmTokenMutation__
+ *
+ * To run a mutation, you first call `useUser_CreateOneUserFcmTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUser_CreateOneUserFcmTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userCreateOneUserFcmTokenMutation, { data, loading, error }] = useUser_CreateOneUserFcmTokenMutation({
+ *   variables: {
+ *      insert_users_fcm_token: // value for 'insert_users_fcm_token'
+ *   },
+ * });
+ */
+export function useUser_CreateOneUserFcmTokenMutation(baseOptions?: Apollo.MutationHookOptions<User_CreateOneUserFcmTokenMutation, User_CreateOneUserFcmTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<User_CreateOneUserFcmTokenMutation, User_CreateOneUserFcmTokenMutationVariables>(User_CreateOneUserFcmTokenDocument, options);
+      }
+export type User_CreateOneUserFcmTokenMutationHookResult = ReturnType<typeof useUser_CreateOneUserFcmTokenMutation>;
+export type User_CreateOneUserFcmTokenMutationResult = Apollo.MutationResult<User_CreateOneUserFcmTokenMutation>;
+export type User_CreateOneUserFcmTokenMutationOptions = Apollo.BaseMutationOptions<User_CreateOneUserFcmTokenMutation, User_CreateOneUserFcmTokenMutationVariables>;
+export const User_DeleteFcmTokenByUserIdDocument = gql`
+    mutation User_DeleteFcmTokenByUserId($fcm_token: String, $user_id: uuid!) {
+  delete_users_fcm_token(
+    where: {fcm_token: {_eq: $fcm_token}, user_id: {_eq: $user_id}}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type User_DeleteFcmTokenByUserIdMutationFn = Apollo.MutationFunction<User_DeleteFcmTokenByUserIdMutation, User_DeleteFcmTokenByUserIdMutationVariables>;
+
+/**
+ * __useUser_DeleteFcmTokenByUserIdMutation__
+ *
+ * To run a mutation, you first call `useUser_DeleteFcmTokenByUserIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUser_DeleteFcmTokenByUserIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userDeleteFcmTokenByUserIdMutation, { data, loading, error }] = useUser_DeleteFcmTokenByUserIdMutation({
+ *   variables: {
+ *      fcm_token: // value for 'fcm_token'
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useUser_DeleteFcmTokenByUserIdMutation(baseOptions?: Apollo.MutationHookOptions<User_DeleteFcmTokenByUserIdMutation, User_DeleteFcmTokenByUserIdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<User_DeleteFcmTokenByUserIdMutation, User_DeleteFcmTokenByUserIdMutationVariables>(User_DeleteFcmTokenByUserIdDocument, options);
+      }
+export type User_DeleteFcmTokenByUserIdMutationHookResult = ReturnType<typeof useUser_DeleteFcmTokenByUserIdMutation>;
+export type User_DeleteFcmTokenByUserIdMutationResult = Apollo.MutationResult<User_DeleteFcmTokenByUserIdMutation>;
+export type User_DeleteFcmTokenByUserIdMutationOptions = Apollo.BaseMutationOptions<User_DeleteFcmTokenByUserIdMutation, User_DeleteFcmTokenByUserIdMutationVariables>;
 export const User_UpdateUserRoleStoreByUserIdDocument = gql`
     mutation User_UpdateUserRoleStoreByUserId($user_id: uuid!, $update_auth_accounts: auth_accounts_set_input!, $update_user: users_set_input!, $account_id: uuid!, $update_auth_account_roles: auth_account_roles_set_input!) {
   update_auth_accounts(
@@ -7696,6 +8339,43 @@ export function useUser_GetAllUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type User_GetAllUserQueryHookResult = ReturnType<typeof useUser_GetAllUserQuery>;
 export type User_GetAllUserLazyQueryHookResult = ReturnType<typeof useUser_GetAllUserLazyQuery>;
 export type User_GetAllUserQueryResult = Apollo.QueryResult<User_GetAllUserQuery, User_GetAllUserQueryVariables>;
+export const User_GetAllUserFcmTokensByIdDocument = gql`
+    query User_GetAllUserFcmTokensById($user_id: uuid!) {
+  users_fcm_token(where: {user_id: {_eq: $user_id}}) {
+    id
+    user_id
+    fcm_token
+  }
+}
+    `;
+
+/**
+ * __useUser_GetAllUserFcmTokensByIdQuery__
+ *
+ * To run a query within a React component, call `useUser_GetAllUserFcmTokensByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUser_GetAllUserFcmTokensByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUser_GetAllUserFcmTokensByIdQuery({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useUser_GetAllUserFcmTokensByIdQuery(baseOptions: Apollo.QueryHookOptions<User_GetAllUserFcmTokensByIdQuery, User_GetAllUserFcmTokensByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<User_GetAllUserFcmTokensByIdQuery, User_GetAllUserFcmTokensByIdQueryVariables>(User_GetAllUserFcmTokensByIdDocument, options);
+      }
+export function useUser_GetAllUserFcmTokensByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User_GetAllUserFcmTokensByIdQuery, User_GetAllUserFcmTokensByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<User_GetAllUserFcmTokensByIdQuery, User_GetAllUserFcmTokensByIdQueryVariables>(User_GetAllUserFcmTokensByIdDocument, options);
+        }
+export type User_GetAllUserFcmTokensByIdQueryHookResult = ReturnType<typeof useUser_GetAllUserFcmTokensByIdQuery>;
+export type User_GetAllUserFcmTokensByIdLazyQueryHookResult = ReturnType<typeof useUser_GetAllUserFcmTokensByIdLazyQuery>;
+export type User_GetAllUserFcmTokensByIdQueryResult = Apollo.QueryResult<User_GetAllUserFcmTokensByIdQuery, User_GetAllUserFcmTokensByIdQueryVariables>;
 export const User_GetUserByIdDocument = gql`
     query User_GetUserById($id: uuid!) {
   users_by_pk(id: $id) {

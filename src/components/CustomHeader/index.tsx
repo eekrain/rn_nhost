@@ -20,11 +20,13 @@ import {
   getStorageFileUrlWImageTransform,
   useNhostAuth,
   auth,
+  getXHasuraContextHeader,
 } from '../../shared/utils';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {useState} from 'react';
 import {allAppRoutes, AppNavProps} from '../../screens/app';
 import {MyAvatar} from '../../shared/components';
+import {useUser_DeleteFcmTokenByUserIdMutation} from '../../graphql/gql-generated';
 
 export const customHeaderHeight: number = 70;
 
@@ -46,9 +48,31 @@ const CustomHeader = (props: ICustomHeaderProps) => {
   const [isNotifPressed, setNotifPressed] = useState(false);
   const [isAvatarPressed, setAvatarPressed] = useState(false);
 
+  const [deleteFcmToken] = useUser_DeleteFcmTokenByUserIdMutation({
+    ...getXHasuraContextHeader({role: 'me', withUserId: true}),
+  });
+
   const handleLogout = () => {
     nhostAuth.setLoading(true);
-    nhostAuth.signOut().finally(() => nhostAuth.setLoading(false));
+    nhostAuth
+      .signOut(async () => {
+        const resDelete = await deleteFcmToken({
+          variables: {
+            user_id: nhostAuth.user.userId,
+            fcm_token: nhostAuth.fcmToken,
+          },
+        }).catch(error => {
+          console.error(
+            '🚀 ~ file: index.tsx ~ line 65 ~ .signOut ~ error',
+            error,
+          );
+        });
+        console.log(
+          '🚀 ~ file: index.tsx ~ line 65 ~ .signOut ~ resDelete',
+          resDelete,
+        );
+      })
+      .finally(() => nhostAuth.setLoading(false));
   };
 
   return (

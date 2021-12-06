@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -10,13 +11,13 @@
 
 import React from 'react';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
 import AuthNavigation from './src/screens/auth';
-import AppNavigation from './src/screens/app';
+import AppNavigation, {AppNavigationParamList} from './src/screens/app';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {useNhostAuth} from './src/shared/utils';
-import {Alert} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import {useMemo} from 'react';
 import {
   checkMultiple,
@@ -25,10 +26,17 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import SplashScreen from './src/components/Overlay/Splashscreen';
+
 import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
+import notifee, {EventType} from '@notifee/react-native';
+import {
+  useUser_CreateOneUserFcmTokenMutation,
+  useUser_GetAllUserFcmTokensByIdQuery,
+} from './src/graphql/gql-generated';
+import {getXHasuraContextHeader, myNotifeeActions} from './src/shared/utils';
+import {useNavigationContainerRef} from '@react-navigation/native';
 
 const appPermission = async () => {
   checkMultiple([
@@ -73,41 +81,57 @@ const appPermission = async () => {
   });
 };
 
+const linking: LinkingOptions<AppNavigationParamList> = {
+  prefixes: ['myapp://'],
+  config: {
+    initialRouteName: 'Dashboard',
+    screens: {
+      InventoryRoot: 'inventory',
+    },
+  },
+  subscribe(listener) {
+    const onReceiveURL = ({url}: {url: string}) => listener(url);
+    // Listen to incoming links from deep linking
+    Linking.addEventListener('url', onReceiveURL);
+    // Listen to firebase push notifications
+    const unsubscribeNotification = notifee.onForegroundEvent(
+      async notifeeEvent => {
+        if (notifeeEvent.type === EventType.PRESS) {
+          if (notifeeEvent.detail.notification?.data?.link) {
+            listener(notifeeEvent.detail.notification?.data?.link);
+          }
+          if (notifeeEvent.detail.notification?.id) {
+            notifee.cancelNotification(notifeeEvent.detail.notification?.id);
+          }
+        }
+      },
+    );
+
+    notifee.onBackgroundEvent(async notifeeEvent => {
+      console.log(
+        '🚀 ~ file: App.tsx ~ line 120 ~ subscribe ~ notifeeEvent',
+        notifeeEvent,
+      );
+      if (notifeeEvent.type === EventType.PRESS) {
+        if (notifeeEvent.detail.notification?.data?.link) {
+          listener(notifeeEvent.detail.notification?.data?.link);
+        }
+        if (notifeeEvent.detail.notification?.id) {
+          notifee.cancelNotification(notifeeEvent.detail.notification?.id);
+        }
+      }
+    });
+
+    return () => {
+      // Clean up the event listeners
+      Linking.removeAllListeners('url');
+      unsubscribeNotification();
+    };
+  },
+};
+
 const App = () => {
   const nhostAuth = useNhostAuth();
-
-  useEffect(() => {
-    const onDisplayNotification = async (
-      remoteMessage: FirebaseMessagingTypes.RemoteMessage,
-    ) => {
-      console.log(
-        '🚀 ~ file: App.tsx ~ line 82 ~ useEffect ~ remoteMessage',
-        remoteMessage,
-      );
-      // Create a channel
-      const channelId = await notifee.createChannel({
-        id: 'default',
-        name: 'Default Channel',
-      });
-
-      // Display a notification
-      await notifee.displayNotification({
-        title: remoteMessage.notification?.title || 'Notification Title',
-        body:
-          remoteMessage.notification?.body ||
-          'Main body content of the notification',
-        android: {
-          channelId,
-          // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-        },
-      });
-    };
-
-    const unsubscribe = messaging().onMessage(onDisplayNotification);
-    messaging().setBackgroundMessageHandler(onDisplayNotification);
-
-    return unsubscribe;
-  }, []);
 
   useEffect(() => {
     appPermission();
@@ -133,9 +157,12 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer<AppNavigationParamList> linking={linking}>
       {!loading && nhostAuth.isAuthenticated ? (
-        <AppNavigation />
+        <>
+          <MyNotifee />
+          <AppNavigation />
+        </>
       ) : (
         <AuthNavigation />
       )}
@@ -143,3 +170,101 @@ const App = () => {
   );
 };
 export default App;
+
+interface MyNotifeeProps {}
+
+const MyNotifee = ({}: MyNotifeeProps) => {
+  const navigation = useNavigationContainerRef<AppNavigationParamList>();
+  const nhostAuth = useNhostAuth();
+
+  const [bootstrapFcmDone, setBootstrapFcmDone] = useState(false);
+
+  const getAllFcmUser = useUser_GetAllUserFcmTokensByIdQuery({
+    variables: {
+      user_id: nhostAuth.user.userId,
+    },
+    ...getXHasuraContextHeader({role: 'me', withUserId: true}),
+  });
+
+  const [createFcmToken] = useUser_CreateOneUserFcmTokenMutation({
+    ...getXHasuraContextHeader({role: 'me', withUserId: true}),
+  });
+
+  useEffect(() => {
+    const allFcmUser = getAllFcmUser.data?.users_fcm_token;
+
+    const registerFcm = async () => {
+      const token = await messaging().getToken();
+      nhostAuth.updateFcmToken(token);
+
+      const found = allFcmUser?.find(fcm => fcm.fcm_token === token);
+      if (!found) {
+        const res = await createFcmToken({
+          variables: {
+            insert_users_fcm_token: {
+              fcm_token: token,
+              user_id: nhostAuth.user.userId,
+            },
+          },
+        });
+        console.log('🚀 ~ file: index.tsx ~ line 161 ~ registerFcm ~ res', res);
+      }
+    };
+
+    if (!bootstrapFcmDone && allFcmUser && nhostAuth?.user?.userId) {
+      registerFcm();
+      setBootstrapFcmDone(true);
+    }
+  }, [
+    bootstrapFcmDone,
+    createFcmToken,
+    getAllFcmUser.data?.users_fcm_token,
+    nhostAuth,
+  ]);
+
+  useEffect(() => {
+    const onDisplayNotification = async (
+      remoteMessage: FirebaseMessagingTypes.RemoteMessage,
+      from: string,
+    ) => {
+      console.log(
+        '🚀 ~ file: index.tsx ~ line 213 ~ useEffect ~ notificationFrom =>',
+        from,
+      );
+      if (remoteMessage?.data?.notifee) {
+        console.log(
+          '🚀 ~ file: App.tsx ~ line 82 ~ useEffect ~ remoteMessage',
+          JSON.parse(remoteMessage?.data?.notifee),
+        );
+      }
+      await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
+      });
+
+      if (remoteMessage?.data?.notifee) {
+        await notifee.displayNotification(
+          JSON.parse(remoteMessage?.data?.notifee),
+        );
+      }
+    };
+
+    messaging().registerDeviceForRemoteMessages();
+    const unsubscribe = messaging().onMessage(message =>
+      onDisplayNotification(message, 'onMessage'),
+    );
+    messaging().setBackgroundMessageHandler(message =>
+      onDisplayNotification(message, 'setBackgroundMessageHandler'),
+    );
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    return notifee.onForegroundEvent(notifeeEvent => {
+      myNotifeeActions(notifeeEvent, 'foreground', navigation);
+    });
+  }, [navigation]);
+
+  return null;
+};
