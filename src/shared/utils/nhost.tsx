@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {createClient} from 'nhost-js-sdk';
-import create from 'zustand';
+import create, {GetState, SetState} from 'zustand';
+import {persist, StoreApiWithPersist} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createTrackedSelector} from 'react-tracked';
 import {HASURA_ENDPOINT, BACKEND_HBP_ENDPOINT} from '@env';
@@ -38,84 +39,94 @@ interface INhostAuthStore {
   updateIsAuthenticated: (isAuthenticated: boolean) => void;
 }
 
-const useNhostStore = create<INhostAuthStore>((_set, _get) => ({
-  isLoading: true as INhostAuthStore['isLoading'],
-  isAuthenticated: false as INhostAuthStore['isLoading'],
-  fcmToken: null,
-  user: {
-    userId: null,
-    displayName: null,
-    email: null,
-    photoURL: null,
-    role: null,
-    store_id: null,
-  } as INhostAuthStore['user'],
-  updateFcmToken: newFcmToken => {
-    _set(state => ({...state, fcmToken: newFcmToken}));
-  },
-  setLoading: isLoading => {
-    _set(state => ({
-      ...state,
-      isLoading,
-    }));
-  },
-  updateRole: role => {
-    _set(state => ({
-      ...state,
-      user: {
-        ...state.user,
-        role,
-      },
-    }));
-  },
-  signIn: async (email, password) => {
-    const res = await nhostClient.auth.login({email, password});
-
-    _set(state => ({
-      ...state,
-      isAuthenticated: true,
-      user: {
-        ...state.user,
-        userId: res.user?.id,
-        displayName: res.user?.display_name,
-        email: res.user?.email,
-        photoURL: res.user?.avatar_url,
-      },
-    }));
-  },
-  updateUserData: (userData: INhostAuthStore['user']) => {
-    _set(state => ({
-      ...state,
-      user: {
-        ...state.user,
-        ...userData,
-      },
-    }));
-  },
-  updateIsAuthenticated: (isAuthenticated: boolean) => {
-    _set(state => ({
-      ...state,
-      isAuthenticated,
-    }));
-  },
-  signOut: async deleteFcm => {
-    if (deleteFcm) {
-      await deleteFcm();
-    }
-    await nhostClient.auth.logout();
-    _set(state => ({
-      ...state,
-      isAuthenticated: false,
+const useNhostStore = create<
+  INhostAuthStore,
+  SetState<INhostAuthStore>,
+  GetState<INhostAuthStore>,
+  StoreApiWithPersist<INhostAuthStore>
+>(
+  persist(
+    (_set, _get) => ({
+      isLoading: true as INhostAuthStore['isLoading'],
+      isAuthenticated: false as INhostAuthStore['isLoading'],
+      fcmToken: null as INhostAuthStore['fcmToken'],
       user: {
         userId: null,
-        role: null,
         displayName: null,
         email: null,
         photoURL: null,
+        role: null,
+        store_id: null,
+      } as INhostAuthStore['user'],
+      updateFcmToken: newFcmToken => {
+        _set(state => ({...state, fcmToken: newFcmToken}));
       },
-    }));
-  },
-}));
+      setLoading: isLoading => {
+        _set(state => ({
+          ...state,
+          isLoading,
+        }));
+      },
+      updateRole: role => {
+        _set(state => ({
+          ...state,
+          user: {
+            ...state.user,
+            role,
+          },
+        }));
+      },
+      signIn: async (email, password) => {
+        const res = await nhostClient.auth.login({email, password});
+
+        _set(state => ({
+          ...state,
+          isAuthenticated: true,
+          user: {
+            ...state.user,
+            userId: res.user?.id,
+            displayName: res.user?.display_name,
+            email: res.user?.email,
+            photoURL: res.user?.avatar_url,
+          },
+        }));
+      },
+      updateUserData: (userData: INhostAuthStore['user']) => {
+        _set(state => ({
+          ...state,
+          user: {
+            ...state.user,
+            ...userData,
+          },
+        }));
+      },
+      updateIsAuthenticated: (isAuthenticated: boolean) => {
+        _set(state => ({
+          ...state,
+          isAuthenticated,
+        }));
+      },
+      signOut: async deleteFcm => {
+        if (deleteFcm) {
+          await deleteFcm();
+        }
+        await nhostClient.auth.logout();
+        _set(state => ({
+          ...state,
+          isAuthenticated: false,
+          user: {
+            userId: null,
+            role: null,
+            displayName: null,
+            email: null,
+            photoURL: null,
+          },
+        }));
+      },
+    }),
+    {name: 'nhost-auth', getStorage: () => AsyncStorage},
+  ),
+);
 
 export const useNhostAuth = createTrackedSelector(useNhostStore);
 
