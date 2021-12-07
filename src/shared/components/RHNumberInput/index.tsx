@@ -7,7 +7,7 @@ import {myNumberFormat} from '../../utils';
 
 export type TRHNumberValueType = {
   formattedValue: string;
-  value: number;
+  value: number | null;
 };
 
 type TFormatNumberType =
@@ -109,7 +109,9 @@ const RHNumberInput = ({
             <Input
               onChangeText={val =>
                 onChange({
-                  value: numbro.unformat(val),
+                  value: isNaN(numbro.unformat(val))
+                    ? val
+                    : numbro.unformat(val),
                   formattedValue: numberFormat(
                     val,
                     isDisableEmptyToZero,
@@ -128,7 +130,7 @@ const RHNumberInput = ({
         }}
       />
       <FormControl.ErrorMessage>
-        {errors[name]?.message}
+        {errors[name]?.value?.message}
       </FormControl.ErrorMessage>
     </FormControl>
   );

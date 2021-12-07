@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createTrackedSelector} from 'react-tracked';
 import {HASURA_ENDPOINT, BACKEND_HBP_ENDPOINT} from '@env';
 import {NhostApolloProvider} from '@nhost/react-apollo';
-import {TUserRoleOptions} from '../../types/user';
+import {TUserRoleOptions, UserRolesEnum} from '../../types/user';
 import {useEffect} from 'react';
 import {useUser_GetUserByIdQuery} from '../../graphql/gql-generated';
 
@@ -224,8 +224,12 @@ const ManageAuthenticatedUser = () => {
         email: userData.account?.email,
         photoURL: userData?.avatar_url || '',
         role: userData.account?.default_role,
-        store_id: userData.store_id,
       });
+      if (userData.account?.default_role !== UserRolesEnum.administrator) {
+        nhostAuth.updateUserData({
+          store_id: userData.store_id,
+        });
+      }
     }
   }, [getUserData.loading, nhostAuth, userData]);
 

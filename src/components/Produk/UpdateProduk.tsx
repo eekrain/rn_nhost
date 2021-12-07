@@ -36,7 +36,9 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import {ButtonBack, ButtonSave} from '../Buttons';
-import RHNumberInput from '../../shared/components/RHNumberInput';
+import RHNumberInput, {
+  TRHNumberValueType,
+} from '../../shared/components/RHNumberInput';
 import {useMemo} from 'react';
 import RHSelect from '../../shared/components/RHSelect';
 import {
@@ -53,27 +55,42 @@ import dayjs from 'dayjs';
 interface IDefaultValues {
   product_category_id: string;
   name: string;
-  capital_price: string;
-  selling_price: string;
-  discount: string;
+  capital_price: TRHNumberValueType;
+  selling_price: TRHNumberValueType;
+  discount: TRHNumberValueType;
 }
 
 const schema = yup
   .object({
     product_category_id: yup.string().required('Kategori produk harus diisi'),
     name: yup.string().required('Nama produk harus diisi'),
-    capital_price: yup.string().required('Harga modal harus diisi'),
-    selling_price: yup.string().required('Harga jual harus diisi'),
-    discount: yup.string().optional(),
+    capital_price: yup.object({
+      value: yup.number().min(0).required(),
+    }),
+    selling_price: yup.object({
+      value: yup.number().min(0).required(),
+    }),
+    discount: yup.object({
+      value: yup.number().min(0).max(100).required(),
+    }),
   })
   .required();
 
 const defaultValues: IDefaultValues = {
   name: '',
   product_category_id: '',
-  capital_price: '0',
-  selling_price: '0',
-  discount: '0',
+  capital_price: {
+    formattedValue: '0',
+    value: 0,
+  },
+  selling_price: {
+    formattedValue: '0',
+    value: 0,
+  },
+  discount: {
+    formattedValue: '0',
+    value: 0,
+  },
 };
 
 interface AssetWithUpdate extends Asset {
@@ -160,24 +177,24 @@ const UpdateProduk = ({navigation, route}: Props) => {
           'product_category_id',
           getProdukData.data?.rocketjaket_product_by_pk.product_category_id.toString(),
         );
-        setValue(
-          'capital_price',
-          myNumberFormat.thousandSeparated(
+        setValue('capital_price', {
+          formattedValue: myNumberFormat.thousandSeparated(
             getProdukData.data.rocketjaket_product_by_pk.capital_price,
           ),
-        );
-        setValue(
-          'selling_price',
-          myNumberFormat.thousandSeparated(
+          value: getProdukData.data.rocketjaket_product_by_pk.capital_price,
+        });
+        setValue('selling_price', {
+          formattedValue: myNumberFormat.thousandSeparated(
             getProdukData.data?.rocketjaket_product_by_pk.selling_price,
           ),
-        );
-        setValue(
-          'discount',
-          myNumberFormat.thousandSeparated(
+          value: getProdukData.data?.rocketjaket_product_by_pk.selling_price,
+        });
+        setValue('discount', {
+          formattedValue: myNumberFormat.thousandSeparated(
             getProdukData.data?.rocketjaket_product_by_pk?.discount || 0,
           ),
-        );
+          value: getProdukData.data?.rocketjaket_product_by_pk?.discount,
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,9 +264,9 @@ const UpdateProduk = ({navigation, route}: Props) => {
         id: route.params.productId,
         name: data.name,
         photo_url: photo_url,
-        capital_price: myNumberFormat.unformat(data.capital_price),
-        selling_price: myNumberFormat.unformat(data.selling_price),
-        discount: myNumberFormat.unformat(data.discount),
+        capital_price: data.capital_price.value,
+        selling_price: data.selling_price.value,
+        discount: data.discount.value,
         product_category_id: parseInt(data.product_category_id, 10),
       },
     });

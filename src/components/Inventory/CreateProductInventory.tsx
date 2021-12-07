@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useMemo, useState} from 'react';
 import {
   Box,
@@ -10,9 +9,7 @@ import {
   FormControl,
   Input,
 } from 'native-base';
-import {Platform} from 'react-native';
 import {
-  Inventory_GetAllInventoryProductByStorePkDocument,
   namedOperations,
   useInventory_CreateInventoryProductMutation,
   useProduk_GetProdukByPkQuery,
@@ -20,7 +17,7 @@ import {
 import * as yup from 'yup';
 import {getXHasuraContextHeader, myNumberFormat} from '../../shared/utils';
 import {TOAST_TEMPLATE} from '../../shared/constants';
-import {useFieldArray, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHNumberInput} from '../../shared/components';
 import {ButtonSave, ButtonBack} from '../Buttons';
@@ -28,7 +25,6 @@ import withAppLayout from '../Layout/AppLayout';
 import {CreateProductInventoryNavProps} from '../../screens/app/InventoryScreen';
 import ProductSearch from './ProductSearch';
 import ProductSelectVariation from './ProductSelectVariation';
-import numbro from 'numbro';
 import {useMyAppState} from '../../state';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {IProductInventoryDefaultValues} from './types';
@@ -39,6 +35,21 @@ const schema = yup
       .string()
       .nullable()
       .required('Belum ada produk yang dipilih.'),
+    available_qty: yup.object({
+      value: yup.number().min(0).required(),
+    }),
+    min_available_qty: yup.object({
+      value: yup.number().min(0).required(),
+    }),
+    override_capital_price: yup.object({
+      value: yup.number().min(0).optional(),
+    }),
+    override_selling_price: yup.object({
+      value: yup.number().min(0).optional(),
+    }),
+    override_discount: yup.object({
+      value: yup.number().min(0).max(100).optional(),
+    }),
   })
   .required();
 
@@ -47,11 +58,26 @@ const defaultValues: IProductInventoryDefaultValues = {
   product_id: null,
   enabled_variations: [],
   variation_values: [],
-  override_capital_price: '',
-  override_selling_price: '',
-  override_discount: '',
-  available_qty: '0',
-  min_available_qty: '1',
+  override_capital_price: {
+    formattedValue: '',
+    value: null,
+  },
+  override_selling_price: {
+    formattedValue: '',
+    value: null,
+  },
+  override_discount: {
+    formattedValue: '',
+    value: null,
+  },
+  available_qty: {
+    formattedValue: '0',
+    value: 0,
+  },
+  min_available_qty: {
+    formattedValue: '0',
+    value: 0,
+  },
 };
 
 interface ICreateProductInventoryProps extends CreateProductInventoryNavProps {}
@@ -141,18 +167,9 @@ const CreateProductInventory = ({
         };
       });
     const price = {
-      override_capital_price:
-        data.override_capital_price === ''
-          ? null
-          : myNumberFormat.unformat(data.override_capital_price),
-      override_selling_price:
-        data.override_selling_price === ''
-          ? null
-          : myNumberFormat.unformat(data.override_selling_price),
-      override_discount:
-        data.override_discount === ''
-          ? null
-          : myNumberFormat.unformat(data.override_discount),
+      override_capital_price: data.override_capital_price.value,
+      override_selling_price: data.override_selling_price.value,
+      override_discount: data.override_discount.value,
     };
 
     try {
@@ -164,12 +181,8 @@ const CreateProductInventory = ({
             override_selling_price: price.override_selling_price,
             override_discount: price.override_discount,
             store_id: route.params.storeId,
-            available_qty: myNumberFormat.unformat(data.available_qty),
-            min_available_qty: myNumberFormat.unformat(
-              data.min_available_qty,
-              1,
-              1,
-            ),
+            available_qty: data.available_qty.value,
+            min_available_qty: data.min_available_qty.value,
             inventory_product_variants: {
               data: inventoryProductVariants,
             },

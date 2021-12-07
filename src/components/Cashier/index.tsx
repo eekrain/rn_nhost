@@ -65,6 +65,15 @@ const CashierHome = ({}: Props) => {
   const activeCategory = watch('active_category');
   const searchTerm = watch('search_term');
 
+  useEffect(() => {
+    if (
+      nhostAuth.user.role === UserRolesEnum.administrator &&
+      selectedStoreId
+    ) {
+      nhostAuth.updateUserData({store_id: parseInt(selectedStoreId, 10)});
+    }
+  }, [nhostAuth, selectedStoreId]);
+
   const getAllCategory = useProduk_GetAllKategoriProdukQuery();
   const kategoriProdukTab = useMemo(() => {
     const data = getAllCategory.data?.rocketjaket_product_category || [];
@@ -212,16 +221,19 @@ const CashierHome = ({}: Props) => {
       selectedStoreId
     ) {
       setValue('show_modal_change_toko', false);
-    } else if (
-      nhostAuth?.user?.role &&
-      nhostAuth?.user?.role !== UserRolesEnum.administrator &&
-      !selectedStoreId &&
-      !isDataStoreReady
-    ) {
+    }
+    if (!isDataStoreReady) {
+      console.log(
+        '🚀 ~ file: index.tsx ~ line 227 ~ useEffect ~ nhostAuth.user.store_id',
+        nhostAuth.user.store_id,
+      );
       if (nhostAuth.user.store_id) {
         setValue('store_id', nhostAuth?.user?.store_id.toString());
         setDataStoreReady(true);
-      } else {
+      } else if (
+        nhostAuth?.user?.role &&
+        nhostAuth?.user?.role !== UserRolesEnum.administrator
+      ) {
         Alert.alert(
           'Akun Anda Belum Terdaftar',
           'Akun anda belum terdaftar di store manapun! Silahkan kontak owner / admin untuk mendaftarkan akun anda ke penempatan toko sesuai.',

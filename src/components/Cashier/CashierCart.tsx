@@ -22,7 +22,10 @@ import {PAYMENT_METHOD, PaymentMethodEnum} from '../../shared/constants';
 import PaymentTypeForm from './PaymentTypeForm';
 import {useForm} from 'react-hook-form';
 import {TRHNumberValueType} from '../../shared/components';
-import {useCashier_CreateTransactionMutation} from '../../graphql/gql-generated';
+import {
+  Transaction_Items,
+  useCashier_CreateTransactionMutation,
+} from '../../graphql/gql-generated';
 
 export interface IDefaultValues {
   cash_in_amount: TRHNumberValueType;
@@ -66,7 +69,7 @@ const CashierCart = ({}: Props) => {
     setLoadingProcessPayment(true);
     if (
       myCart.payment_type === PaymentMethodEnum.cash &&
-      cashInAmountForm.value < myCart.getTotalPrice()
+      (cashInAmountForm.value as number) < myCart.getTotalPrice()
     ) {
       Alert.alert(
         'Error',
@@ -96,17 +99,19 @@ const CashierCart = ({}: Props) => {
       myCart.cartItems,
     );
 
-    const transaction_items = myCart.cartItems.map(item => ({
-      product_inventory_id: item.product_inventory_id,
-      product_name: item.product_name,
-      variant: item.variant,
-      capital_price: item.capital_price,
-      selling_price: item.selling_price,
-      discount: item.discount,
-      purchace_qty: item.qty,
-      inventory_product_updated_at: item.inventory_product_updated_at,
-      product_updated_at: item.product_updated_at,
-    }));
+    const transaction_items: Transaction_Items[] = myCart.cartItems.map(
+      item => ({
+        product_inventory_id: item.product_inventory_id,
+        product_name: item.product_name,
+        variant: item.variant,
+        capital_price: item.capital_price,
+        selling_price: item.selling_price,
+        discount: item.discount,
+        purchace_qty: item?.qty || 0,
+        inventory_product_updated_at: item.inventory_product_updated_at,
+        product_updated_at: item.product_updated_at,
+      }),
+    );
     console.log(
       '🚀 ~ file: CashierCart.tsx ~ line 103 ~ handleProcessPayment ~ transaction_items',
       transaction_items,
@@ -117,7 +122,7 @@ const CashierCart = ({}: Props) => {
         payment_type: myCart.payment_type,
         user_id: nhostAuth.user.userId,
         transaction_items: transaction_items,
-        cash_in_amount: cashInAmountForm.value,
+        cash_in_amount: cashInAmountForm.value as number,
       },
     }).catch(error => {
       console.error(

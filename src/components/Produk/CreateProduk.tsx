@@ -26,7 +26,6 @@ import * as yup from 'yup';
 import {useNavigation} from '@react-navigation/native';
 import {
   getXHasuraContextHeader,
-  myNumberFormat,
   renameFilenameWithAddedNanoid,
   storage,
 } from '../../shared/utils';
@@ -35,7 +34,9 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import {ButtonSave} from '../Buttons';
-import RHNumberInput from '../../shared/components/RHNumberInput';
+import RHNumberInput, {
+  TRHNumberValueType,
+} from '../../shared/components/RHNumberInput';
 import {useMemo} from 'react';
 import RHSelect from '../../shared/components/RHSelect';
 import {
@@ -48,27 +49,42 @@ import {useState} from 'react';
 interface IDefaultValues {
   product_category_id: string;
   name: string;
-  capital_price: string;
-  selling_price: string;
-  discount: string;
+  capital_price: TRHNumberValueType;
+  selling_price: TRHNumberValueType;
+  discount: TRHNumberValueType;
 }
 
 const schema = yup
   .object({
     product_category_id: yup.string().required('Kategori produk harus diisi'),
     name: yup.string().required('Nama produk harus diisi'),
-    capital_price: yup.string().required('Harga modal harus diisi'),
-    selling_price: yup.string().required('Harga jual harus diisi'),
-    discount: yup.string().optional(),
+    capital_price: yup.object({
+      value: yup.number().min(0).required(),
+    }),
+    selling_price: yup.object({
+      value: yup.number().min(0).required(),
+    }),
+    discount: yup.object({
+      value: yup.number().min(0).max(100).required(),
+    }),
   })
   .required();
 
 const defaultValues: IDefaultValues = {
   name: '',
   product_category_id: '',
-  capital_price: '0',
-  selling_price: '0',
-  discount: '0',
+  capital_price: {
+    formattedValue: '0',
+    value: 0,
+  },
+  selling_price: {
+    formattedValue: '0',
+    value: 0,
+  },
+  discount: {
+    formattedValue: '0',
+    value: 0,
+  },
 };
 
 interface Props {}
@@ -153,9 +169,9 @@ const CreateProduk = ({}: Props) => {
       variables: {
         name: data.name,
         photo_url: photo_url,
-        capital_price: myNumberFormat.unformat(data.capital_price),
-        selling_price: myNumberFormat.unformat(data.selling_price),
-        discount: myNumberFormat.unformat(data.discount),
+        capital_price: data.capital_price.value || 0,
+        selling_price: data.selling_price.value || 0,
+        discount: data.discount.value || 0,
         product_category_id: parseInt(data.product_category_id, 10),
       },
     });
