@@ -35,7 +35,11 @@ import {
   useUser_CreateOneUserFcmTokenMutation,
   useUser_GetAllUserFcmTokensByIdQuery,
 } from './src/graphql/gql-generated';
-import {getXHasuraContextHeader, myNotifeeActions} from './src/shared/utils';
+import {
+  getXHasuraContextHeader,
+  myNotifeeActions,
+  onDisplayNotification,
+} from './src/shared/utils';
 import {useNavigationContainerRef} from '@react-navigation/native';
 
 const appPermission = async () => {
@@ -89,6 +93,23 @@ const linking: LinkingOptions<AppNavigationParamList> = {
       InventoryRoot: 'inventory',
     },
   },
+  async getInitialURL() {
+    // First, you may want to do the default deep link handling
+    // Check if app was opened from a deep link
+    const url = await Linking.getInitialURL();
+
+    if (url != null) {
+      return url;
+    }
+
+    // Next, you would need to get the initial URL from your third-party integration
+    // It depends on the third-party SDK you use
+    // For example, to get to get the initial URL for branch.io:
+    const notif = await notifee.getInitialNotification();
+    console.log('🚀 ~ file: App.tsx ~ line 109 ~ getInitialURL ~ notif', notif);
+
+    return notif?.notification?.data?.link;
+  },
   subscribe(listener) {
     const onReceiveURL = ({url}: {url: string}) => listener(url);
     // Listen to incoming links from deep linking
@@ -108,10 +129,6 @@ const linking: LinkingOptions<AppNavigationParamList> = {
     );
 
     notifee.onBackgroundEvent(async notifeeEvent => {
-      console.log(
-        '🚀 ~ file: App.tsx ~ line 120 ~ subscribe ~ notifeeEvent',
-        notifeeEvent,
-      );
       if (notifeeEvent.type === EventType.PRESS) {
         if (notifeeEvent.detail.notification?.data?.link) {
           listener(notifeeEvent.detail.notification?.data?.link);
@@ -192,12 +209,12 @@ const MyNotifee = ({}: MyNotifeeProps) => {
 
   useEffect(() => {
     const allFcmUser = getAllFcmUser.data?.users_fcm_token;
-
     const registerFcm = async () => {
       const token = await messaging().getToken();
       nhostAuth.updateFcmToken(token);
 
       const found = allFcmUser?.find(fcm => fcm.fcm_token === token);
+      console.log('🚀 ~ file: App.tsx ~ line 205 ~ registerFcm ~ found', found);
       if (!found) {
         const res = await createFcmToken({
           variables: {
@@ -223,38 +240,9 @@ const MyNotifee = ({}: MyNotifeeProps) => {
   ]);
 
   useEffect(() => {
-    const onDisplayNotification = async (
-      remoteMessage: FirebaseMessagingTypes.RemoteMessage,
-      from: string,
-    ) => {
-      console.log(
-        '🚀 ~ file: index.tsx ~ line 213 ~ useEffect ~ notificationFrom =>',
-        from,
-      );
-      if (remoteMessage?.data?.notifee) {
-        console.log(
-          '🚀 ~ file: App.tsx ~ line 82 ~ useEffect ~ remoteMessage',
-          JSON.parse(remoteMessage?.data?.notifee),
-        );
-      }
-      await notifee.createChannel({
-        id: 'default',
-        name: 'Default Channel',
-      });
-
-      if (remoteMessage?.data?.notifee) {
-        await notifee.displayNotification(
-          JSON.parse(remoteMessage?.data?.notifee),
-        );
-      }
-    };
-
     messaging().registerDeviceForRemoteMessages();
     const unsubscribe = messaging().onMessage(message =>
       onDisplayNotification(message, 'onMessage'),
-    );
-    messaging().setBackgroundMessageHandler(message =>
-      onDisplayNotification(message, 'setBackgroundMessageHandler'),
     );
 
     return unsubscribe;
