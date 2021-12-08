@@ -1,7 +1,9 @@
 import {Input, IInputProps, FormControl} from 'native-base';
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
+import {myNumberFormat} from '../../utils';
 
+type TRHTextInputFormat = 'phoneNumber';
 interface IRHTextInputProps extends IInputProps {
   name: string;
   label: string;
@@ -11,7 +13,19 @@ interface IRHTextInputProps extends IInputProps {
   };
   isDisableLabel?: boolean;
   overrideErrorName?: string;
+  format?: TRHTextInputFormat;
 }
+
+const formatText = (text: string, format?: TRHTextInputFormat) => {
+  if (format === 'phoneNumber') {
+    const tes = myNumberFormat.phoneNumber(text, 'withoutFirst');
+    console.log('🚀 ~ file: index.tsx ~ line 22 ~ formatText ~ tes', tes);
+    return myNumberFormat.phoneNumber(text, 'withoutFirst');
+  } else {
+    return text;
+  }
+};
+
 const RHTextInput = ({
   name,
   label,
@@ -20,6 +34,7 @@ const RHTextInput = ({
   placeholder,
   isDisableLabel,
   overrideErrorName,
+  format,
   ...rest
 }: IRHTextInputProps) => {
   return (
@@ -34,7 +49,7 @@ const RHTextInput = ({
         render={({field: {onChange, value}}) => {
           return (
             <Input
-              onChangeText={val => onChange(val)}
+              onChangeText={val => onChange(formatText(val, format))}
               value={value}
               placeholder={placeholder ? placeholder : label}
               {...rest}

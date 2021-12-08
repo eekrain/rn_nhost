@@ -14,5 +14,9 @@ mutation Cashier_CreateTransaction(
   ) {
     invoice_number
     isOutOfSync
+    cash_change
+    payment_type
+    total_transaction
+    cash_in_amount
   }
 }

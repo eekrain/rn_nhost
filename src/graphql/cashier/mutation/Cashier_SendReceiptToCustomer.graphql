@@ -1,0 +1,18 @@
+mutation Cashier_SendReceiptToCustomer(
+  $invoice_number: String!
+  $receipt_type: String!
+  $customer: CustomerInput!
+) {
+  sendReceipt(
+    invoice_number: $invoice_number
+    receipt_type: $receipt_type
+    customer: $customer
+  ) {
+    id
+    is_sent
+    name
+    phone_number
+    email
+    created_at
+  }
+}

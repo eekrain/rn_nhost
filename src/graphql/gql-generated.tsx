@@ -37,6 +37,12 @@ export type BulkUpdateVariantsMetadataOutput = {
   variant_title?: Maybe<Scalars['String']>;
 };
 
+export type CustomerInput = {
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -1421,8 +1427,12 @@ export type Citext_Comparison_Exp = {
 
 export type CreateTransactionOutput = {
   __typename?: 'createTransactionOutput';
+  cash_change?: Maybe<Scalars['Int']>;
+  cash_in_amount: Scalars['Int'];
   invoice_number?: Maybe<Scalars['String']>;
   isOutOfSync?: Maybe<Scalars['Boolean']>;
+  payment_type: Scalars['String'];
+  total_transaction: Scalars['Int'];
 };
 
 export type Insert_Inventory_Product_Variants = {
@@ -1483,6 +1493,10 @@ export type Mutation_Root = {
   delete_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** delete single row from the table: "auth.roles" */
   delete_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** delete data from the table: "rocketjaket.customer" */
+  delete_rocketjaket_customer?: Maybe<Rocketjaket_Customer_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.customer" */
+  delete_rocketjaket_customer_by_pk?: Maybe<Rocketjaket_Customer>;
   /** delete data from the table: "rocketjaket.inventory_product" */
   delete_rocketjaket_inventory_product?: Maybe<Rocketjaket_Inventory_Product_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.inventory_product" */
@@ -1519,6 +1533,10 @@ export type Mutation_Root = {
   delete_rocketjaket_transaction_item?: Maybe<Rocketjaket_Transaction_Item_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.transaction_item" */
   delete_rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** delete data from the table: "rocketjaket.transaction_receipt" */
+  delete_rocketjaket_transaction_receipt?: Maybe<Rocketjaket_Transaction_Receipt_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.transaction_receipt" */
+  delete_rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -1551,6 +1569,10 @@ export type Mutation_Root = {
   insert_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** insert a single row into the table: "auth.roles" */
   insert_auth_roles_one?: Maybe<Auth_Roles>;
+  /** insert data into the table: "rocketjaket.customer" */
+  insert_rocketjaket_customer?: Maybe<Rocketjaket_Customer_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.customer" */
+  insert_rocketjaket_customer_one?: Maybe<Rocketjaket_Customer>;
   /** insert data into the table: "rocketjaket.inventory_product" */
   insert_rocketjaket_inventory_product?: Maybe<Rocketjaket_Inventory_Product_Mutation_Response>;
   /** insert a single row into the table: "rocketjaket.inventory_product" */
@@ -1587,6 +1609,10 @@ export type Mutation_Root = {
   insert_rocketjaket_transaction_item_one?: Maybe<Rocketjaket_Transaction_Item>;
   /** insert a single row into the table: "rocketjaket.transaction" */
   insert_rocketjaket_transaction_one?: Maybe<Rocketjaket_Transaction>;
+  /** insert data into the table: "rocketjaket.transaction_receipt" */
+  insert_rocketjaket_transaction_receipt?: Maybe<Rocketjaket_Transaction_Receipt_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.transaction_receipt" */
+  insert_rocketjaket_transaction_receipt_one?: Maybe<Rocketjaket_Transaction_Receipt>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert data into the table: "users_fcm_token" */
@@ -1595,6 +1621,7 @@ export type Mutation_Root = {
   insert_users_fcm_token_one?: Maybe<Users_Fcm_Token>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
+  sendReceipt?: Maybe<SendReceiptOutput>;
   /** update data of the table: "auth.account_providers" */
   update_auth_account_providers?: Maybe<Auth_Account_Providers_Mutation_Response>;
   /** update single row of the table: "auth.account_providers" */
@@ -1619,6 +1646,10 @@ export type Mutation_Root = {
   update_auth_roles?: Maybe<Auth_Roles_Mutation_Response>;
   /** update single row of the table: "auth.roles" */
   update_auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** update data of the table: "rocketjaket.customer" */
+  update_rocketjaket_customer?: Maybe<Rocketjaket_Customer_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.customer" */
+  update_rocketjaket_customer_by_pk?: Maybe<Rocketjaket_Customer>;
   /** update data of the table: "rocketjaket.inventory_product" */
   update_rocketjaket_inventory_product?: Maybe<Rocketjaket_Inventory_Product_Mutation_Response>;
   /** update single row of the table: "rocketjaket.inventory_product" */
@@ -1655,6 +1686,10 @@ export type Mutation_Root = {
   update_rocketjaket_transaction_item?: Maybe<Rocketjaket_Transaction_Item_Mutation_Response>;
   /** update single row of the table: "rocketjaket.transaction_item" */
   update_rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** update data of the table: "rocketjaket.transaction_receipt" */
+  update_rocketjaket_transaction_receipt?: Maybe<Rocketjaket_Transaction_Receipt_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.transaction_receipt" */
+  update_rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -1767,6 +1802,18 @@ export type Mutation_RootDelete_Auth_Roles_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Rocketjaket_CustomerArgs = {
+  where: Rocketjaket_Customer_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Customer_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Inventory_ProductArgs = {
   where: Rocketjaket_Inventory_Product_Bool_Exp;
 };
@@ -1870,6 +1917,18 @@ export type Mutation_RootDelete_Rocketjaket_Transaction_ItemArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Transaction_Item_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_ReceiptArgs = {
+  where: Rocketjaket_Transaction_Receipt_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Receipt_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1979,6 +2038,20 @@ export type Mutation_RootInsert_Auth_RolesArgs = {
 export type Mutation_RootInsert_Auth_Roles_OneArgs = {
   object: Auth_Roles_Insert_Input;
   on_conflict?: Maybe<Auth_Roles_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_CustomerArgs = {
+  objects: Array<Rocketjaket_Customer_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Customer_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Customer_OneArgs = {
+  object: Rocketjaket_Customer_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Customer_On_Conflict>;
 };
 
 
@@ -2109,6 +2182,20 @@ export type Mutation_RootInsert_Rocketjaket_Transaction_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_ReceiptArgs = {
+  objects: Array<Rocketjaket_Transaction_Receipt_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Receipt_OneArgs = {
+  object: Rocketjaket_Transaction_Receipt_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: Maybe<Users_On_Conflict>;
@@ -2133,6 +2220,14 @@ export type Mutation_RootInsert_Users_Fcm_Token_OneArgs = {
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: Maybe<Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootSendReceiptArgs = {
+  customer?: Maybe<CustomerInput>;
+  invoice_number: Scalars['String'];
+  receipt_type: Scalars['String'];
 };
 
 
@@ -2227,6 +2322,20 @@ export type Mutation_RootUpdate_Auth_RolesArgs = {
 export type Mutation_RootUpdate_Auth_Roles_By_PkArgs = {
   _set?: Maybe<Auth_Roles_Set_Input>;
   pk_columns: Auth_Roles_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_CustomerArgs = {
+  _set?: Maybe<Rocketjaket_Customer_Set_Input>;
+  where: Rocketjaket_Customer_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Customer_By_PkArgs = {
+  _set?: Maybe<Rocketjaket_Customer_Set_Input>;
+  pk_columns: Rocketjaket_Customer_Pk_Columns_Input;
 };
 
 
@@ -2373,6 +2482,20 @@ export type Mutation_RootUpdate_Rocketjaket_Transaction_Item_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_ReceiptArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Receipt_Set_Input>;
+  where: Rocketjaket_Transaction_Receipt_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Receipt_By_PkArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Receipt_Set_Input>;
+  pk_columns: Rocketjaket_Transaction_Receipt_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
   _inc?: Maybe<Users_Inc_Input>;
   _set?: Maybe<Users_Set_Input>;
@@ -2455,6 +2578,12 @@ export type Query_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.customer" */
+  rocketjaket_customer: Array<Rocketjaket_Customer>;
+  /** fetch aggregated fields from the table: "rocketjaket.customer" */
+  rocketjaket_customer_aggregate: Rocketjaket_Customer_Aggregate;
+  /** fetch data from the table: "rocketjaket.customer" using primary key columns */
+  rocketjaket_customer_by_pk?: Maybe<Rocketjaket_Customer>;
   /** fetch data from the table: "rocketjaket.inventory_product" */
   rocketjaket_inventory_product: Array<Rocketjaket_Inventory_Product>;
   /** fetch aggregated fields from the table: "rocketjaket.inventory_product" */
@@ -2509,6 +2638,12 @@ export type Query_Root = {
   rocketjaket_transaction_item_aggregate: Rocketjaket_Transaction_Item_Aggregate;
   /** fetch data from the table: "rocketjaket.transaction_item" using primary key columns */
   rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** fetch data from the table: "rocketjaket.transaction_receipt" */
+  rocketjaket_transaction_receipt: Array<Rocketjaket_Transaction_Receipt>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_receipt" */
+  rocketjaket_transaction_receipt_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_receipt" using primary key columns */
+  rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -2659,6 +2794,29 @@ export type Query_RootAuth_Roles_AggregateArgs = {
 
 export type Query_RootAuth_Roles_By_PkArgs = {
   role: Scalars['String'];
+};
+
+
+export type Query_RootRocketjaket_CustomerArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Customer_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Customer_Order_By>>;
+  where?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Customer_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Customer_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Customer_Order_By>>;
+  where?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Customer_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -2869,6 +3027,29 @@ export type Query_RootRocketjaket_Transaction_Item_By_PkArgs = {
 };
 
 
+export type Query_RootRocketjaket_Transaction_ReceiptArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Receipt_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Receipt_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -2913,6 +3094,177 @@ export type Query_RootUsers_Fcm_Token_AggregateArgs = {
 export type Query_RootUsers_Fcm_Token_By_PkArgs = {
   id: Scalars['uuid'];
 };
+
+/** columns and relationships of "rocketjaket.customer" */
+export type Rocketjaket_Customer = {
+  __typename?: 'rocketjaket_customer';
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['uuid'];
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  transaction_receipts: Array<Rocketjaket_Transaction_Receipt>;
+  /** An aggregate relationship */
+  transaction_receipts_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
+};
+
+
+/** columns and relationships of "rocketjaket.customer" */
+export type Rocketjaket_CustomerTransaction_ReceiptsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.customer" */
+export type Rocketjaket_CustomerTransaction_Receipts_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+/** aggregated selection of "rocketjaket.customer" */
+export type Rocketjaket_Customer_Aggregate = {
+  __typename?: 'rocketjaket_customer_aggregate';
+  aggregate?: Maybe<Rocketjaket_Customer_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Customer>;
+};
+
+/** aggregate fields of "rocketjaket.customer" */
+export type Rocketjaket_Customer_Aggregate_Fields = {
+  __typename?: 'rocketjaket_customer_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Customer_Max_Fields>;
+  min?: Maybe<Rocketjaket_Customer_Min_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.customer" */
+export type Rocketjaket_Customer_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Customer_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.customer". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Customer_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Customer_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Customer_Bool_Exp>>;
+  email?: Maybe<String_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  phone_number?: Maybe<String_Comparison_Exp>;
+  transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.customer" */
+export enum Rocketjaket_Customer_Constraint {
+  /** unique or primary key constraint */
+  CustomerPhoneNumberEmailKey = 'customer_phone_number_email_key',
+  /** unique or primary key constraint */
+  CustomerPkey = 'customer_pkey'
+}
+
+/** input type for inserting data into table "rocketjaket.customer" */
+export type Rocketjaket_Customer_Insert_Input = {
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+  transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Customer_Max_Fields = {
+  __typename?: 'rocketjaket_customer_max_fields';
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Customer_Min_Fields = {
+  __typename?: 'rocketjaket_customer_min_fields';
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.customer" */
+export type Rocketjaket_Customer_Mutation_Response = {
+  __typename?: 'rocketjaket_customer_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Customer>;
+};
+
+/** input type for inserting object relation for remote table "rocketjaket.customer" */
+export type Rocketjaket_Customer_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Customer_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Customer_On_Conflict>;
+};
+
+/** on conflict condition type for table "rocketjaket.customer" */
+export type Rocketjaket_Customer_On_Conflict = {
+  constraint: Rocketjaket_Customer_Constraint;
+  update_columns?: Array<Rocketjaket_Customer_Update_Column>;
+  where?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.customer". */
+export type Rocketjaket_Customer_Order_By = {
+  email?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  phone_number?: Maybe<Order_By>;
+  transaction_receipts_aggregate?: Maybe<Rocketjaket_Transaction_Receipt_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_customer */
+export type Rocketjaket_Customer_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "rocketjaket.customer" */
+export enum Rocketjaket_Customer_Select_Column {
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  PhoneNumber = 'phone_number'
+}
+
+/** input type for updating data in table "rocketjaket.customer" */
+export type Rocketjaket_Customer_Set_Input = {
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "rocketjaket.customer" */
+export enum Rocketjaket_Customer_Update_Column {
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  PhoneNumber = 'phone_number'
+}
 
 /** columns and relationships of "rocketjaket.inventory_product" */
 export type Rocketjaket_Inventory_Product = {
@@ -5594,6 +5946,203 @@ export type Rocketjaket_Transaction_Pk_Columns_Input = {
   invoice_number: Scalars['String'];
 };
 
+/** columns and relationships of "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt = {
+  __typename?: 'rocketjaket_transaction_receipt';
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  customer: Rocketjaket_Customer;
+  customer_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  is_sent: Scalars['Boolean'];
+  receipt_type: Scalars['String'];
+  /** An object relationship */
+  transaction: Rocketjaket_Transaction;
+  transaction_invoice_number: Scalars['String'];
+};
+
+/** aggregated selection of "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Aggregate = {
+  __typename?: 'rocketjaket_transaction_receipt_aggregate';
+  aggregate?: Maybe<Rocketjaket_Transaction_Receipt_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Transaction_Receipt>;
+};
+
+/** aggregate fields of "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Aggregate_Fields = {
+  __typename?: 'rocketjaket_transaction_receipt_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Transaction_Receipt_Max_Fields>;
+  min?: Maybe<Rocketjaket_Transaction_Receipt_Min_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Rocketjaket_Transaction_Receipt_Max_Order_By>;
+  min?: Maybe<Rocketjaket_Transaction_Receipt_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Arr_Rel_Insert_Input = {
+  data: Array<Rocketjaket_Transaction_Receipt_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.transaction_receipt". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Transaction_Receipt_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Transaction_Receipt_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Transaction_Receipt_Bool_Exp>>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  customer?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+  customer_id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  is_sent?: Maybe<Boolean_Comparison_Exp>;
+  receipt_type?: Maybe<String_Comparison_Exp>;
+  transaction?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+  transaction_invoice_number?: Maybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.transaction_receipt" */
+export enum Rocketjaket_Transaction_Receipt_Constraint {
+  /** unique or primary key constraint */
+  TransactionReceiptPkey = 'transaction_receipt_pkey'
+}
+
+/** input type for inserting data into table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Insert_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  customer?: Maybe<Rocketjaket_Customer_Obj_Rel_Insert_Input>;
+  customer_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  is_sent?: Maybe<Scalars['Boolean']>;
+  receipt_type?: Maybe<Scalars['String']>;
+  transaction?: Maybe<Rocketjaket_Transaction_Obj_Rel_Insert_Input>;
+  transaction_invoice_number?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Transaction_Receipt_Max_Fields = {
+  __typename?: 'rocketjaket_transaction_receipt_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  customer_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  receipt_type?: Maybe<Scalars['String']>;
+  transaction_invoice_number?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Max_Order_By = {
+  created_at?: Maybe<Order_By>;
+  customer_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  receipt_type?: Maybe<Order_By>;
+  transaction_invoice_number?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Transaction_Receipt_Min_Fields = {
+  __typename?: 'rocketjaket_transaction_receipt_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  customer_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  receipt_type?: Maybe<Scalars['String']>;
+  transaction_invoice_number?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Min_Order_By = {
+  created_at?: Maybe<Order_By>;
+  customer_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  receipt_type?: Maybe<Order_By>;
+  transaction_invoice_number?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Mutation_Response = {
+  __typename?: 'rocketjaket_transaction_receipt_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Transaction_Receipt>;
+};
+
+/** on conflict condition type for table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_On_Conflict = {
+  constraint: Rocketjaket_Transaction_Receipt_Constraint;
+  update_columns?: Array<Rocketjaket_Transaction_Receipt_Update_Column>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.transaction_receipt". */
+export type Rocketjaket_Transaction_Receipt_Order_By = {
+  created_at?: Maybe<Order_By>;
+  customer?: Maybe<Rocketjaket_Customer_Order_By>;
+  customer_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  is_sent?: Maybe<Order_By>;
+  receipt_type?: Maybe<Order_By>;
+  transaction?: Maybe<Rocketjaket_Transaction_Order_By>;
+  transaction_invoice_number?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_transaction_receipt */
+export type Rocketjaket_Transaction_Receipt_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "rocketjaket.transaction_receipt" */
+export enum Rocketjaket_Transaction_Receipt_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CustomerId = 'customer_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsSent = 'is_sent',
+  /** column name */
+  ReceiptType = 'receipt_type',
+  /** column name */
+  TransactionInvoiceNumber = 'transaction_invoice_number'
+}
+
+/** input type for updating data in table "rocketjaket.transaction_receipt" */
+export type Rocketjaket_Transaction_Receipt_Set_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  customer_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  is_sent?: Maybe<Scalars['Boolean']>;
+  receipt_type?: Maybe<Scalars['String']>;
+  transaction_invoice_number?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "rocketjaket.transaction_receipt" */
+export enum Rocketjaket_Transaction_Receipt_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CustomerId = 'customer_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsSent = 'is_sent',
+  /** column name */
+  ReceiptType = 'receipt_type',
+  /** column name */
+  TransactionInvoiceNumber = 'transaction_invoice_number'
+}
+
 /** select columns of table "rocketjaket.transaction" */
 export enum Rocketjaket_Transaction_Select_Column {
   /** column name */
@@ -5702,6 +6251,16 @@ export type Rocketjaket_Transaction_Variance_Fields = {
   total_transaction?: Maybe<Scalars['Float']>;
 };
 
+export type SendReceiptOutput = {
+  __typename?: 'sendReceiptOutput';
+  created_at: Scalars['timestamptz'];
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['uuid'];
+  is_sent: Scalars['Boolean'];
+  name?: Maybe<Scalars['String']>;
+  phone_number?: Maybe<Scalars['String']>;
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** fetch data from the table: "auth.account_providers" */
@@ -5740,6 +6299,12 @@ export type Subscription_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  /** fetch data from the table: "rocketjaket.customer" */
+  rocketjaket_customer: Array<Rocketjaket_Customer>;
+  /** fetch aggregated fields from the table: "rocketjaket.customer" */
+  rocketjaket_customer_aggregate: Rocketjaket_Customer_Aggregate;
+  /** fetch data from the table: "rocketjaket.customer" using primary key columns */
+  rocketjaket_customer_by_pk?: Maybe<Rocketjaket_Customer>;
   /** fetch data from the table: "rocketjaket.inventory_product" */
   rocketjaket_inventory_product: Array<Rocketjaket_Inventory_Product>;
   /** fetch aggregated fields from the table: "rocketjaket.inventory_product" */
@@ -5794,6 +6359,12 @@ export type Subscription_Root = {
   rocketjaket_transaction_item_aggregate: Rocketjaket_Transaction_Item_Aggregate;
   /** fetch data from the table: "rocketjaket.transaction_item" using primary key columns */
   rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** fetch data from the table: "rocketjaket.transaction_receipt" */
+  rocketjaket_transaction_receipt: Array<Rocketjaket_Transaction_Receipt>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_receipt" */
+  rocketjaket_transaction_receipt_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_receipt" using primary key columns */
+  rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -5944,6 +6515,29 @@ export type Subscription_RootAuth_Roles_AggregateArgs = {
 
 export type Subscription_RootAuth_Roles_By_PkArgs = {
   role: Scalars['String'];
+};
+
+
+export type Subscription_RootRocketjaket_CustomerArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Customer_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Customer_Order_By>>;
+  where?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Customer_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Customer_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Customer_Order_By>>;
+  where?: Maybe<Rocketjaket_Customer_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Customer_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -6154,6 +6748,29 @@ export type Subscription_RootRocketjaket_Transaction_Item_By_PkArgs = {
 };
 
 
+export type Subscription_RootRocketjaket_Transaction_ReceiptArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Receipt_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Receipt_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootUsersArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6350,8 +6967,6 @@ export type Users_Fcm_Token_Bool_Exp = {
 
 /** unique or primary key constraints on table "users_fcm_token" */
 export enum Users_Fcm_Token_Constraint {
-  /** unique or primary key constraint */
-  UsersFcmTokenFcmTokenKey = 'users_fcm_token_fcm_token_key',
   /** unique or primary key constraint */
   UsersFcmTokenPkey = 'users_fcm_token_pkey'
 }
@@ -6621,7 +7236,16 @@ export type Cashier_CreateTransactionMutationVariables = Exact<{
 }>;
 
 
-export type Cashier_CreateTransactionMutation = { __typename?: 'mutation_root', createTransaction?: { __typename?: 'createTransactionOutput', invoice_number?: string | null | undefined, isOutOfSync?: boolean | null | undefined } | null | undefined };
+export type Cashier_CreateTransactionMutation = { __typename?: 'mutation_root', createTransaction?: { __typename?: 'createTransactionOutput', invoice_number?: string | null | undefined, isOutOfSync?: boolean | null | undefined, cash_change?: number | null | undefined, payment_type: string, total_transaction: number, cash_in_amount: number } | null | undefined };
+
+export type Cashier_SendReceiptToCustomerMutationVariables = Exact<{
+  invoice_number: Scalars['String'];
+  receipt_type: Scalars['String'];
+  customer: CustomerInput;
+}>;
+
+
+export type Cashier_SendReceiptToCustomerMutation = { __typename?: 'mutation_root', sendReceipt?: { __typename?: 'sendReceiptOutput', id: any, is_sent: boolean, name?: string | null | undefined, phone_number?: string | null | undefined, email?: string | null | undefined, created_at: any } | null | undefined };
 
 export type Cashier_GetAllProductQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6909,6 +7533,7 @@ export const namedOperations = {
   },
   Mutation: {
     Cashier_CreateTransaction: 'Cashier_CreateTransaction',
+    Cashier_SendReceiptToCustomer: 'Cashier_SendReceiptToCustomer',
     Inventory_BulkDeleteOneInventoryProductByPK: 'Inventory_BulkDeleteOneInventoryProductByPK',
     Inventory_BulkUpdateInventoryProduct: 'Inventory_BulkUpdateInventoryProduct',
     Inventory_BulkUpdateVariantsMetadata: 'Inventory_BulkUpdateVariantsMetadata',
@@ -6944,6 +7569,10 @@ export const Cashier_CreateTransactionDocument = gql`
   ) {
     invoice_number
     isOutOfSync
+    cash_change
+    payment_type
+    total_transaction
+    cash_in_amount
   }
 }
     `;
@@ -6977,6 +7606,50 @@ export function useCashier_CreateTransactionMutation(baseOptions?: Apollo.Mutati
 export type Cashier_CreateTransactionMutationHookResult = ReturnType<typeof useCashier_CreateTransactionMutation>;
 export type Cashier_CreateTransactionMutationResult = Apollo.MutationResult<Cashier_CreateTransactionMutation>;
 export type Cashier_CreateTransactionMutationOptions = Apollo.BaseMutationOptions<Cashier_CreateTransactionMutation, Cashier_CreateTransactionMutationVariables>;
+export const Cashier_SendReceiptToCustomerDocument = gql`
+    mutation Cashier_SendReceiptToCustomer($invoice_number: String!, $receipt_type: String!, $customer: CustomerInput!) {
+  sendReceipt(
+    invoice_number: $invoice_number
+    receipt_type: $receipt_type
+    customer: $customer
+  ) {
+    id
+    is_sent
+    name
+    phone_number
+    email
+    created_at
+  }
+}
+    `;
+export type Cashier_SendReceiptToCustomerMutationFn = Apollo.MutationFunction<Cashier_SendReceiptToCustomerMutation, Cashier_SendReceiptToCustomerMutationVariables>;
+
+/**
+ * __useCashier_SendReceiptToCustomerMutation__
+ *
+ * To run a mutation, you first call `useCashier_SendReceiptToCustomerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCashier_SendReceiptToCustomerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cashierSendReceiptToCustomerMutation, { data, loading, error }] = useCashier_SendReceiptToCustomerMutation({
+ *   variables: {
+ *      invoice_number: // value for 'invoice_number'
+ *      receipt_type: // value for 'receipt_type'
+ *      customer: // value for 'customer'
+ *   },
+ * });
+ */
+export function useCashier_SendReceiptToCustomerMutation(baseOptions?: Apollo.MutationHookOptions<Cashier_SendReceiptToCustomerMutation, Cashier_SendReceiptToCustomerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Cashier_SendReceiptToCustomerMutation, Cashier_SendReceiptToCustomerMutationVariables>(Cashier_SendReceiptToCustomerDocument, options);
+      }
+export type Cashier_SendReceiptToCustomerMutationHookResult = ReturnType<typeof useCashier_SendReceiptToCustomerMutation>;
+export type Cashier_SendReceiptToCustomerMutationResult = Apollo.MutationResult<Cashier_SendReceiptToCustomerMutation>;
+export type Cashier_SendReceiptToCustomerMutationOptions = Apollo.BaseMutationOptions<Cashier_SendReceiptToCustomerMutation, Cashier_SendReceiptToCustomerMutationVariables>;
 export const Cashier_GetAllProductDocument = gql`
     query Cashier_GetAllProduct {
   rocketjaket_product {

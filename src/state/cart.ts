@@ -1,6 +1,5 @@
 import create from 'zustand';
 import {createTrackedSelector} from 'react-tracked';
-import {PaymentMethodEnum} from '../shared/constants';
 
 export interface ICartItem {
   product_photo_url: string;
@@ -18,21 +17,15 @@ export interface ICartItem {
 
 export interface ICart {
   cartItems: ICartItem[];
-  payment_type: PaymentMethodEnum | null;
-  cash_in_amount: number | null;
   handleAddToCart: (newItem: ICartItem) => void;
   handleRemoveFromCart: (removeItemId: string) => void;
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalItem: () => number;
-  setPaymentType: (newPaymentType: PaymentMethodEnum | null) => void;
-  setCashInAmount: (newCashAmount: number | null) => void;
 }
 
 const zustandCartStore = create<ICart>((set, get) => ({
   cartItems: [],
-  payment_type: null,
-  cash_in_amount: null,
   handleAddToCart: newItem => {
     const isItemInCart = get().cartItems.find(
       item => item.product_inventory_id === newItem.product_inventory_id,
@@ -106,16 +99,6 @@ const zustandCartStore = create<ICart>((set, get) => ({
       0,
     );
     return total;
-  },
-  setPaymentType: newPaymentType => {
-    set(state => ({
-      ...state,
-      payment_type:
-        state.payment_type === newPaymentType ? null : newPaymentType,
-    }));
-  },
-  setCashInAmount: newCashAmount => {
-    set(state => ({...state, cash_in_amount: newCashAmount}));
   },
 }));
 

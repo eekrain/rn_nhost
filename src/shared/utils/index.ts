@@ -6,3 +6,4 @@ export * from './getStorageFileUrl';
 export * from './myNumberFormat';
 export * from './useFlexSearch';
 export * from './myNotifee';
+export {toTitleCase} from './stringTransformUtils';

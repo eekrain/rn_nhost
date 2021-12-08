@@ -21,3 +21,9 @@ export const PAYMENT_METHOD = {
     {payment_type: PaymentMethodEnum.ewalletLINKAJA, title: 'LINKAJA'},
   ],
 };
+
+export const ALL_POSSIBLE_PAYMENT_METHOD = [
+  PAYMENT_METHOD.cash,
+  ...PAYMENT_METHOD.edc.map(x => x),
+  ...PAYMENT_METHOD.ewallet.map(x => x),
+];

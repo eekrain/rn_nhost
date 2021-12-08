@@ -14,7 +14,8 @@ type TFormatNumberType =
   | 'rp'
   | '-rp'
   | 'thousandSeparated'
-  | 'discountPercentage';
+  | 'discountPercentage'
+  | 'phoneNumber';
 
 interface IRHNumberInputProps extends IInputProps {
   name: string;
@@ -53,6 +54,12 @@ const leftElement = (format?: TFormatNumberType) => {
         <Text color="white">- Rp</Text>
       </HStack>
     );
+  } else if (format === 'phoneNumber') {
+    return (
+      <HStack bgColor="primary.700" h="full" alignItems="center" px="3">
+        <Text color="white">+62</Text>
+      </HStack>
+    );
   }
 };
 
@@ -65,7 +72,9 @@ const numberFormat = (
 ) => {
   let processedVal: string;
 
-  if (format) {
+  if (format === 'phoneNumber' || !format) {
+    processedVal = value;
+  } else {
     let temp = numbro.unformat(value);
     temp = isNaN(temp) ? 0 : temp;
     if (minimumIntValue) {
@@ -78,8 +87,6 @@ const numberFormat = (
       isDisableEmptyToZero && temp === 0
         ? ''
         : myNumberFormat.thousandSeparated(temp);
-  } else {
-    processedVal = value;
   }
   return processedVal;
 };

@@ -1,34 +1,30 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Box,
   Text,
   Center,
-  ScrollView,
   Heading,
   HStack,
   VStack,
   Button,
-  IconButton,
   Icon,
-  Modal,
 } from 'native-base';
 import {useMyCart} from '../../state';
-import {MyAvatar} from '../../shared/components';
 import {myNumberFormat} from '../../shared/utils';
 import Feather from 'react-native-vector-icons/Feather';
 import {PAYMENT_METHOD, PaymentMethodEnum} from '../../shared/constants';
-import {string} from 'yup';
-import {Control, useForm} from 'react-hook-form';
+import {Control, UseFormSetValue} from 'react-hook-form';
 import {RHNumberInput, DismissKeyboardWrapper} from '../../shared/components';
-import {IDefaultValues} from './CashierCart';
+import {ICashierCartDefaultValues} from './CashierCart';
 
 interface Props {
-  control: Control<IDefaultValues, object>;
+  control: Control<ICashierCartDefaultValues, object>;
   errors: any;
+  formValue: ICashierCartDefaultValues;
+  setValue: UseFormSetValue<ICashierCartDefaultValues>;
 }
 
-const PaymentTypeForm = ({control, errors}: Props) => {
+const PaymentTypeForm = ({control, errors, formValue, setValue}: Props) => {
   const myCart = useMyCart();
 
   return (
@@ -47,14 +43,14 @@ const PaymentTypeForm = ({control, errors}: Props) => {
           <VStack space="4" flex={1}>
             <Box w="30%">
               <Button
-                onPress={() => myCart.setPaymentType(PaymentMethodEnum.cash)}
+                onPress={() => setValue('payment_type', PaymentMethodEnum.cash)}
                 variant={
-                  myCart.payment_type === PaymentMethodEnum.cash
+                  formValue.payment_type === PaymentMethodEnum.cash
                     ? 'solid'
                     : 'outline'
                 }
                 bg={
-                  myCart.payment_type === PaymentMethodEnum.cash
+                  formValue.payment_type === PaymentMethodEnum.cash
                     ? undefined
                     : 'white'
                 }
@@ -62,7 +58,7 @@ const PaymentTypeForm = ({control, errors}: Props) => {
                 Cash
               </Button>
             </Box>
-            {myCart.payment_type === PaymentMethodEnum.cash && (
+            {formValue.payment_type === PaymentMethodEnum.cash && (
               <RHNumberInput
                 keyboardType="number-pad"
                 name="cash_in_amount"
@@ -86,15 +82,19 @@ const PaymentTypeForm = ({control, errors}: Props) => {
             {PAYMENT_METHOD.edc.map(opt => (
               <Button
                 onPress={() => {
-                  myCart.setPaymentType(opt.payment_type);
+                  setValue('payment_type', opt.payment_type);
                 }}
                 key={opt.payment_type}
                 w="30%"
                 variant={
-                  myCart.payment_type === opt.payment_type ? 'solid' : 'outline'
+                  formValue.payment_type === opt.payment_type
+                    ? 'solid'
+                    : 'outline'
                 }
                 bg={
-                  myCart.payment_type === opt.payment_type ? undefined : 'white'
+                  formValue.payment_type === opt.payment_type
+                    ? undefined
+                    : 'white'
                 }>
                 {opt.title}
               </Button>
@@ -113,15 +113,19 @@ const PaymentTypeForm = ({control, errors}: Props) => {
             {PAYMENT_METHOD.ewallet.map(opt => (
               <Button
                 onPress={() => {
-                  myCart.setPaymentType(opt.payment_type);
+                  setValue('payment_type', opt.payment_type);
                 }}
                 key={opt.payment_type}
                 w="30%"
                 variant={
-                  myCart.payment_type === opt.payment_type ? 'solid' : 'outline'
+                  formValue.payment_type === opt.payment_type
+                    ? 'solid'
+                    : 'outline'
                 }
                 bg={
-                  myCart.payment_type === opt.payment_type ? undefined : 'white'
+                  formValue.payment_type === opt.payment_type
+                    ? undefined
+                    : 'white'
                 }>
                 {opt.title}
               </Button>

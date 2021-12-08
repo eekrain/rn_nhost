@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Box,
   Text,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   Heading,
   HStack,
-  VStack,
   Button,
   IconButton,
   Icon,
@@ -18,20 +17,42 @@ import {useMyCart} from '../../state';
 import {MyAvatar} from '../../shared/components';
 import {myNumberFormat, useNhostAuth} from '../../shared/utils';
 import Feather from 'react-native-vector-icons/Feather';
-import {PAYMENT_METHOD, PaymentMethodEnum} from '../../shared/constants';
+import {
+  PAYMENT_METHOD,
+  PaymentMethodEnum,
+  ALL_POSSIBLE_PAYMENT_METHOD,
+} from '../../shared/constants';
 import PaymentTypeForm from './PaymentTypeForm';
+import PaymentLanding from './PaymentLanding';
 import {useForm} from 'react-hook-form';
 import {TRHNumberValueType} from '../../shared/components';
 import {
+  Cashier_CreateTransactionMutation,
+  namedOperations,
   Transaction_Items,
   useCashier_CreateTransactionMutation,
 } from '../../graphql/gql-generated';
+import * as yup from 'yup';
+import {useApolloClient} from '@apollo/client';
 
-export interface IDefaultValues {
+const schema = yup
+  .object({
+    payment_type: yup
+      .string()
+      .oneOf(ALL_POSSIBLE_PAYMENT_METHOD.map(x => x.payment_type)),
+    cash_in_amount: yup.object({
+      value: yup.number().required(),
+    }),
+  })
+  .required();
+
+export interface ICashierCartDefaultValues {
+  payment_type: PaymentMethodEnum | null;
   cash_in_amount: TRHNumberValueType;
 }
 
-const defaultValues: IDefaultValues = {
+const defaultValues: ICashierCartDefaultValues = {
+  payment_type: null,
   cash_in_amount: {
     formattedValue: '',
     value: 0,
@@ -44,98 +65,142 @@ const CashierCart = ({}: Props) => {
   const myCart = useMyCart();
   const nhostAuth = useNhostAuth();
   const [isModalPayOpen, setModalPayOpen] = useState(false);
-  const [formPayStep, setFormPayStep] = useState(0);
-  const [paymentProcessResult, setPaymentProcessResult] = useState<{
-    success: boolean;
-    invoice_number: string | null;
-  } | null>(null);
+  const [formPayStep, setFormPayStep] = useState<0 | 1>(0);
+  const [paymentProcessResult, setPaymentProcessResult] = useState<
+    Cashier_CreateTransactionMutation['createTransaction'] | 'error' | null
+  >(null);
   const [loadingProcessPayment, setLoadingProcessPayment] = useState(false);
 
   const {
     watch,
+    handleSubmit,
     control,
+    setValue,
     formState: {errors},
     reset,
   } = useForm({
     defaultValues,
   });
 
-  const cashInAmountForm = watch('cash_in_amount');
+  const formValue = watch();
+
+  useEffect(() => {
+    if (isModalPayOpen === false) {
+      setPaymentProcessResult(null);
+      setFormPayStep(0);
+      reset(defaultValues);
+    }
+  }, [isModalPayOpen, reset]);
 
   const [createTransactionMutation, _createTransactionMutationResult] =
-    useCashier_CreateTransactionMutation();
-
-  const handleProcessPayment = async () => {
-    setLoadingProcessPayment(true);
-    if (
-      myCart.payment_type === PaymentMethodEnum.cash &&
-      (cashInAmountForm.value as number) < myCart.getTotalPrice()
-    ) {
-      Alert.alert(
-        'Error',
-        `Uang masuk sebesar ${myNumberFormat.rp(
-          cashInAmountForm.value,
-        )} lebih kecil dari jumlah yang harus dibayar sebesar ${myNumberFormat.rp(
-          myCart.getTotalPrice(),
-        )}.`,
-      );
-      setLoadingProcessPayment(false);
-      return;
-    }
-    if (!myCart.payment_type) {
-      console.error(
-        '🚀 ~ file: CashierCart.tsx ~ line 83 ~ handleProcessPayment ~ myCart.payment_type is invalid',
-        myCart.payment_type,
-      );
-      return;
-    }
-    console.log(
-      '🚀 ~ file: CashierCart.tsx ~ line 58 ~ CashierCart ~ ANJIENNGG',
-      cashInAmountForm,
-    );
-
-    console.log(
-      '🚀 ~ file: CashierCart.tsx ~ line 88 ~ handleProcessPayment ~ myCart.cartItems',
-      myCart.cartItems,
-    );
-
-    const transaction_items: Transaction_Items[] = myCart.cartItems.map(
-      item => ({
-        product_inventory_id: item.product_inventory_id,
-        product_name: item.product_name,
-        variant: item.variant,
-        capital_price: item.capital_price,
-        selling_price: item.selling_price,
-        discount: item.discount,
-        purchace_qty: item?.qty || 0,
-        inventory_product_updated_at: item.inventory_product_updated_at,
-        product_updated_at: item.product_updated_at,
-      }),
-    );
-    console.log(
-      '🚀 ~ file: CashierCart.tsx ~ line 103 ~ handleProcessPayment ~ transaction_items',
-      transaction_items,
-    );
-    const tes = await createTransactionMutation({
-      variables: {
-        total_transaction: myCart.getTotalPrice(),
-        payment_type: myCart.payment_type,
-        user_id: nhostAuth.user.userId,
-        transaction_items: transaction_items,
-        cash_in_amount: cashInAmountForm.value as number,
-      },
-    }).catch(error => {
-      console.error(
-        '🚀 ~ file: CashierCart.tsx ~ line 123 ~ handleProcessPayment ~ error',
-        error,
-      );
+    useCashier_CreateTransactionMutation({
+      refetchQueries: [
+        namedOperations.Query.Inventory_GetAllInventoryProductByStorePK,
+      ],
     });
-    console.log(
-      '🚀 ~ file: CashierCart.tsx ~ line 95 ~ handleProcessPayment ~ tes',
-      tes,
-    );
-    setLoadingProcessPayment(false);
-  };
+
+  const client = useApolloClient();
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout[] = [];
+    if (
+      paymentProcessResult &&
+      paymentProcessResult !== 'error' &&
+      _createTransactionMutationResult.called &&
+      !_createTransactionMutationResult.loading
+    ) {
+      const delay = setTimeout(() => {
+        myCart.clearCart();
+        client.refetchQueries({
+          include: [
+            namedOperations.Query.Inventory_GetAllInventoryProductByStorePK,
+          ],
+        });
+      }, 500);
+      console.log(
+        '🚀 ~ file: CashierCart.tsx ~ line 114 ~ delay ~ delay refetch executed',
+      );
+      timeoutId.push(delay);
+    }
+    return () => {
+      timeoutId.forEach(x => clearTimeout(x));
+    };
+  }, [
+    _createTransactionMutationResult.called,
+    _createTransactionMutationResult.loading,
+    client,
+    myCart,
+    paymentProcessResult,
+  ]);
+
+  const handleSubmission = useCallback(
+    async (data: ICashierCartDefaultValues) => {
+      console.log(
+        '🚀 ~ file: CashierCart.tsx ~ line 78 ~ handleSubmission ~ data',
+        data,
+      );
+      setLoadingProcessPayment(true);
+      if (
+        data.payment_type === PaymentMethodEnum.cash &&
+        (data.cash_in_amount.value as number) < myCart.getTotalPrice()
+      ) {
+        Alert.alert(
+          'Error',
+          `Uang masuk sebesar ${myNumberFormat.rp(
+            data.cash_in_amount.value,
+          )} lebih kecil dari jumlah yang harus dibayar sebesar ${myNumberFormat.rp(
+            myCart.getTotalPrice(),
+          )}.`,
+        );
+        setLoadingProcessPayment(false);
+        return;
+      }
+      if (!data.payment_type) {
+        console.error(
+          '🚀 ~ file: CashierCart.tsx ~ line 83 ~ handleSubmission ~ data.payment_type is invalid',
+          data.payment_type,
+        );
+        return;
+      }
+      const transaction_items: Transaction_Items[] = myCart.cartItems.map(
+        item => ({
+          product_inventory_id: item.product_inventory_id,
+          product_name: item.product_name,
+          variant: item.variant,
+          capital_price: item.capital_price,
+          selling_price: item.selling_price,
+          discount: item.discount,
+          purchace_qty: item?.qty || 0,
+          inventory_product_updated_at: item.inventory_product_updated_at,
+          product_updated_at: item.product_updated_at,
+        }),
+      );
+
+      const transactionRes = await createTransactionMutation({
+        variables: {
+          total_transaction: myCart.getTotalPrice(),
+          payment_type: data.payment_type as unknown as PaymentMethodEnum,
+          user_id: nhostAuth.user.userId,
+          transaction_items: transaction_items,
+          cash_in_amount: data.cash_in_amount.value as number,
+        },
+      }).catch(error => {
+        setPaymentProcessResult('error');
+        console.error(
+          '🚀 ~ file: CashierCart.tsx ~ line 123 ~ handleSubmission ~ error',
+          error,
+        );
+      });
+      if (transactionRes && transactionRes.data?.createTransaction) {
+        setPaymentProcessResult(transactionRes.data.createTransaction);
+        myCart.clearCart();
+      } else {
+        setPaymentProcessResult('error');
+      }
+      setFormPayStep(1);
+      setLoadingProcessPayment(false);
+    },
+    [createTransactionMutation, myCart, nhostAuth.user.userId],
+  );
 
   return (
     <Box
@@ -147,23 +212,65 @@ const CashierCart = ({}: Props) => {
       <Modal isOpen={isModalPayOpen} size="xl">
         <Modal.Content>
           <Modal.Header>
-            <HStack justifyContent="space-between">
-              <IconButton
-                icon={<Icon as={Feather} name="arrow-left" size="sm" />}
-              />
-              <Text fontSize="lg">Proses Pembayaran</Text>
-              <Button
-                isLoading={loadingProcessPayment}
-                onPress={handleProcessPayment}
-                variant="solid"
-                isDisabled={!myCart.payment_type}>
-                Bayar
-              </Button>
-            </HStack>
+            <Box>
+              <Box position="absolute" w="full" mt={1}>
+                <Center>
+                  <Text fontSize="lg">
+                    {formPayStep === 0
+                      ? 'Proses Pembayaran'
+                      : formPayStep === 1
+                      ? 'Status Pembayaran'
+                      : null}
+                  </Text>
+                </Center>
+              </Box>
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                position="relative">
+                <IconButton
+                  icon={
+                    <Icon
+                      as={Feather}
+                      name="arrow-left"
+                      size="sm"
+                      onPress={() => {
+                        if (formPayStep === 1) {
+                          setPaymentProcessResult(null);
+                        }
+                        setModalPayOpen(false);
+                      }}
+                    />
+                  }
+                />
+                <Box minWidth="5">
+                  {formPayStep === 0 && (
+                    <Button
+                      isLoading={loadingProcessPayment}
+                      onPress={handleSubmit(handleSubmission)}
+                      variant="solid"
+                      isDisabled={!formValue.payment_type}>
+                      Bayar
+                    </Button>
+                  )}
+                </Box>
+              </HStack>
+            </Box>
           </Modal.Header>
           <Box px="3" pt="3" pb="6">
             {formPayStep === 0 && (
-              <PaymentTypeForm control={control} errors={errors} />
+              <PaymentTypeForm
+                control={control}
+                errors={errors}
+                formValue={formValue}
+                setValue={setValue}
+              />
+            )}
+            {formPayStep === 1 && (
+              <PaymentLanding
+                paymentProcessResult={paymentProcessResult}
+                setModalPayOpen={setModalPayOpen}
+              />
             )}
           </Box>
         </Modal.Content>
