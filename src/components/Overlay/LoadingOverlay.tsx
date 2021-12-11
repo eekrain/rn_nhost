@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {HStack, VStack, Text} from 'native-base';
 import FastImage from 'react-native-fast-image';

@@ -5,7 +5,7 @@ import CashierScreen, {rootCashierRoutes} from './CashierScreen';
 import ProfileScreen from './ProfileScreen';
 import CustomDrawerContent from '../../components/CustomDrawerContent';
 import ProdukScreen, {rootProdukRoutes} from './ProdukScreen';
-import TokoScreen, {rootTokoRoutes} from './TokoScreen';
+import SettingsScreen, {rootSettingsRoutes} from './SettingsScreen';
 import InventoryScreen, {rootInventoryRoutes} from './InventoryScreen';
 import UserScreen, {rootUserRoutes} from './UserScreen';
 import {DrawerScreenProps} from '@react-navigation/drawer';
@@ -15,7 +15,7 @@ export type AppNavigationParamList = {
   Dashboard: undefined;
   Profile: undefined;
   ProdukRoot: undefined;
-  TokoRoot: undefined;
+  SettingsRoot: undefined;
   InventoryRoot: undefined;
   UserRoot: undefined;
   CashierRoot: undefined;
@@ -51,12 +51,6 @@ export const rootAppRoutes: IAppRoutes[] = [
     role: ['administrator', 'karyawan'],
   },
   {
-    name: 'TokoRoot',
-    component: TokoScreen,
-    routeNiceName: 'Toko',
-    role: ['administrator'],
-  },
-  {
     name: 'ProdukRoot',
     component: ProdukScreen,
     routeNiceName: 'Produk',
@@ -74,11 +68,17 @@ export const rootAppRoutes: IAppRoutes[] = [
     routeNiceName: 'Pengguna',
     role: ['administrator'],
   },
+  {
+    name: 'SettingsRoot',
+    component: SettingsScreen,
+    routeNiceName: 'Settings',
+    role: ['administrator'],
+  },
 ];
 
 export const allAppRoutes = [
   ...rootAppRoutes,
-  ...rootTokoRoutes,
+  ...rootSettingsRoutes,
   ...rootProdukRoutes,
   ...rootInventoryRoutes,
   ...rootUserRoutes,
@@ -103,9 +103,9 @@ export type ProdukRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'ProdukRoot'
 >;
-export type TokoRootNavProps = DrawerScreenProps<
+export type SettingsRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
-  'TokoRoot'
+  'SettingsRoot'
 >;
 export type InventoryRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
@@ -143,7 +143,7 @@ export const getAppIcon = (screenName: keyof AppNavigationParamList) => {
   if (screenName === 'Dashboard') return 'bar-chart';
   if (screenName === 'Profile') return 'user';
   if (screenName === 'ProdukRoot') return 'shopping-bag';
-  if (screenName === 'TokoRoot') return 'home';
+  if (screenName === 'SettingsRoot') return 'settings';
   if (screenName === 'InventoryRoot') return 'archive';
   if (screenName === 'UserRoot') return 'user';
   return '';

@@ -1,14 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import {
-  Box,
-  Heading,
-  HStack,
-  Button,
-  Icon,
-  useToast,
-  ScrollView,
-} from 'native-base';
-import {Alert, RefreshControl} from 'react-native';
+import {Box, Pressable} from 'native-base';
+import {Animated} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {
   useStore_GetAllStoreQuery,
@@ -23,143 +16,57 @@ import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useMyAppState} from '../../state';
 import withAppLayout from '../Layout/AppLayout';
 import {
-  ListTokoNavProps,
-  TokoStackParamList,
-} from '../../screens/app/TokoScreen';
+  SettingsHomeNavProps,
+  SettingsStackParamList,
+} from '../../screens/app/SettingsScreen';
+import ListToko from './ListToko';
+import WhatsappHome from './WhatsappHome';
 
-interface IActionProps {
-  id: number;
-  navigation: StackNavigationProp<TokoStackParamList, 'ListToko'>;
-  handleDeleteKategori: () => Promise<void>;
-}
+const routes = [
+  {key: 'first', title: 'List Toko', component: ListToko},
+  {key: 'second', title: 'Whatsapp', component: WhatsappHome},
+];
 
-const Action = ({id, navigation, handleDeleteKategori}: IActionProps) => {
-  const myAppState = useMyAppState();
+interface ITokoHomeProps extends SettingsHomeNavProps {}
 
-  return (
-    <HStack space="3">
-      <ButtonEdit
-        size="sm"
-        onPress={() => {
-          myAppState.setLoadingWholePage(true);
-          navigation.navigate('UpdateToko', {storeId: id});
-        }}
-      />
-      <IconButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
-    </HStack>
-  );
-};
+const TokoHome = (props: ITokoHomeProps) => {
+  const [activeTab, setActiveTab] = React.useState(0);
 
-interface ITokoHomeProps extends ListTokoNavProps {}
+  const Component: React.ComponentType<any> = useMemo(() => {
+    return routes[activeTab].component;
+  }, [activeTab]);
 
-const TokoHome = ({navigation}: ITokoHomeProps) => {
-  const getAllToko = useStore_GetAllStoreQuery();
-  const toast = useToast();
+  const renderTab = () => (
+    <Box flexDirection="row" mb="6">
+      {routes.map((route, i) => {
+        const color = activeTab === i ? '#1f2937' : '#a1a1aa';
+        const borderColor = activeTab === i ? 'scarlet.400' : 'coolGray.200';
 
-  const [deleteStoreMutation, _deleteStoreMutationResult] =
-    useStore_DeleteStoreByPkMutation({
-      refetchQueries: [namedOperations.Query.Store_GetAllStore],
-    });
-
-  const data = useMemo(() => {
-    const handleDeleteKategori = async (id: number, name: string) => {
-      const mutation = async () => {
-        const res = await deleteStoreMutation({variables: {id}});
-        if (res.errors) {
-          toast.show({
-            ...TOAST_TEMPLATE.error(`Hapus toko ${name} gagal.`),
-          });
-        } else {
-          toast.show({
-            ...TOAST_TEMPLATE.success(`Hapus toko ${name} berhasil.`),
-          });
-        }
-      };
-      Alert.alert(
-        'Hapus Toko',
-        `Toko ${name} akan dihapus. Lanjutkan?`,
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-          {
-            onPress: () => mutation(),
-            text: 'Hapus',
-            style: 'destructive',
-          },
-        ],
-        {
-          cancelable: true,
-        },
-      );
-    };
-    const temp = getAllToko.data?.rocketjaket_store || [];
-
-    const withAction = temp.map(val => ({
-      ...val,
-      component: (
-        <Action
-          {...{
-            id: val.id,
-            navigation,
-          }}
-          handleDeleteKategori={() => handleDeleteKategori(val.id, val.name)}
-        />
-      ),
-    }));
-
-    return withAction;
-  }, [
-    deleteStoreMutation,
-    getAllToko.data?.rocketjaket_store,
-    navigation,
-    toast,
-  ]);
-
-  return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={() => {
-            getAllToko.refetch();
-          }}
-        />
-      }>
-      <Box paddingBottom={300}>
-        <HStack
-          justifyContent="space-between"
-          alignItems="center"
-          mb="10"
-          mt="4">
-          <Heading fontSize="xl">List Toko Terdaftar</Heading>
-          <Button
+        return (
+          <Pressable
+            key={route.key}
+            borderBottomWidth="3"
+            borderColor={borderColor}
+            flex={1}
+            alignItems="center"
+            p="3"
+            cursor="pointer"
             onPress={() => {
-              navigation.navigate('CreateToko');
-            }}
-            size="lg"
-            leftIcon={<Icon as={Feather} name="plus-square" size="sm" />}>
-            Buat Baru
-          </Button>
-        </HStack>
-        <CustomTable
-          isLoading={getAllToko.loading || _deleteStoreMutationResult.loading}
-          rowHeight={80}
-          data={data}
-          columns={[
-            {Header: 'Nama Toko', accessor: 'name', widthRatio: 1},
-            {Header: 'Alamat', accessor: 'address', widthRatio: 3},
-            {
-              Header: 'Aksi',
-              accessor: 'component',
-              widthRatio: 0.7,
-              isAction: true,
-            },
-          ]}
-        />
-      </Box>
-    </ScrollView>
+              console.log(i);
+              setActiveTab(i);
+            }}>
+            <Animated.Text style={{color}}>{route.title}</Animated.Text>
+          </Pressable>
+        );
+      })}
+    </Box>
+  );
+
+  return (
+    <Box>
+      {renderTab()}
+      {<Component {...props} />}
+    </Box>
   );
 };
 

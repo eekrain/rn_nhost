@@ -1435,6 +1435,18 @@ export type CreateTransactionOutput = {
   total_transaction: Scalars['Int'];
 };
 
+export type GetWhatsappAuthStatusOutput = {
+  __typename?: 'getWhatsappAuthStatusOutput';
+  client_device_manufacturer?: Maybe<Scalars['String']>;
+  client_device_model?: Maybe<Scalars['String']>;
+  client_name?: Maybe<Scalars['String']>;
+  client_phone_number?: Maybe<Scalars['String']>;
+  client_platform?: Maybe<Scalars['String']>;
+  client_state?: Maybe<Scalars['String']>;
+  is_authenticated: Scalars['Boolean'];
+  qr_code?: Maybe<Scalars['String']>;
+};
+
 export type Insert_Inventory_Product_Variants = {
   inventory_product_id?: Maybe<Scalars['uuid']>;
   inventory_variant_metadata_id?: Maybe<Scalars['Int']>;
@@ -1698,6 +1710,7 @@ export type Mutation_Root = {
   update_users_fcm_token?: Maybe<Users_Fcm_Token_Mutation_Response>;
   /** update single row of the table: "users_fcm_token" */
   update_users_fcm_token_by_pk?: Maybe<Users_Fcm_Token>;
+  whatsappSignout?: Maybe<WhatsappSignoutOutput>;
 };
 
 
@@ -2578,6 +2591,7 @@ export type Query_Root = {
   auth_roles_aggregate: Auth_Roles_Aggregate;
   /** fetch data from the table: "auth.roles" using primary key columns */
   auth_roles_by_pk?: Maybe<Auth_Roles>;
+  getWhatsappAuthStatus?: Maybe<GetWhatsappAuthStatusOutput>;
   /** fetch data from the table: "rocketjaket.customer" */
   rocketjaket_customer: Array<Rocketjaket_Customer>;
   /** fetch aggregated fields from the table: "rocketjaket.customer" */
@@ -5294,6 +5308,10 @@ export type Rocketjaket_Transaction = {
   transaction_items: Array<Rocketjaket_Transaction_Item>;
   /** An aggregate relationship */
   transaction_items_aggregate: Rocketjaket_Transaction_Item_Aggregate;
+  /** An array relationship */
+  transaction_receipts: Array<Rocketjaket_Transaction_Receipt>;
+  /** An aggregate relationship */
+  transaction_receipts_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
   updated_at: Scalars['timestamptz'];
   user_id: Scalars['uuid'];
 };
@@ -5316,6 +5334,26 @@ export type Rocketjaket_TransactionTransaction_Items_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<Rocketjaket_Transaction_Item_Order_By>>;
   where?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction" */
+export type Rocketjaket_TransactionTransaction_ReceiptsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction" */
+export type Rocketjaket_TransactionTransaction_Receipts_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
 };
 
 /** aggregated selection of "rocketjaket.transaction" */
@@ -5368,6 +5406,7 @@ export type Rocketjaket_Transaction_Bool_Exp = {
   payment_type?: Maybe<String_Comparison_Exp>;
   total_transaction?: Maybe<Int_Comparison_Exp>;
   transaction_items?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
+  transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
   user_id?: Maybe<Uuid_Comparison_Exp>;
 };
@@ -5394,6 +5433,7 @@ export type Rocketjaket_Transaction_Insert_Input = {
   payment_type?: Maybe<Scalars['String']>;
   total_transaction?: Maybe<Scalars['Int']>;
   transaction_items?: Maybe<Rocketjaket_Transaction_Item_Arr_Rel_Insert_Input>;
+  transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Arr_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
 };
@@ -5937,6 +5977,7 @@ export type Rocketjaket_Transaction_Order_By = {
   payment_type?: Maybe<Order_By>;
   total_transaction?: Maybe<Order_By>;
   transaction_items_aggregate?: Maybe<Rocketjaket_Transaction_Item_Aggregate_Order_By>;
+  transaction_receipts_aggregate?: Maybe<Rocketjaket_Transaction_Receipt_Aggregate_Order_By>;
   updated_at?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
 };
@@ -7227,6 +7268,11 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type WhatsappSignoutOutput = {
+  __typename?: 'whatsappSignoutOutput';
+  is_success: Scalars['Boolean'];
+};
+
 export type Cashier_CreateTransactionMutationVariables = Exact<{
   payment_type: Scalars['String'];
   total_transaction: Scalars['Int'];
@@ -7434,6 +7480,11 @@ export type Store_UpdateStoreMutationVariables = Exact<{
 
 export type Store_UpdateStoreMutation = { __typename?: 'mutation_root', update_rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string } | null | undefined };
 
+export type Wa_SignoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Wa_SignoutMutation = { __typename?: 'mutation_root', whatsappSignout?: { __typename?: 'whatsappSignoutOutput', is_success: boolean } | null | undefined };
+
 export type Store_GetAllStoreQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -7445,6 +7496,11 @@ export type Store_GetStoreByPkQueryVariables = Exact<{
 
 
 export type Store_GetStoreByPkQuery = { __typename?: 'query_root', rocketjaket_store_by_pk?: { __typename?: 'rocketjaket_store', id: number, name: string, latitude?: string | null | undefined, longitude?: string | null | undefined, address?: string | null | undefined, created_at: any, updated_at: any } | null | undefined };
+
+export type Wa_GetWaAuthStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Wa_GetWaAuthStatusQuery = { __typename?: 'query_root', getWhatsappAuthStatus?: { __typename?: 'getWhatsappAuthStatusOutput', qr_code?: string | null | undefined, is_authenticated: boolean, client_state?: string | null | undefined, client_platform?: string | null | undefined, client_phone_number?: string | null | undefined, client_name?: string | null | undefined, client_device_model?: string | null | undefined, client_device_manufacturer?: string | null | undefined } | null | undefined };
 
 export type User_BulkDeleteOneUserMutationVariables = Exact<{
   account_id: Scalars['uuid'];
@@ -7527,6 +7583,7 @@ export const namedOperations = {
     Produk_GetProdukByPK: 'Produk_GetProdukByPK',
     Store_GetAllStore: 'Store_GetAllStore',
     Store_GetStoreByPK: 'Store_GetStoreByPK',
+    WA_GetWAAuthStatus: 'WA_GetWAAuthStatus',
     User_GetAllUser: 'User_GetAllUser',
     User_GetAllUserFcmTokensById: 'User_GetAllUserFcmTokensById',
     User_GetUserById: 'User_GetUserById'
@@ -7549,6 +7606,7 @@ export const namedOperations = {
     Store_CreateStore: 'Store_CreateStore',
     Store_DeleteStoreByPK: 'Store_DeleteStoreByPK',
     Store_UpdateStore: 'Store_UpdateStore',
+    WA_Signout: 'WA_Signout',
     User_BulkDeleteOneUser: 'User_BulkDeleteOneUser',
     User_BulkUpdateUserByUserId: 'User_BulkUpdateUserByUserId',
     User_CreateCustomAuthAccountRoleOne: 'User_CreateCustomAuthAccountRoleOne',
@@ -8650,6 +8708,38 @@ export function useStore_UpdateStoreMutation(baseOptions?: Apollo.MutationHookOp
 export type Store_UpdateStoreMutationHookResult = ReturnType<typeof useStore_UpdateStoreMutation>;
 export type Store_UpdateStoreMutationResult = Apollo.MutationResult<Store_UpdateStoreMutation>;
 export type Store_UpdateStoreMutationOptions = Apollo.BaseMutationOptions<Store_UpdateStoreMutation, Store_UpdateStoreMutationVariables>;
+export const Wa_SignoutDocument = gql`
+    mutation WA_Signout {
+  whatsappSignout {
+    is_success
+  }
+}
+    `;
+export type Wa_SignoutMutationFn = Apollo.MutationFunction<Wa_SignoutMutation, Wa_SignoutMutationVariables>;
+
+/**
+ * __useWa_SignoutMutation__
+ *
+ * To run a mutation, you first call `useWa_SignoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useWa_SignoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [waSignoutMutation, { data, loading, error }] = useWa_SignoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useWa_SignoutMutation(baseOptions?: Apollo.MutationHookOptions<Wa_SignoutMutation, Wa_SignoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Wa_SignoutMutation, Wa_SignoutMutationVariables>(Wa_SignoutDocument, options);
+      }
+export type Wa_SignoutMutationHookResult = ReturnType<typeof useWa_SignoutMutation>;
+export type Wa_SignoutMutationResult = Apollo.MutationResult<Wa_SignoutMutation>;
+export type Wa_SignoutMutationOptions = Apollo.BaseMutationOptions<Wa_SignoutMutation, Wa_SignoutMutationVariables>;
 export const Store_GetAllStoreDocument = gql`
     query Store_GetAllStore {
   rocketjaket_store {
@@ -8729,6 +8819,47 @@ export function useStore_GetStoreByPkLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type Store_GetStoreByPkQueryHookResult = ReturnType<typeof useStore_GetStoreByPkQuery>;
 export type Store_GetStoreByPkLazyQueryHookResult = ReturnType<typeof useStore_GetStoreByPkLazyQuery>;
 export type Store_GetStoreByPkQueryResult = Apollo.QueryResult<Store_GetStoreByPkQuery, Store_GetStoreByPkQueryVariables>;
+export const Wa_GetWaAuthStatusDocument = gql`
+    query WA_GetWAAuthStatus {
+  getWhatsappAuthStatus {
+    qr_code
+    is_authenticated
+    client_state
+    client_platform
+    client_phone_number
+    client_name
+    client_device_model
+    client_device_manufacturer
+  }
+}
+    `;
+
+/**
+ * __useWa_GetWaAuthStatusQuery__
+ *
+ * To run a query within a React component, call `useWa_GetWaAuthStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWa_GetWaAuthStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWa_GetWaAuthStatusQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useWa_GetWaAuthStatusQuery(baseOptions?: Apollo.QueryHookOptions<Wa_GetWaAuthStatusQuery, Wa_GetWaAuthStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Wa_GetWaAuthStatusQuery, Wa_GetWaAuthStatusQueryVariables>(Wa_GetWaAuthStatusDocument, options);
+      }
+export function useWa_GetWaAuthStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Wa_GetWaAuthStatusQuery, Wa_GetWaAuthStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Wa_GetWaAuthStatusQuery, Wa_GetWaAuthStatusQueryVariables>(Wa_GetWaAuthStatusDocument, options);
+        }
+export type Wa_GetWaAuthStatusQueryHookResult = ReturnType<typeof useWa_GetWaAuthStatusQuery>;
+export type Wa_GetWaAuthStatusLazyQueryHookResult = ReturnType<typeof useWa_GetWaAuthStatusLazyQuery>;
+export type Wa_GetWaAuthStatusQueryResult = Apollo.QueryResult<Wa_GetWaAuthStatusQuery, Wa_GetWaAuthStatusQueryVariables>;
 export const User_BulkDeleteOneUserDocument = gql`
     mutation User_BulkDeleteOneUser($account_id: uuid!, $user_id: uuid!) {
   delete_auth_refresh_tokens(where: {account_id: {_eq: $account_id}}) {

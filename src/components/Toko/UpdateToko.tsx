@@ -13,7 +13,7 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
 import {ButtonSave, ButtonBack} from '../Buttons';
-import {UpdateTokoNavProps} from '../../screens/app/TokoScreen';
+import {UpdateTokoNavProps} from '../../screens/app/SettingsScreen';
 import {useMyAppState} from '../../state';
 
 interface IDefaultValues {

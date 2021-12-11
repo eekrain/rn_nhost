@@ -1,56 +1,62 @@
 import React from 'react';
-import {TokoRootNavProps} from '../index';
+import {SettingsRootNavProps} from '../index';
 import TokoHome from '../../../components/Toko';
 import CreateToko from '../../../components/Toko/CreateToko';
 import UpdateToko from '../../../components/Toko/UpdateToko';
 import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
 
-export type TokoStackParamList = {
+export type SettingsStackParamList = {
   ListToko: undefined;
   CreateToko: undefined;
   UpdateToko: {storeId: number};
 };
 
-type ITokoRoutes = {
-  name: keyof TokoStackParamList;
+type ISettingsRoutes = {
+  name: keyof SettingsStackParamList;
   component: React.ComponentType<any>;
   routeNiceName: string;
 };
 
-export const rootTokoRoutes: ITokoRoutes[] = [
-  {name: 'ListToko', component: TokoHome, routeNiceName: 'Toko'},
+export const rootSettingsRoutes: ISettingsRoutes[] = [
+  {name: 'ListToko', component: TokoHome, routeNiceName: 'Settings'},
   {name: 'CreateToko', component: CreateToko, routeNiceName: 'Toko'},
   {name: 'UpdateToko', component: UpdateToko, routeNiceName: 'Toko'},
 ];
 
-export type TokoRootStackNavProps = StackScreenProps<TokoStackParamList, any>;
-export type ListTokoNavProps = StackScreenProps<TokoStackParamList, 'ListToko'>;
+export type SettingsRootStackNavProps = StackScreenProps<
+  SettingsStackParamList,
+  any
+>;
+export type SettingsHomeNavProps = StackScreenProps<
+  SettingsStackParamList,
+  'ListToko'
+>;
 export type CreateTokoNavProps = StackScreenProps<
-  TokoStackParamList,
+  SettingsStackParamList,
   'CreateToko'
 >;
 export type UpdateTokoNavProps = StackScreenProps<
-  TokoStackParamList,
+  SettingsStackParamList,
   'UpdateToko'
 >;
 
-const TokoStack = createStackNavigator<TokoStackParamList>();
+const SettingsStack = createStackNavigator<SettingsStackParamList>();
 
-interface ITokoScreenProps extends TokoRootNavProps {}
+interface ISettingsScreenProps extends SettingsRootNavProps {}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TokoScreen = (props: ITokoScreenProps) => {
+const SettingsScreen = (props: ISettingsScreenProps) => {
   return (
-    <TokoStack.Navigator screenOptions={{headerShown: false}}>
-      {rootTokoRoutes.map(route => (
-        <TokoStack.Screen
+    <SettingsStack.Navigator screenOptions={{headerShown: false}}>
+      {rootSettingsRoutes.map(route => (
+        <SettingsStack.Screen
           key={`${route.name}${route.routeNiceName}`}
           name={route.name}
           component={route.component}
         />
       ))}
-    </TokoStack.Navigator>
+    </SettingsStack.Navigator>
   );
 };
 
-export default TokoScreen;
+export default SettingsScreen;

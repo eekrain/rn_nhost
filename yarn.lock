@@ -4456,6 +4456,11 @@ diff@^4.0.1:
   resolved "https://registry.npm.taobao.org/diff/download/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha1-YPOuy4nV+uUgwRqhnvwruYKq3n0=
 
+dijkstrajs@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.nlark.com/dijkstrajs/download/dijkstrajs-1.0.2.tgz#2e48c0d3b825462afe75ab4ad5e829c8ece36257"
+  integrity sha1-LkjA07glRir+datK1egpyOzjYlc=
+
 dir-glob@^3.0.1:
   version "3.0.1"
   resolved "https://registry.nlark.com/dir-glob/download/dir-glob-3.0.1.tgz#56dbf73d992a4a93ba1584f4534063fd2e41717f"
@@ -4571,6 +4576,11 @@ emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.npmmirror.com/emoji-regex/download/emoji-regex-8.0.0.tgz?cache=0&sync_timestamp=1632751408145&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Femoji-regex%2Fdownload%2Femoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
   integrity sha1-6Bj9ac5cz8tARZT4QpY79TFkzDc=
+
+encode-utf8@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.nlark.com/encode-utf8/download/encode-utf8-1.0.3.tgz#f30fdd31da07fb596f281beb2f6b027851994cda"
+  integrity sha1-8w/dMdoH+1lvKBvrL2sCeFGZTNo=
 
 encodeurl@~1.0.2:
   version "1.0.2"
@@ -8317,6 +8327,11 @@ plist@^3.0.2, plist@^3.0.4:
     base64-js "^1.5.1"
     xmlbuilder "^9.0.7"
 
+pngjs@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/pngjs/download/pngjs-5.0.0.tgz#e79dd2b215767fd9c04561c01236df960bce7fbb"
+  integrity sha1-553SshV2f9nARWHAEjbflgvOf7s=
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.nlark.com/posix-character-classes/download/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -8433,6 +8448,16 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.npm.taobao.org/punycode/download/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha1-tYsBCsQMIsVldhbI0sLALHv0eew=
 
+qrcode@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/qrcode/download/qrcode-1.5.0.tgz#95abb8a91fdafd86f8190f2836abbfc500c72d1b"
+  integrity sha512-9MgRpgVc+/+47dFvQeD6U2s0Z92EsKzcHogtum4QB+UNd025WOJSHvn/hjk9xmzj7Stj95CyUAs31mrjxliEsQ==
+  dependencies:
+    dijkstrajs "^1.0.1"
+    encode-utf8 "^1.0.3"
+    pngjs "^5.0.0"
+    yargs "^15.3.1"
+
 query-string@^6.13.1:
   version "6.14.1"
   resolved "https://registry.nlark.com/query-string/download/query-string-6.14.1.tgz#7ac2dca46da7f309449ba0f86b1fd28255b0c86a"
@@ -8472,6 +8497,11 @@ rc@^1.2.8:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-countdown-hook@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmmirror.com/react-countdown-hook/download/react-countdown-hook-1.1.1.tgz#2536209b0d9243f75275844ae575d696f2ffbc5d"
+  integrity sha1-JTYgmw2SQ/dSdYRK5XXWlvL/vF0=
 
 react-devtools-core@^4.13.0:
   version "4.21.0"
@@ -8580,6 +8610,14 @@ react-native-permissions@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmmirror.com/react-native-permissions/download/react-native-permissions-3.1.0.tgz#4cff584e0cc567aefe7c10b0d4f74f00950a68dd"
   integrity sha1-TP9YTgzFZ67+fBCw1PdPAJUKaN0=
+
+react-native-qrcode-svg@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.npmmirror.com/react-native-qrcode-svg/download/react-native-qrcode-svg-6.1.2.tgz#a7cb6c10199ab01418a7f7700ce17a6a014f544e"
+  integrity sha512-lMbbxoPVybXCp9SYm73Aj/0iZ9OlSZl2u+zpdbjgC4DYHBm9m9tDQxISNg1OPeR7AAzmyx8IV4JTFmk8G5R22g==
+  dependencies:
+    prop-types "^15.7.2"
+    qrcode "^1.5.0"
 
 react-native-reanimated@^2.2.3:
   version "2.2.4"

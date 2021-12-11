@@ -20,13 +20,13 @@ export type InventoryRootStackParamList = {
   };
 };
 
-type ITokoRoutes = {
+type ISettingsRoutes = {
   name: keyof InventoryRootStackParamList;
   component: React.ComponentType<any>;
   routeNiceName: string;
 };
 
-export const rootInventoryRoutes: ITokoRoutes[] = [
+export const rootInventoryRoutes: ISettingsRoutes[] = [
   {name: 'InventoryHome', component: InventoryHome, routeNiceName: 'Inventory'},
   {
     name: 'CreateProductVariants',

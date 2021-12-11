@@ -1,21 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useCallback} from 'react';
 import {ViewStyle, StyleSheet, TextStyle} from 'react-native';
-import {
-  ScrollView,
-  View,
-  Box,
-  HStack,
-  Icon,
-  Text,
-  Pressable,
-  Center,
-  VStack,
-  Flex,
-  Divider,
-  Heading,
-} from 'native-base';
+import {ScrollView, HStack, Icon, Text, Pressable, VStack} from 'native-base';
 import {useState} from 'react';
 import {useMemo} from 'react';
 import {sort} from 'fast-sort';
