@@ -1,24 +1,19 @@
-export enum PaymentMethodEnum {
-  cash = 'CASH',
-  edcBRI = 'EDC|BRI',
-  edcBCA = 'EDC|BCA',
-  edcMANDIRI = 'EDC|MANDIRI',
-  ewalletGOPAY = 'EWALLET|GOPAY',
-  ewalletSHOPEEPAY = 'EWALLET|SHOPEEPAY',
-  ewalletLINKAJA = 'EWALLET|LINKAJA',
-}
+import {TransactionPaymentTypeEnum} from '../../graphql/gql-generated';
 
 export const PAYMENT_METHOD = {
-  cash: {payment_type: PaymentMethodEnum.cash, title: 'Cash'},
+  cash: {payment_type: TransactionPaymentTypeEnum.Cash, title: 'Cash'},
   edc: [
-    {payment_type: PaymentMethodEnum.edcBRI, title: 'BRI'},
-    {payment_type: PaymentMethodEnum.edcBCA, title: 'BCA'},
-    {payment_type: PaymentMethodEnum.edcMANDIRI, title: 'MANDIRI'},
+    {payment_type: TransactionPaymentTypeEnum.EdcBri, title: 'BRI'},
+    {payment_type: TransactionPaymentTypeEnum.EdcBca, title: 'BCA'},
+    {payment_type: TransactionPaymentTypeEnum.EdcMandiri, title: 'MANDIRI'},
   ],
   ewallet: [
-    {payment_type: PaymentMethodEnum.ewalletGOPAY, title: 'GOPAY'},
-    {payment_type: PaymentMethodEnum.ewalletSHOPEEPAY, title: 'SHOPEEPAY'},
-    {payment_type: PaymentMethodEnum.ewalletLINKAJA, title: 'LINKAJA'},
+    {payment_type: TransactionPaymentTypeEnum.EwalletGopay, title: 'GOPAY'},
+    {
+      payment_type: TransactionPaymentTypeEnum.EwalletShopeepay,
+      title: 'SHOPEEPAY',
+    },
+    {payment_type: TransactionPaymentTypeEnum.EwalletLinkaja, title: 'LINKAJA'},
   ],
 };
 

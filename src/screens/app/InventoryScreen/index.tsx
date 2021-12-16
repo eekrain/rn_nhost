@@ -75,22 +75,22 @@ export type UpdateProductInventoryNavProps = StackScreenProps<
   'UpdateProductInventory'
 >;
 
-const TokoStack = createStackNavigator<InventoryRootStackParamList>();
+const InventoryStack = createStackNavigator<InventoryRootStackParamList>();
 
 interface IInventoryScreenProps extends InventoryRootNavProps {}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const InventoryScreen = (props: IInventoryScreenProps) => {
   return (
-    <TokoStack.Navigator screenOptions={{headerShown: false}}>
+    <InventoryStack.Navigator screenOptions={{headerShown: false}}>
       {rootInventoryRoutes.map(route => (
-        <TokoStack.Screen
+        <InventoryStack.Screen
           key={`${route.name}${route.routeNiceName}`}
           name={route.name}
           component={route.component}
         />
       ))}
-    </TokoStack.Navigator>
+    </InventoryStack.Navigator>
   );
 };
 

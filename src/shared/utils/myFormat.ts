@@ -55,9 +55,10 @@ export const myNumberFormat = {
     } else return defaultVal;
   },
   phoneNumber: (
-    text: string,
+    text: string | null | undefined,
     format: 'with+62' | 'with0' | 'withoutFirst' | 'cleanBareNumberOnly',
   ) => {
+    if (!text) return '';
     // eslint-disable-next-line no-useless-escape
     const inputnumber = text.trim().replace(/[^0-9\.]+/g, '');
     const first62 = inputnumber.slice(0, 2);
@@ -94,5 +95,13 @@ export const myNumberFormat = {
       console.log('🚀 ~ file: myNumberFormat.ts ~ line 75 ~ else');
       return text;
     }
+  },
+};
+
+export const myTextFormat = {
+  titleCase: (text: string) => {
+    return text.replace(/(^|\s)\S/g, function (t) {
+      return t.toUpperCase();
+    });
   },
 };

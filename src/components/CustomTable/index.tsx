@@ -22,9 +22,15 @@ export type CustomTableColumn<T extends object = {}> = {
   isDisableSort?: boolean;
 };
 
+export type CustomTableFooter<T extends object = {}> = {
+  accessor: keyof T;
+  value: string;
+};
+
 interface Props<T extends Record<string, unknown>> {
   data: T[];
   columns: CustomTableColumn<T>[];
+  footer?: CustomTableFooter<T>[];
   isLoading: boolean;
   tableWidth?: number | '100%';
   rowHeight?: number;
@@ -35,10 +41,14 @@ interface Props<T extends Record<string, unknown>> {
   textStyle?: TextStyle;
   childColor?: string;
   childColorOdd?: string;
+  withTableHeader?: boolean;
+  withPagination?: boolean;
+  defaultSortFrom?: 'asc' | 'desc';
 }
 const CustomTable = <T extends Record<string, unknown>>({
   data,
   columns,
+  footer,
   isLoading = true,
   possibleRowsPerPage = [10, 25, 50],
   tableWidth = '100%',
@@ -49,6 +59,9 @@ const CustomTable = <T extends Record<string, unknown>>({
   textStyle,
   childColor = '#e4e4e7',
   childColorOdd = '#fafafa',
+  withTableHeader = true,
+  withPagination = true,
+  defaultSortFrom = 'asc',
 }: Props<T>) => {
   const styles = {
     tableStyle: {...defaultStyles.tableStyle, width: tableWidth},
@@ -69,7 +82,9 @@ const CustomTable = <T extends Record<string, unknown>>({
 
   // header
   const [searchTerm, setSearhTerm] = useState('');
-  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
+  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>(
+    defaultSortFrom,
+  );
   const [valueToOrderBy, setValueToOrderBy] = useState<
     CustomTableColumn<T>['accessor']
   >(
@@ -80,7 +95,9 @@ const CustomTable = <T extends Record<string, unknown>>({
   // pagination
   const [currentPage, setCurrentPage] = useState(0);
 
-  const [rowsPerPage, setRowsPerPage] = useState(possibleRowsPerPage[0]);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    withPagination ? possibleRowsPerPage[0] : 999999999,
+  );
 
   useEffect(() => {
     if (searchTerm) {
@@ -168,6 +185,24 @@ const CustomTable = <T extends Record<string, unknown>>({
     [handleRequestSort, orderDirection, valueToOrderBy],
   );
 
+  const footerCell = useCallback(
+    (accessor: keyof T) => {
+      if (!footer) return null;
+      const found = footer.find(val => val.accessor === accessor);
+
+      if (found) {
+        return (
+          <Row style={styles.header}>
+            <Text>{found.value}</Text>
+          </Row>
+        );
+      } else {
+        return <Row style={styles.header}>{null}</Row>;
+      }
+    },
+    [footer, styles.header],
+  );
+
   const table = useCallback(
     () => (
       <Grid style={{minWidth: '100%'}}>
@@ -208,12 +243,15 @@ const CustomTable = <T extends Record<string, unknown>>({
                 )}
               </Row>
             ))}
+            {footer && footerCell(col.accessor)}
           </Col>
         ))}
       </Grid>
     ),
     [
       columns,
+      footer,
+      footerCell,
       headerCell,
       processedData,
       styles.header,
@@ -225,7 +263,7 @@ const CustomTable = <T extends Record<string, unknown>>({
   return (
     <VStack w="full">
       <LoadingOverlay size="md" visible={isLoading} />
-      <CustomTableHeader {...{searchTerm, setSearhTerm}} />
+      {withTableHeader && <CustomTableHeader {...{searchTerm, setSearhTerm}} />}
       {tableWidth === '100%' ? (
         table()
       ) : (
@@ -234,14 +272,16 @@ const CustomTable = <T extends Record<string, unknown>>({
         </ScrollView>
       )}
 
-      <CustomTablePagination
-        handleChangeRowsPerPage={handleChangeRowsPerPage}
-        rowsPerPage={rowsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        dataLength={data.length}
-        possibleRowsPerPage={possibleRowsPerPage}
-      />
+      {withPagination && (
+        <CustomTablePagination
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          rowsPerPage={rowsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          dataLength={data.length}
+          possibleRowsPerPage={possibleRowsPerPage}
+        />
+      )}
     </VStack>
   );
 };

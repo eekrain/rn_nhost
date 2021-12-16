@@ -1,14 +1,14 @@
-import {FormControl, Checkbox, Stack} from 'native-base';
+import {FormControl, Radio, Stack, IBoxProps} from 'native-base';
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
 
-interface ICheckboxOptions {
+interface IRadioOptions {
   value: string;
   label: string;
 }
 
-interface IRHCheckBoxProps {
-  checkboxOptions: ICheckboxOptions[];
+interface IRHRadioProps {
+  radioOptions: IRadioOptions[];
   name: string;
   label: string;
   control: Control<any>;
@@ -16,22 +16,24 @@ interface IRHCheckBoxProps {
     [x: string]: any;
   };
   flexDirection?: 'row' | 'column';
-  flexWrap?: 'wrap' | 'wrap-reverse';
-  checkboxSpacing?: number;
+  flexWrap?: IBoxProps['flexWrap'];
+  alignItems?: IBoxProps['alignItems'];
+  radioSpacing?: number;
   extendedOnChange?: (itemValue?: any) => void;
 }
 
 const RHCheckBox = ({
-  checkboxOptions,
+  radioOptions,
   name,
   label,
   control,
   errors,
-  checkboxSpacing,
+  radioSpacing,
   flexDirection = 'column',
-  flexWrap,
+  flexWrap = 'nowrap',
+  alignItems = 'flex-start',
   extendedOnChange,
-}: IRHCheckBoxProps) => {
+}: IRHRadioProps) => {
   return (
     <FormControl isInvalid={name in errors}>
       <FormControl.Label>{label}</FormControl.Label>
@@ -39,7 +41,8 @@ const RHCheckBox = ({
         name={name}
         control={control}
         render={({field: {onChange, value}}) => (
-          <Checkbox.Group
+          <Radio.Group
+            name={name}
             value={value}
             onChange={(itemValue: any) => {
               onChange(itemValue);
@@ -51,16 +54,17 @@ const RHCheckBox = ({
             <Stack
               direction={flexDirection}
               flexWrap={flexWrap}
-              space={checkboxSpacing}>
-              {checkboxOptions.map((opt, index) => (
-                <Checkbox
+              space={radioSpacing}
+              alignItems={alignItems}>
+              {radioOptions.map((opt, index) => (
+                <Radio
                   key={`${opt.label}${opt.value}${index}`}
                   value={opt.value}>
                   {opt.label}
-                </Checkbox>
+                </Radio>
               ))}
             </Stack>
-          </Checkbox.Group>
+          </Radio.Group>
         )}
       />
       <FormControl.ErrorMessage>

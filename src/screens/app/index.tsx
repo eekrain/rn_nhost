@@ -10,9 +10,11 @@ import InventoryScreen, {rootInventoryRoutes} from './InventoryScreen';
 import UserScreen, {rootUserRoutes} from './UserScreen';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {TUserRoleOptions} from '../../types/user';
+import TransactionScreen, {rootTransactionRoutes} from './TransactionScreen';
 
 export type AppNavigationParamList = {
   Dashboard: undefined;
+  TransactionRoot: undefined;
   Profile: undefined;
   ProdukRoot: undefined;
   SettingsRoot: undefined;
@@ -42,7 +44,12 @@ export const rootAppRoutes: IAppRoutes[] = [
     routeNiceName: 'Dashboard',
     role: ['administrator'],
   },
-
+  {
+    name: 'TransactionRoot',
+    component: TransactionScreen,
+    routeNiceName: 'Transaksi',
+    role: ['administrator'],
+  },
   {
     name: 'Profile',
     component: ProfileScreen,
@@ -83,6 +90,7 @@ export const allAppRoutes = [
   ...rootInventoryRoutes,
   ...rootUserRoutes,
   ...rootCashierRoutes,
+  ...rootTransactionRoutes,
 ];
 
 export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
@@ -90,6 +98,10 @@ export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
 export type DashboardNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'Dashboard'
+>;
+export type TransactionRootNavProps = DrawerScreenProps<
+  AppNavigationParamList,
+  'TransactionRoot'
 >;
 export type CashierRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
@@ -141,6 +153,7 @@ export default AppNavigation;
 export const getAppIcon = (screenName: keyof AppNavigationParamList) => {
   if (screenName === 'CashierRoot') return 'monitor';
   if (screenName === 'Dashboard') return 'bar-chart';
+  if (screenName === 'TransactionRoot') return 'list';
   if (screenName === 'Profile') return 'user';
   if (screenName === 'ProdukRoot') return 'shopping-bag';
   if (screenName === 'SettingsRoot') return 'settings';

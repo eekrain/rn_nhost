@@ -12,10 +12,11 @@ import {
 import {useMyCart} from '../../state';
 import {myNumberFormat} from '../../shared/utils';
 import Feather from 'react-native-vector-icons/Feather';
-import {PAYMENT_METHOD, PaymentMethodEnum} from '../../shared/constants';
+import {PAYMENT_METHOD} from '../../shared/constants';
 import {Control, UseFormSetValue} from 'react-hook-form';
 import {RHNumberInput, DismissKeyboardWrapper} from '../../shared/components';
 import {ICashierCartDefaultValues} from './CashierCart';
+import {TransactionPaymentTypeEnum} from '../../graphql/gql-generated';
 
 interface Props {
   control: Control<ICashierCartDefaultValues, object>;
@@ -43,14 +44,16 @@ const PaymentTypeForm = ({control, errors, formValue, setValue}: Props) => {
           <VStack space="4" flex={1}>
             <Box w="30%">
               <Button
-                onPress={() => setValue('payment_type', PaymentMethodEnum.cash)}
+                onPress={() =>
+                  setValue('payment_type', TransactionPaymentTypeEnum.Cash)
+                }
                 variant={
-                  formValue.payment_type === PaymentMethodEnum.cash
+                  formValue.payment_type === TransactionPaymentTypeEnum.Cash
                     ? 'solid'
                     : 'outline'
                 }
                 bg={
-                  formValue.payment_type === PaymentMethodEnum.cash
+                  formValue.payment_type === TransactionPaymentTypeEnum.Cash
                     ? undefined
                     : 'white'
                 }
@@ -58,7 +61,7 @@ const PaymentTypeForm = ({control, errors, formValue, setValue}: Props) => {
                 Cash
               </Button>
             </Box>
-            {formValue.payment_type === PaymentMethodEnum.cash && (
+            {formValue.payment_type === TransactionPaymentTypeEnum.Cash && (
               <RHNumberInput
                 keyboardType="number-pad"
                 name="cash_in_amount"

@@ -1,25 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useCallback} from 'react';
-import {
-  Box,
-  Button,
-  Center,
-  Heading,
-  HStack,
-  Text,
-  useToast,
-} from 'native-base';
-import {useMyCart} from '../../state';
-import {RHTextInput, DismissKeyboardWrapper} from '../../shared/components';
-import {myNumberFormat} from '../../shared/utils';
-import {PaymentMethodEnum, TOAST_TEMPLATE} from '../../shared/constants';
+import React from 'react';
+import {Box, Center, Heading, useToast} from 'native-base';
+import {DismissKeyboardWrapper} from '../../shared/components';
+import {myNumberFormat, myTextFormat} from '../../shared/utils';
+import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useForm} from 'react-hook-form';
 import {
   Cashier_CreateTransactionMutation,
+  TransactionPaymentTypeEnum,
+  TransactionReceiptTypeEnum,
   useCashier_SendReceiptToCustomerMutation,
 } from '../../graphql/gql-generated';
-import {ReceiptTypeEnum} from '../../types/receipt';
-import {Alert} from 'react-native';
+import SendReceiptForm from './SendReceiptForm';
 
 interface Props {
   paymentProcessResult:
@@ -29,24 +20,22 @@ interface Props {
   setModalPayOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface IDefaultValues {
+export interface ISendReceiptFormDefaultValues {
   customer_name: string;
   phone_number: string;
 }
 
-const defaultValues: IDefaultValues = {
+const defaultValues: ISendReceiptFormDefaultValues = {
   customer_name: 'Budi',
   phone_number: myNumberFormat.phoneNumber('81252154853', 'withoutFirst'),
 };
 
 const PaymentLanding = ({paymentProcessResult, setModalPayOpen}: Props) => {
   const toast = useToast();
-  const myCart = useMyCart();
   const {
     handleSubmit,
     control,
     formState: {errors},
-    reset,
   } = useForm({
     defaultValues,
   });
@@ -54,7 +43,7 @@ const PaymentLanding = ({paymentProcessResult, setModalPayOpen}: Props) => {
   const [sendReceipt, _sendReceiptStatus] =
     useCashier_SendReceiptToCustomerMutation();
 
-  const handleSubmission = async (data: IDefaultValues) => {
+  const handleSubmission = async (data: ISendReceiptFormDefaultValues) => {
     console.log(
       '🚀 ~ file: PaymentLanding.tsx ~ line 61 ~ handleSubmission ~ data',
       data,
@@ -67,14 +56,14 @@ const PaymentLanding = ({paymentProcessResult, setModalPayOpen}: Props) => {
       const resReceipt = await sendReceipt({
         variables: {
           customer: {
-            name: data.customer_name,
+            name: myTextFormat.titleCase(data.customer_name),
             phone_number: myNumberFormat.phoneNumber(
               data.phone_number,
               'cleanBareNumberOnly',
             ),
           },
           invoice_number: paymentProcessResult.invoice_number,
-          receipt_type: ReceiptTypeEnum.whatsapp,
+          receipt_type: TransactionReceiptTypeEnum.Whatsapp,
         },
       }).catch(error => {
         console.log(
@@ -132,7 +121,8 @@ const PaymentLanding = ({paymentProcessResult, setModalPayOpen}: Props) => {
           mb={paymentProcessResult && paymentProcessResult !== 'error' ? 6 : 0}>
           {paymentProcessResult && paymentProcessResult !== 'error' ? (
             <>
-              {paymentProcessResult.payment_type === PaymentMethodEnum.cash && (
+              {paymentProcessResult.payment_type ===
+                TransactionPaymentTypeEnum.Cash && (
                 <Heading fontSize={['lg', 'lg', '2xl']} color="green.700">
                   Kembalian{' '}
                   {myNumberFormat.rp(paymentProcessResult.cash_change)}
@@ -156,38 +146,12 @@ const PaymentLanding = ({paymentProcessResult, setModalPayOpen}: Props) => {
 
         {paymentProcessResult && paymentProcessResult !== 'error' && (
           <Center>
-            <Box w={['full', 'full', '3/5']}>
-              <RHTextInput
-                name="customer_name"
-                control={control}
-                errors={errors}
-                label="Nama Customer"
-              />
-
-              <RHTextInput
-                format="phoneNumber"
-                keyboardType="number-pad"
-                name="phone_number"
-                control={control}
-                errors={errors}
-                label="Contact Whatsapp"
-                InputLeftElement={
-                  <HStack
-                    bgColor="primary.700"
-                    h="full"
-                    alignItems="center"
-                    px="3">
-                    <Text color="white">+62</Text>
-                  </HStack>
-                }
-              />
-            </Box>
-            <Button
-              mt={4}
+            <SendReceiptForm
+              control={control}
+              errors={errors}
               isLoading={_sendReceiptStatus.loading}
-              onPress={handleSubmit(handleSubmission)}>
-              Kirim
-            </Button>
+              handleSubmit={handleSubmit(handleSubmission)}
+            />
           </Center>
         )}
       </Box>

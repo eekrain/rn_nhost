@@ -39,6 +39,7 @@ export type BulkUpdateVariantsMetadataOutput = {
 
 export type CustomerInput = {
   email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   phone_number?: Maybe<Scalars['String']>;
 };
@@ -98,6 +99,41 @@ export type String_Comparison_Exp = {
   /** does the column match the given SQL regular expression */
   _similar?: Maybe<Scalars['String']>;
 };
+
+export enum TransactionPaymentTypeEnum {
+  /** Cash */
+  Cash = 'CASH',
+  /** BCA */
+  EdcBca = 'EDC_BCA',
+  /** BRI */
+  EdcBri = 'EDC_BRI',
+  /** MANDIRI */
+  EdcMandiri = 'EDC_MANDIRI',
+  /** GOPAY */
+  EwalletGopay = 'EWALLET_GOPAY',
+  /** LINKAJA */
+  EwalletLinkaja = 'EWALLET_LINKAJA',
+  /** SHOPEEPAY */
+  EwalletShopeepay = 'EWALLET_SHOPEEPAY'
+}
+
+export enum TransactionReceiptTypeEnum {
+  /** Email */
+  Email = 'email',
+  /** Whatsapp */
+  Whatsapp = 'whatsapp'
+}
+
+export enum TransactionStatusEnum {
+  /** Gagal */
+  Failed = 'failed',
+  /** Refund */
+  Refund = 'refund',
+  /** Refund Sebagian */
+  RefundPart = 'refund_part',
+  /** Sukses */
+  Success = 'success'
+}
 
 /** columns and relationships of "auth.account_providers" */
 export type Auth_Account_Providers = {
@@ -1432,7 +1468,9 @@ export type CreateTransactionOutput = {
   invoice_number?: Maybe<Scalars['String']>;
   isOutOfSync?: Maybe<Scalars['Boolean']>;
   payment_type: Scalars['String'];
+  store_id: Scalars['Int'];
   total_transaction: Scalars['Int'];
+  transaction_status: TransactionStatusEnum;
 };
 
 export type GetWhatsappAuthStatusOutput = {
@@ -1545,10 +1583,22 @@ export type Mutation_Root = {
   delete_rocketjaket_transaction_item?: Maybe<Rocketjaket_Transaction_Item_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.transaction_item" */
   delete_rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** delete data from the table: "rocketjaket.transaction_payment_type_enum" */
+  delete_rocketjaket_transaction_payment_type_enum?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.transaction_payment_type_enum" */
+  delete_rocketjaket_transaction_payment_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum>;
   /** delete data from the table: "rocketjaket.transaction_receipt" */
   delete_rocketjaket_transaction_receipt?: Maybe<Rocketjaket_Transaction_Receipt_Mutation_Response>;
   /** delete single row from the table: "rocketjaket.transaction_receipt" */
   delete_rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
+  /** delete data from the table: "rocketjaket.transaction_receipt_type_enum" */
+  delete_rocketjaket_transaction_receipt_type_enum?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.transaction_receipt_type_enum" */
+  delete_rocketjaket_transaction_receipt_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** delete data from the table: "rocketjaket.transaction_status_enum" */
+  delete_rocketjaket_transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Mutation_Response>;
+  /** delete single row from the table: "rocketjaket.transaction_status_enum" */
+  delete_rocketjaket_transaction_status_enum_by_pk?: Maybe<Rocketjaket_Transaction_Status_Enum>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -1621,10 +1671,22 @@ export type Mutation_Root = {
   insert_rocketjaket_transaction_item_one?: Maybe<Rocketjaket_Transaction_Item>;
   /** insert a single row into the table: "rocketjaket.transaction" */
   insert_rocketjaket_transaction_one?: Maybe<Rocketjaket_Transaction>;
+  /** insert data into the table: "rocketjaket.transaction_payment_type_enum" */
+  insert_rocketjaket_transaction_payment_type_enum?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.transaction_payment_type_enum" */
+  insert_rocketjaket_transaction_payment_type_enum_one?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum>;
   /** insert data into the table: "rocketjaket.transaction_receipt" */
   insert_rocketjaket_transaction_receipt?: Maybe<Rocketjaket_Transaction_Receipt_Mutation_Response>;
   /** insert a single row into the table: "rocketjaket.transaction_receipt" */
   insert_rocketjaket_transaction_receipt_one?: Maybe<Rocketjaket_Transaction_Receipt>;
+  /** insert data into the table: "rocketjaket.transaction_receipt_type_enum" */
+  insert_rocketjaket_transaction_receipt_type_enum?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.transaction_receipt_type_enum" */
+  insert_rocketjaket_transaction_receipt_type_enum_one?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** insert data into the table: "rocketjaket.transaction_status_enum" */
+  insert_rocketjaket_transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Mutation_Response>;
+  /** insert a single row into the table: "rocketjaket.transaction_status_enum" */
+  insert_rocketjaket_transaction_status_enum_one?: Maybe<Rocketjaket_Transaction_Status_Enum>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert data into the table: "users_fcm_token" */
@@ -1633,6 +1695,7 @@ export type Mutation_Root = {
   insert_users_fcm_token_one?: Maybe<Users_Fcm_Token>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
+  refundTransaction?: Maybe<RefundTransactionOutput>;
   sendReceipt?: Maybe<SendReceiptOutput>;
   /** update data of the table: "auth.account_providers" */
   update_auth_account_providers?: Maybe<Auth_Account_Providers_Mutation_Response>;
@@ -1698,10 +1761,22 @@ export type Mutation_Root = {
   update_rocketjaket_transaction_item?: Maybe<Rocketjaket_Transaction_Item_Mutation_Response>;
   /** update single row of the table: "rocketjaket.transaction_item" */
   update_rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** update data of the table: "rocketjaket.transaction_payment_type_enum" */
+  update_rocketjaket_transaction_payment_type_enum?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.transaction_payment_type_enum" */
+  update_rocketjaket_transaction_payment_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum>;
   /** update data of the table: "rocketjaket.transaction_receipt" */
   update_rocketjaket_transaction_receipt?: Maybe<Rocketjaket_Transaction_Receipt_Mutation_Response>;
   /** update single row of the table: "rocketjaket.transaction_receipt" */
   update_rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
+  /** update data of the table: "rocketjaket.transaction_receipt_type_enum" */
+  update_rocketjaket_transaction_receipt_type_enum?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.transaction_receipt_type_enum" */
+  update_rocketjaket_transaction_receipt_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** update data of the table: "rocketjaket.transaction_status_enum" */
+  update_rocketjaket_transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Mutation_Response>;
+  /** update single row of the table: "rocketjaket.transaction_status_enum" */
+  update_rocketjaket_transaction_status_enum_by_pk?: Maybe<Rocketjaket_Transaction_Status_Enum>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -1735,7 +1810,8 @@ export type Mutation_RootBulkUpdateVariantsMetadataArgs = {
 /** mutation root */
 export type Mutation_RootCreateTransactionArgs = {
   cash_in_amount: Scalars['Int'];
-  payment_type: Scalars['String'];
+  payment_type: TransactionPaymentTypeEnum;
+  store_id: Scalars['Int'];
   total_transaction: Scalars['Int'];
   transaction_items: Array<Transaction_Items>;
   user_id: Scalars['uuid'];
@@ -1935,6 +2011,18 @@ export type Mutation_RootDelete_Rocketjaket_Transaction_Item_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Payment_Type_EnumArgs = {
+  where: Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Payment_Type_Enum_By_PkArgs = {
+  payment_type: Scalars['String'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Transaction_ReceiptArgs = {
   where: Rocketjaket_Transaction_Receipt_Bool_Exp;
 };
@@ -1943,6 +2031,30 @@ export type Mutation_RootDelete_Rocketjaket_Transaction_ReceiptArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Rocketjaket_Transaction_Receipt_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Receipt_Type_EnumArgs = {
+  where: Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Receipt_Type_Enum_By_PkArgs = {
+  receipt_type: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Status_EnumArgs = {
+  where: Rocketjaket_Transaction_Status_Enum_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Rocketjaket_Transaction_Status_Enum_By_PkArgs = {
+  transaction_status: Scalars['String'];
 };
 
 
@@ -2195,6 +2307,20 @@ export type Mutation_RootInsert_Rocketjaket_Transaction_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Payment_Type_EnumArgs = {
+  objects: Array<Rocketjaket_Transaction_Payment_Type_Enum_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Payment_Type_Enum_OneArgs = {
+  object: Rocketjaket_Transaction_Payment_Type_Enum_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Rocketjaket_Transaction_ReceiptArgs = {
   objects: Array<Rocketjaket_Transaction_Receipt_Insert_Input>;
   on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_On_Conflict>;
@@ -2205,6 +2331,34 @@ export type Mutation_RootInsert_Rocketjaket_Transaction_ReceiptArgs = {
 export type Mutation_RootInsert_Rocketjaket_Transaction_Receipt_OneArgs = {
   object: Rocketjaket_Transaction_Receipt_Insert_Input;
   on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Receipt_Type_EnumArgs = {
+  objects: Array<Rocketjaket_Transaction_Receipt_Type_Enum_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Receipt_Type_Enum_OneArgs = {
+  object: Rocketjaket_Transaction_Receipt_Type_Enum_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Status_EnumArgs = {
+  objects: Array<Rocketjaket_Transaction_Status_Enum_Insert_Input>;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Status_Enum_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Rocketjaket_Transaction_Status_Enum_OneArgs = {
+  object: Rocketjaket_Transaction_Status_Enum_Insert_Input;
+  on_conflict?: Maybe<Rocketjaket_Transaction_Status_Enum_On_Conflict>;
 };
 
 
@@ -2237,10 +2391,18 @@ export type Mutation_RootInsert_Users_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootRefundTransactionArgs = {
+  invoice_number: Scalars['String'];
+  isRefundAll: Scalars['Boolean'];
+  refund_reason: Scalars['String'];
+};
+
+
+/** mutation root */
 export type Mutation_RootSendReceiptArgs = {
   customer?: Maybe<CustomerInput>;
   invoice_number: Scalars['String'];
-  receipt_type: Scalars['String'];
+  receipt_type: TransactionReceiptTypeEnum;
 };
 
 
@@ -2495,6 +2657,20 @@ export type Mutation_RootUpdate_Rocketjaket_Transaction_Item_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Payment_Type_EnumArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Set_Input>;
+  where: Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Payment_Type_Enum_By_PkArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Set_Input>;
+  pk_columns: Rocketjaket_Transaction_Payment_Type_Enum_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Rocketjaket_Transaction_ReceiptArgs = {
   _set?: Maybe<Rocketjaket_Transaction_Receipt_Set_Input>;
   where: Rocketjaket_Transaction_Receipt_Bool_Exp;
@@ -2505,6 +2681,34 @@ export type Mutation_RootUpdate_Rocketjaket_Transaction_ReceiptArgs = {
 export type Mutation_RootUpdate_Rocketjaket_Transaction_Receipt_By_PkArgs = {
   _set?: Maybe<Rocketjaket_Transaction_Receipt_Set_Input>;
   pk_columns: Rocketjaket_Transaction_Receipt_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Receipt_Type_EnumArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Set_Input>;
+  where: Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Receipt_Type_Enum_By_PkArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Set_Input>;
+  pk_columns: Rocketjaket_Transaction_Receipt_Type_Enum_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Status_EnumArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Status_Enum_Set_Input>;
+  where: Rocketjaket_Transaction_Status_Enum_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Rocketjaket_Transaction_Status_Enum_By_PkArgs = {
+  _set?: Maybe<Rocketjaket_Transaction_Status_Enum_Set_Input>;
+  pk_columns: Rocketjaket_Transaction_Status_Enum_Pk_Columns_Input;
 };
 
 
@@ -2652,12 +2856,30 @@ export type Query_Root = {
   rocketjaket_transaction_item_aggregate: Rocketjaket_Transaction_Item_Aggregate;
   /** fetch data from the table: "rocketjaket.transaction_item" using primary key columns */
   rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** fetch data from the table: "rocketjaket.transaction_payment_type_enum" */
+  rocketjaket_transaction_payment_type_enum: Array<Rocketjaket_Transaction_Payment_Type_Enum>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_payment_type_enum" */
+  rocketjaket_transaction_payment_type_enum_aggregate: Rocketjaket_Transaction_Payment_Type_Enum_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_payment_type_enum" using primary key columns */
+  rocketjaket_transaction_payment_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum>;
   /** fetch data from the table: "rocketjaket.transaction_receipt" */
   rocketjaket_transaction_receipt: Array<Rocketjaket_Transaction_Receipt>;
   /** fetch aggregated fields from the table: "rocketjaket.transaction_receipt" */
   rocketjaket_transaction_receipt_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
   /** fetch data from the table: "rocketjaket.transaction_receipt" using primary key columns */
   rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
+  /** fetch data from the table: "rocketjaket.transaction_receipt_type_enum" */
+  rocketjaket_transaction_receipt_type_enum: Array<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_receipt_type_enum" */
+  rocketjaket_transaction_receipt_type_enum_aggregate: Rocketjaket_Transaction_Receipt_Type_Enum_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_receipt_type_enum" using primary key columns */
+  rocketjaket_transaction_receipt_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** fetch data from the table: "rocketjaket.transaction_status_enum" */
+  rocketjaket_transaction_status_enum: Array<Rocketjaket_Transaction_Status_Enum>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_status_enum" */
+  rocketjaket_transaction_status_enum_aggregate: Rocketjaket_Transaction_Status_Enum_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_status_enum" using primary key columns */
+  rocketjaket_transaction_status_enum_by_pk?: Maybe<Rocketjaket_Transaction_Status_Enum>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -3041,6 +3263,29 @@ export type Query_RootRocketjaket_Transaction_Item_By_PkArgs = {
 };
 
 
+export type Query_RootRocketjaket_Transaction_Payment_Type_EnumArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Payment_Type_Enum_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Payment_Type_Enum_By_PkArgs = {
+  payment_type: Scalars['String'];
+};
+
+
 export type Query_RootRocketjaket_Transaction_ReceiptArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -3061,6 +3306,52 @@ export type Query_RootRocketjaket_Transaction_Receipt_AggregateArgs = {
 
 export type Query_RootRocketjaket_Transaction_Receipt_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootRocketjaket_Transaction_Receipt_Type_EnumArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Receipt_Type_Enum_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Receipt_Type_Enum_By_PkArgs = {
+  receipt_type: Scalars['String'];
+};
+
+
+export type Query_RootRocketjaket_Transaction_Status_EnumArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Status_Enum_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
+};
+
+
+export type Query_RootRocketjaket_Transaction_Status_Enum_By_PkArgs = {
+  transaction_status: Scalars['String'];
 };
 
 
@@ -3107,6 +3398,12 @@ export type Query_RootUsers_Fcm_Token_AggregateArgs = {
 
 export type Query_RootUsers_Fcm_Token_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+export type RefundTransactionOutput = {
+  __typename?: 'refundTransactionOutput';
+  invoice_number: Scalars['String'];
+  is_success: Scalars['Boolean'];
 };
 
 /** columns and relationships of "rocketjaket.customer" */
@@ -5066,7 +5363,31 @@ export type Rocketjaket_Store = {
   latitude?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  /** An array relationship */
+  transactions: Array<Rocketjaket_Transaction>;
+  /** An aggregate relationship */
+  transactions_aggregate: Rocketjaket_Transaction_Aggregate;
   updated_at: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "rocketjaket.store" */
+export type Rocketjaket_StoreTransactionsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.store" */
+export type Rocketjaket_StoreTransactions_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
 };
 
 /** aggregated selection of "rocketjaket.store" */
@@ -5116,6 +5437,7 @@ export type Rocketjaket_Store_Bool_Exp = {
   latitude?: Maybe<String_Comparison_Exp>;
   longitude?: Maybe<String_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
+  transactions?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -5140,6 +5462,7 @@ export type Rocketjaket_Store_Insert_Input = {
   latitude?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  transactions?: Maybe<Rocketjaket_Transaction_Arr_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -5198,6 +5521,7 @@ export type Rocketjaket_Store_Order_By = {
   latitude?: Maybe<Order_By>;
   longitude?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  transactions_aggregate?: Maybe<Rocketjaket_Transaction_Aggregate_Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
@@ -5302,17 +5626,28 @@ export type Rocketjaket_Transaction = {
   cash_in_amount: Scalars['Int'];
   created_at: Scalars['timestamptz'];
   invoice_number: Scalars['String'];
-  payment_type: Scalars['String'];
+  payment_type: Rocketjaket_Transaction_Payment_Type_Enum_Enum;
+  refund_reason?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  store?: Maybe<Rocketjaket_Store>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction: Scalars['Int'];
   /** An array relationship */
   transaction_items: Array<Rocketjaket_Transaction_Item>;
   /** An aggregate relationship */
   transaction_items_aggregate: Rocketjaket_Transaction_Item_Aggregate;
+  /** An object relationship */
+  transaction_payment_type_enum: Rocketjaket_Transaction_Payment_Type_Enum;
   /** An array relationship */
   transaction_receipts: Array<Rocketjaket_Transaction_Receipt>;
   /** An aggregate relationship */
   transaction_receipts_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
+  transaction_status: Rocketjaket_Transaction_Status_Enum_Enum;
+  /** An object relationship */
+  transaction_status_enum: Rocketjaket_Transaction_Status_Enum;
   updated_at: Scalars['timestamptz'];
+  /** An object relationship */
+  user: Users;
   user_id: Scalars['uuid'];
 };
 
@@ -5386,12 +5721,43 @@ export type Rocketjaket_Transaction_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Aggregate_Order_By = {
+  avg?: Maybe<Rocketjaket_Transaction_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Rocketjaket_Transaction_Max_Order_By>;
+  min?: Maybe<Rocketjaket_Transaction_Min_Order_By>;
+  stddev?: Maybe<Rocketjaket_Transaction_Stddev_Order_By>;
+  stddev_pop?: Maybe<Rocketjaket_Transaction_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Rocketjaket_Transaction_Stddev_Samp_Order_By>;
+  sum?: Maybe<Rocketjaket_Transaction_Sum_Order_By>;
+  var_pop?: Maybe<Rocketjaket_Transaction_Var_Pop_Order_By>;
+  var_samp?: Maybe<Rocketjaket_Transaction_Var_Samp_Order_By>;
+  variance?: Maybe<Rocketjaket_Transaction_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Arr_Rel_Insert_Input = {
+  data: Array<Rocketjaket_Transaction_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Transaction_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Rocketjaket_Transaction_Avg_Fields = {
   __typename?: 'rocketjaket_transaction_avg_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Avg_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "rocketjaket.transaction". All fields are combined with a logical 'AND'. */
@@ -5403,11 +5769,18 @@ export type Rocketjaket_Transaction_Bool_Exp = {
   cash_in_amount?: Maybe<Int_Comparison_Exp>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   invoice_number?: Maybe<String_Comparison_Exp>;
-  payment_type?: Maybe<String_Comparison_Exp>;
+  payment_type?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Enum_Comparison_Exp>;
+  refund_reason?: Maybe<String_Comparison_Exp>;
+  store?: Maybe<Rocketjaket_Store_Bool_Exp>;
+  store_id?: Maybe<Int_Comparison_Exp>;
   total_transaction?: Maybe<Int_Comparison_Exp>;
   transaction_items?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
+  transaction_payment_type_enum?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
   transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+  transaction_status?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum_Comparison_Exp>;
+  transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+  user?: Maybe<Users_Bool_Exp>;
   user_id?: Maybe<Uuid_Comparison_Exp>;
 };
 
@@ -5421,6 +5794,7 @@ export enum Rocketjaket_Transaction_Constraint {
 export type Rocketjaket_Transaction_Inc_Input = {
   cash_change?: Maybe<Scalars['Int']>;
   cash_in_amount?: Maybe<Scalars['Int']>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction?: Maybe<Scalars['Int']>;
 };
 
@@ -5430,11 +5804,18 @@ export type Rocketjaket_Transaction_Insert_Input = {
   cash_in_amount?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   invoice_number?: Maybe<Scalars['String']>;
-  payment_type?: Maybe<Scalars['String']>;
+  payment_type?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Enum>;
+  refund_reason?: Maybe<Scalars['String']>;
+  store?: Maybe<Rocketjaket_Store_Obj_Rel_Insert_Input>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction?: Maybe<Scalars['Int']>;
   transaction_items?: Maybe<Rocketjaket_Transaction_Item_Arr_Rel_Insert_Input>;
+  transaction_payment_type_enum?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Obj_Rel_Insert_Input>;
   transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Arr_Rel_Insert_Input>;
+  transaction_status?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum>;
+  transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Obj_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
+  user?: Maybe<Users_Obj_Rel_Insert_Input>;
   user_id?: Maybe<Scalars['uuid']>;
 };
 
@@ -5454,6 +5835,9 @@ export type Rocketjaket_Transaction_Item = {
   /** An object relationship */
   transaction: Rocketjaket_Transaction;
   transaction_invoice_number: Scalars['String'];
+  transaction_status: Rocketjaket_Transaction_Status_Enum_Enum;
+  /** An object relationship */
+  transaction_status_enum: Rocketjaket_Transaction_Status_Enum;
   updated_at: Scalars['timestamptz'];
   variant: Scalars['String'];
 };
@@ -5548,6 +5932,8 @@ export type Rocketjaket_Transaction_Item_Bool_Exp = {
   subtotal?: Maybe<Int_Comparison_Exp>;
   transaction?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
   transaction_invoice_number?: Maybe<String_Comparison_Exp>;
+  transaction_status?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum_Comparison_Exp>;
+  transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
   variant?: Maybe<String_Comparison_Exp>;
 };
@@ -5582,6 +5968,8 @@ export type Rocketjaket_Transaction_Item_Insert_Input = {
   subtotal?: Maybe<Scalars['Int']>;
   transaction?: Maybe<Rocketjaket_Transaction_Obj_Rel_Insert_Input>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
+  transaction_status?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum>;
+  transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Obj_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   variant?: Maybe<Scalars['String']>;
 };
@@ -5686,6 +6074,8 @@ export type Rocketjaket_Transaction_Item_Order_By = {
   subtotal?: Maybe<Order_By>;
   transaction?: Maybe<Rocketjaket_Transaction_Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
+  transaction_status?: Maybe<Order_By>;
+  transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Order_By>;
   updated_at?: Maybe<Order_By>;
   variant?: Maybe<Order_By>;
 };
@@ -5720,6 +6110,8 @@ export enum Rocketjaket_Transaction_Item_Select_Column {
   /** column name */
   TransactionInvoiceNumber = 'transaction_invoice_number',
   /** column name */
+  TransactionStatus = 'transaction_status',
+  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   Variant = 'variant'
@@ -5738,6 +6130,7 @@ export type Rocketjaket_Transaction_Item_Set_Input = {
   selling_price?: Maybe<Scalars['Int']>;
   subtotal?: Maybe<Scalars['Int']>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
+  transaction_status?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   variant?: Maybe<Scalars['String']>;
 };
@@ -5851,6 +6244,8 @@ export enum Rocketjaket_Transaction_Item_Update_Column {
   /** column name */
   TransactionInvoiceNumber = 'transaction_invoice_number',
   /** column name */
+  TransactionStatus = 'transaction_status',
+  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   Variant = 'variant'
@@ -5926,10 +6321,24 @@ export type Rocketjaket_Transaction_Max_Fields = {
   cash_in_amount?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   invoice_number?: Maybe<Scalars['String']>;
-  payment_type?: Maybe<Scalars['String']>;
+  refund_reason?: Maybe<Scalars['String']>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Max_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  invoice_number?: Maybe<Order_By>;
+  refund_reason?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -5939,10 +6348,24 @@ export type Rocketjaket_Transaction_Min_Fields = {
   cash_in_amount?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   invoice_number?: Maybe<Scalars['String']>;
-  payment_type?: Maybe<Scalars['String']>;
+  refund_reason?: Maybe<Scalars['String']>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Min_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  invoice_number?: Maybe<Order_By>;
+  refund_reason?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "rocketjaket.transaction" */
@@ -5975,12 +6398,192 @@ export type Rocketjaket_Transaction_Order_By = {
   created_at?: Maybe<Order_By>;
   invoice_number?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
+  refund_reason?: Maybe<Order_By>;
+  store?: Maybe<Rocketjaket_Store_Order_By>;
+  store_id?: Maybe<Order_By>;
   total_transaction?: Maybe<Order_By>;
   transaction_items_aggregate?: Maybe<Rocketjaket_Transaction_Item_Aggregate_Order_By>;
+  transaction_payment_type_enum?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Order_By>;
   transaction_receipts_aggregate?: Maybe<Rocketjaket_Transaction_Receipt_Aggregate_Order_By>;
+  transaction_status?: Maybe<Order_By>;
+  transaction_status_enum?: Maybe<Rocketjaket_Transaction_Status_Enum_Order_By>;
   updated_at?: Maybe<Order_By>;
+  user?: Maybe<Users_Order_By>;
   user_id?: Maybe<Order_By>;
 };
+
+/** columns and relationships of "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum = {
+  __typename?: 'rocketjaket_transaction_payment_type_enum';
+  payment_type: Scalars['String'];
+  title: Scalars['String'];
+  /** An array relationship */
+  transactions: Array<Rocketjaket_Transaction>;
+  /** An aggregate relationship */
+  transactions_aggregate: Rocketjaket_Transaction_Aggregate;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_EnumTransactionsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_EnumTransactions_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+/** aggregated selection of "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Aggregate = {
+  __typename?: 'rocketjaket_transaction_payment_type_enum_aggregate';
+  aggregate?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Transaction_Payment_Type_Enum>;
+};
+
+/** aggregate fields of "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Aggregate_Fields = {
+  __typename?: 'rocketjaket_transaction_payment_type_enum_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Max_Fields>;
+  min?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Min_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.transaction_payment_type_enum". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>>;
+  payment_type?: Maybe<String_Comparison_Exp>;
+  title?: Maybe<String_Comparison_Exp>;
+  transactions?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.transaction_payment_type_enum" */
+export enum Rocketjaket_Transaction_Payment_Type_Enum_Constraint {
+  /** unique or primary key constraint */
+  TransactionPaymentTypeEnumPkey = 'transaction_payment_type_enum_pkey'
+}
+
+export enum Rocketjaket_Transaction_Payment_Type_Enum_Enum {
+  /** Cash */
+  Cash = 'CASH',
+  /** BCA */
+  EdcBca = 'EDC_BCA',
+  /** BRI */
+  EdcBri = 'EDC_BRI',
+  /** MANDIRI */
+  EdcMandiri = 'EDC_MANDIRI',
+  /** GOPAY */
+  EwalletGopay = 'EWALLET_GOPAY',
+  /** LINKAJA */
+  EwalletLinkaja = 'EWALLET_LINKAJA',
+  /** SHOPEEPAY */
+  EwalletShopeepay = 'EWALLET_SHOPEEPAY'
+}
+
+/** Boolean expression to compare columns of type "rocketjaket_transaction_payment_type_enum_enum". All fields are combined with logical 'AND'. */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Enum_Comparison_Exp = {
+  _eq?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Enum>;
+  _in?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Enum>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Enum>;
+  _nin?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Enum>>;
+};
+
+/** input type for inserting data into table "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Insert_Input = {
+  payment_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  transactions?: Maybe<Rocketjaket_Transaction_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Max_Fields = {
+  __typename?: 'rocketjaket_transaction_payment_type_enum_max_fields';
+  payment_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Min_Fields = {
+  __typename?: 'rocketjaket_transaction_payment_type_enum_min_fields';
+  payment_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Mutation_Response = {
+  __typename?: 'rocketjaket_transaction_payment_type_enum_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Transaction_Payment_Type_Enum>;
+};
+
+/** input type for inserting object relation for remote table "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Transaction_Payment_Type_Enum_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_On_Conflict>;
+};
+
+/** on conflict condition type for table "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_On_Conflict = {
+  constraint: Rocketjaket_Transaction_Payment_Type_Enum_Constraint;
+  update_columns?: Array<Rocketjaket_Transaction_Payment_Type_Enum_Update_Column>;
+  where?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.transaction_payment_type_enum". */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Order_By = {
+  payment_type?: Maybe<Order_By>;
+  title?: Maybe<Order_By>;
+  transactions_aggregate?: Maybe<Rocketjaket_Transaction_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_transaction_payment_type_enum */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Pk_Columns_Input = {
+  payment_type: Scalars['String'];
+};
+
+/** select columns of table "rocketjaket.transaction_payment_type_enum" */
+export enum Rocketjaket_Transaction_Payment_Type_Enum_Select_Column {
+  /** column name */
+  PaymentType = 'payment_type',
+  /** column name */
+  Title = 'title'
+}
+
+/** input type for updating data in table "rocketjaket.transaction_payment_type_enum" */
+export type Rocketjaket_Transaction_Payment_Type_Enum_Set_Input = {
+  payment_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "rocketjaket.transaction_payment_type_enum" */
+export enum Rocketjaket_Transaction_Payment_Type_Enum_Update_Column {
+  /** column name */
+  PaymentType = 'payment_type',
+  /** column name */
+  Title = 'title'
+}
 
 /** primary key columns input for table: rocketjaket_transaction */
 export type Rocketjaket_Transaction_Pk_Columns_Input = {
@@ -5996,10 +6599,12 @@ export type Rocketjaket_Transaction_Receipt = {
   customer_id: Scalars['uuid'];
   id: Scalars['uuid'];
   is_sent: Scalars['Boolean'];
-  receipt_type: Scalars['String'];
+  receipt_type: Rocketjaket_Transaction_Receipt_Type_Enum_Enum;
   /** An object relationship */
   transaction: Rocketjaket_Transaction;
   transaction_invoice_number: Scalars['String'];
+  /** An object relationship */
+  transaction_receipt_type_enum: Rocketjaket_Transaction_Receipt_Type_Enum;
 };
 
 /** aggregated selection of "rocketjaket.transaction_receipt" */
@@ -6048,9 +6653,10 @@ export type Rocketjaket_Transaction_Receipt_Bool_Exp = {
   customer_id?: Maybe<Uuid_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
   is_sent?: Maybe<Boolean_Comparison_Exp>;
-  receipt_type?: Maybe<String_Comparison_Exp>;
+  receipt_type?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Enum_Comparison_Exp>;
   transaction?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
   transaction_invoice_number?: Maybe<String_Comparison_Exp>;
+  transaction_receipt_type_enum?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "rocketjaket.transaction_receipt" */
@@ -6066,9 +6672,10 @@ export type Rocketjaket_Transaction_Receipt_Insert_Input = {
   customer_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   is_sent?: Maybe<Scalars['Boolean']>;
-  receipt_type?: Maybe<Scalars['String']>;
+  receipt_type?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Enum>;
   transaction?: Maybe<Rocketjaket_Transaction_Obj_Rel_Insert_Input>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
+  transaction_receipt_type_enum?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -6077,7 +6684,6 @@ export type Rocketjaket_Transaction_Receipt_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   customer_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
-  receipt_type?: Maybe<Scalars['String']>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
 };
 
@@ -6086,7 +6692,6 @@ export type Rocketjaket_Transaction_Receipt_Max_Order_By = {
   created_at?: Maybe<Order_By>;
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  receipt_type?: Maybe<Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
 };
 
@@ -6096,7 +6701,6 @@ export type Rocketjaket_Transaction_Receipt_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   customer_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
-  receipt_type?: Maybe<Scalars['String']>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
 };
 
@@ -6105,7 +6709,6 @@ export type Rocketjaket_Transaction_Receipt_Min_Order_By = {
   created_at?: Maybe<Order_By>;
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  receipt_type?: Maybe<Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
 };
 
@@ -6135,6 +6738,7 @@ export type Rocketjaket_Transaction_Receipt_Order_By = {
   receipt_type?: Maybe<Order_By>;
   transaction?: Maybe<Rocketjaket_Transaction_Order_By>;
   transaction_invoice_number?: Maybe<Order_By>;
+  transaction_receipt_type_enum?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Order_By>;
 };
 
 /** primary key columns input for table: rocketjaket_transaction_receipt */
@@ -6164,9 +6768,172 @@ export type Rocketjaket_Transaction_Receipt_Set_Input = {
   customer_id?: Maybe<Scalars['uuid']>;
   id?: Maybe<Scalars['uuid']>;
   is_sent?: Maybe<Scalars['Boolean']>;
-  receipt_type?: Maybe<Scalars['String']>;
+  receipt_type?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Enum>;
   transaction_invoice_number?: Maybe<Scalars['String']>;
 };
+
+/** columns and relationships of "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum = {
+  __typename?: 'rocketjaket_transaction_receipt_type_enum';
+  receipt_type: Scalars['String'];
+  title: Scalars['String'];
+  /** An array relationship */
+  transaction_receipts: Array<Rocketjaket_Transaction_Receipt>;
+  /** An aggregate relationship */
+  transaction_receipts_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_EnumTransaction_ReceiptsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_EnumTransaction_Receipts_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+/** aggregated selection of "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Aggregate = {
+  __typename?: 'rocketjaket_transaction_receipt_type_enum_aggregate';
+  aggregate?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Transaction_Receipt_Type_Enum>;
+};
+
+/** aggregate fields of "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Aggregate_Fields = {
+  __typename?: 'rocketjaket_transaction_receipt_type_enum_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Max_Fields>;
+  min?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Min_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.transaction_receipt_type_enum". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>>;
+  receipt_type?: Maybe<String_Comparison_Exp>;
+  title?: Maybe<String_Comparison_Exp>;
+  transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.transaction_receipt_type_enum" */
+export enum Rocketjaket_Transaction_Receipt_Type_Enum_Constraint {
+  /** unique or primary key constraint */
+  TransactionReceiptTypeEnumPkey = 'transaction_receipt_type_enum_pkey'
+}
+
+export enum Rocketjaket_Transaction_Receipt_Type_Enum_Enum {
+  /** Email */
+  Email = 'email',
+  /** Whatsapp */
+  Whatsapp = 'whatsapp'
+}
+
+/** Boolean expression to compare columns of type "rocketjaket_transaction_receipt_type_enum_enum". All fields are combined with logical 'AND'. */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Enum_Comparison_Exp = {
+  _eq?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Enum>;
+  _in?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Enum>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Enum>;
+  _nin?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Enum>>;
+};
+
+/** input type for inserting data into table "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Insert_Input = {
+  receipt_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  transaction_receipts?: Maybe<Rocketjaket_Transaction_Receipt_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Max_Fields = {
+  __typename?: 'rocketjaket_transaction_receipt_type_enum_max_fields';
+  receipt_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Min_Fields = {
+  __typename?: 'rocketjaket_transaction_receipt_type_enum_min_fields';
+  receipt_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Mutation_Response = {
+  __typename?: 'rocketjaket_transaction_receipt_type_enum_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Transaction_Receipt_Type_Enum>;
+};
+
+/** input type for inserting object relation for remote table "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Transaction_Receipt_Type_Enum_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_On_Conflict>;
+};
+
+/** on conflict condition type for table "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_On_Conflict = {
+  constraint: Rocketjaket_Transaction_Receipt_Type_Enum_Constraint;
+  update_columns?: Array<Rocketjaket_Transaction_Receipt_Type_Enum_Update_Column>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.transaction_receipt_type_enum". */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Order_By = {
+  receipt_type?: Maybe<Order_By>;
+  title?: Maybe<Order_By>;
+  transaction_receipts_aggregate?: Maybe<Rocketjaket_Transaction_Receipt_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_transaction_receipt_type_enum */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Pk_Columns_Input = {
+  receipt_type: Scalars['String'];
+};
+
+/** select columns of table "rocketjaket.transaction_receipt_type_enum" */
+export enum Rocketjaket_Transaction_Receipt_Type_Enum_Select_Column {
+  /** column name */
+  ReceiptType = 'receipt_type',
+  /** column name */
+  Title = 'title'
+}
+
+/** input type for updating data in table "rocketjaket.transaction_receipt_type_enum" */
+export type Rocketjaket_Transaction_Receipt_Type_Enum_Set_Input = {
+  receipt_type?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "rocketjaket.transaction_receipt_type_enum" */
+export enum Rocketjaket_Transaction_Receipt_Type_Enum_Update_Column {
+  /** column name */
+  ReceiptType = 'receipt_type',
+  /** column name */
+  Title = 'title'
+}
 
 /** update columns of table "rocketjaket.transaction_receipt" */
 export enum Rocketjaket_Transaction_Receipt_Update_Column {
@@ -6197,7 +6964,13 @@ export enum Rocketjaket_Transaction_Select_Column {
   /** column name */
   PaymentType = 'payment_type',
   /** column name */
+  RefundReason = 'refund_reason',
+  /** column name */
+  StoreId = 'store_id',
+  /** column name */
   TotalTransaction = 'total_transaction',
+  /** column name */
+  TransactionStatus = 'transaction_status',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -6210,18 +6983,197 @@ export type Rocketjaket_Transaction_Set_Input = {
   cash_in_amount?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   invoice_number?: Maybe<Scalars['String']>;
-  payment_type?: Maybe<Scalars['String']>;
+  payment_type?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Enum>;
+  refund_reason?: Maybe<Scalars['String']>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction?: Maybe<Scalars['Int']>;
+  transaction_status?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
 };
+
+/** columns and relationships of "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum = {
+  __typename?: 'rocketjaket_transaction_status_enum';
+  title: Scalars['String'];
+  transaction_status: Scalars['String'];
+  /** An array relationship */
+  transactions: Array<Rocketjaket_Transaction>;
+  /** An aggregate relationship */
+  transactions_aggregate: Rocketjaket_Transaction_Aggregate;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_EnumTransactionsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_EnumTransactions_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+/** aggregated selection of "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Aggregate = {
+  __typename?: 'rocketjaket_transaction_status_enum_aggregate';
+  aggregate?: Maybe<Rocketjaket_Transaction_Status_Enum_Aggregate_Fields>;
+  nodes: Array<Rocketjaket_Transaction_Status_Enum>;
+};
+
+/** aggregate fields of "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Aggregate_Fields = {
+  __typename?: 'rocketjaket_transaction_status_enum_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Rocketjaket_Transaction_Status_Enum_Max_Fields>;
+  min?: Maybe<Rocketjaket_Transaction_Status_Enum_Min_Fields>;
+};
+
+
+/** aggregate fields of "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rocketjaket.transaction_status_enum". All fields are combined with a logical 'AND'. */
+export type Rocketjaket_Transaction_Status_Enum_Bool_Exp = {
+  _and?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Bool_Exp>>;
+  _not?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
+  _or?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Bool_Exp>>;
+  title?: Maybe<String_Comparison_Exp>;
+  transaction_status?: Maybe<String_Comparison_Exp>;
+  transactions?: Maybe<Rocketjaket_Transaction_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "rocketjaket.transaction_status_enum" */
+export enum Rocketjaket_Transaction_Status_Enum_Constraint {
+  /** unique or primary key constraint */
+  TransactionStatusEnumPkey = 'transaction_status_enum_pkey'
+}
+
+export enum Rocketjaket_Transaction_Status_Enum_Enum {
+  /** Gagal */
+  Failed = 'failed',
+  /** Refund */
+  Refund = 'refund',
+  /** Refund Sebagian */
+  RefundPart = 'refund_part',
+  /** Sukses */
+  Success = 'success'
+}
+
+/** Boolean expression to compare columns of type "rocketjaket_transaction_status_enum_enum". All fields are combined with logical 'AND'. */
+export type Rocketjaket_Transaction_Status_Enum_Enum_Comparison_Exp = {
+  _eq?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum>;
+  _in?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Enum>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Rocketjaket_Transaction_Status_Enum_Enum>;
+  _nin?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Enum>>;
+};
+
+/** input type for inserting data into table "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Insert_Input = {
+  title?: Maybe<Scalars['String']>;
+  transaction_status?: Maybe<Scalars['String']>;
+  transactions?: Maybe<Rocketjaket_Transaction_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Rocketjaket_Transaction_Status_Enum_Max_Fields = {
+  __typename?: 'rocketjaket_transaction_status_enum_max_fields';
+  title?: Maybe<Scalars['String']>;
+  transaction_status?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Rocketjaket_Transaction_Status_Enum_Min_Fields = {
+  __typename?: 'rocketjaket_transaction_status_enum_min_fields';
+  title?: Maybe<Scalars['String']>;
+  transaction_status?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Mutation_Response = {
+  __typename?: 'rocketjaket_transaction_status_enum_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Rocketjaket_Transaction_Status_Enum>;
+};
+
+/** input type for inserting object relation for remote table "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Obj_Rel_Insert_Input = {
+  data: Rocketjaket_Transaction_Status_Enum_Insert_Input;
+  /** on conflict condition */
+  on_conflict?: Maybe<Rocketjaket_Transaction_Status_Enum_On_Conflict>;
+};
+
+/** on conflict condition type for table "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_On_Conflict = {
+  constraint: Rocketjaket_Transaction_Status_Enum_Constraint;
+  update_columns?: Array<Rocketjaket_Transaction_Status_Enum_Update_Column>;
+  where?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "rocketjaket.transaction_status_enum". */
+export type Rocketjaket_Transaction_Status_Enum_Order_By = {
+  title?: Maybe<Order_By>;
+  transaction_status?: Maybe<Order_By>;
+  transactions_aggregate?: Maybe<Rocketjaket_Transaction_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: rocketjaket_transaction_status_enum */
+export type Rocketjaket_Transaction_Status_Enum_Pk_Columns_Input = {
+  transaction_status: Scalars['String'];
+};
+
+/** select columns of table "rocketjaket.transaction_status_enum" */
+export enum Rocketjaket_Transaction_Status_Enum_Select_Column {
+  /** column name */
+  Title = 'title',
+  /** column name */
+  TransactionStatus = 'transaction_status'
+}
+
+/** input type for updating data in table "rocketjaket.transaction_status_enum" */
+export type Rocketjaket_Transaction_Status_Enum_Set_Input = {
+  title?: Maybe<Scalars['String']>;
+  transaction_status?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "rocketjaket.transaction_status_enum" */
+export enum Rocketjaket_Transaction_Status_Enum_Update_Column {
+  /** column name */
+  Title = 'title',
+  /** column name */
+  TransactionStatus = 'transaction_status'
+}
 
 /** aggregate stddev on columns */
 export type Rocketjaket_Transaction_Stddev_Fields = {
   __typename?: 'rocketjaket_transaction_stddev_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Stddev_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -6229,7 +7181,16 @@ export type Rocketjaket_Transaction_Stddev_Pop_Fields = {
   __typename?: 'rocketjaket_transaction_stddev_pop_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Stddev_Pop_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -6237,7 +7198,16 @@ export type Rocketjaket_Transaction_Stddev_Samp_Fields = {
   __typename?: 'rocketjaket_transaction_stddev_samp_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Stddev_Samp_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -6245,7 +7215,16 @@ export type Rocketjaket_Transaction_Sum_Fields = {
   __typename?: 'rocketjaket_transaction_sum_fields';
   cash_change?: Maybe<Scalars['Int']>;
   cash_in_amount?: Maybe<Scalars['Int']>;
+  store_id?: Maybe<Scalars['Int']>;
   total_transaction?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Sum_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** update columns of table "rocketjaket.transaction" */
@@ -6261,7 +7240,13 @@ export enum Rocketjaket_Transaction_Update_Column {
   /** column name */
   PaymentType = 'payment_type',
   /** column name */
+  RefundReason = 'refund_reason',
+  /** column name */
+  StoreId = 'store_id',
+  /** column name */
   TotalTransaction = 'total_transaction',
+  /** column name */
+  TransactionStatus = 'transaction_status',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -6273,7 +7258,16 @@ export type Rocketjaket_Transaction_Var_Pop_Fields = {
   __typename?: 'rocketjaket_transaction_var_pop_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Var_Pop_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -6281,7 +7275,16 @@ export type Rocketjaket_Transaction_Var_Samp_Fields = {
   __typename?: 'rocketjaket_transaction_var_samp_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Var_Samp_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -6289,7 +7292,16 @@ export type Rocketjaket_Transaction_Variance_Fields = {
   __typename?: 'rocketjaket_transaction_variance_fields';
   cash_change?: Maybe<Scalars['Float']>;
   cash_in_amount?: Maybe<Scalars['Float']>;
+  store_id?: Maybe<Scalars['Float']>;
   total_transaction?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "rocketjaket.transaction" */
+export type Rocketjaket_Transaction_Variance_Order_By = {
+  cash_change?: Maybe<Order_By>;
+  cash_in_amount?: Maybe<Order_By>;
+  store_id?: Maybe<Order_By>;
+  total_transaction?: Maybe<Order_By>;
 };
 
 export type SendReceiptOutput = {
@@ -6400,12 +7412,30 @@ export type Subscription_Root = {
   rocketjaket_transaction_item_aggregate: Rocketjaket_Transaction_Item_Aggregate;
   /** fetch data from the table: "rocketjaket.transaction_item" using primary key columns */
   rocketjaket_transaction_item_by_pk?: Maybe<Rocketjaket_Transaction_Item>;
+  /** fetch data from the table: "rocketjaket.transaction_payment_type_enum" */
+  rocketjaket_transaction_payment_type_enum: Array<Rocketjaket_Transaction_Payment_Type_Enum>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_payment_type_enum" */
+  rocketjaket_transaction_payment_type_enum_aggregate: Rocketjaket_Transaction_Payment_Type_Enum_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_payment_type_enum" using primary key columns */
+  rocketjaket_transaction_payment_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum>;
   /** fetch data from the table: "rocketjaket.transaction_receipt" */
   rocketjaket_transaction_receipt: Array<Rocketjaket_Transaction_Receipt>;
   /** fetch aggregated fields from the table: "rocketjaket.transaction_receipt" */
   rocketjaket_transaction_receipt_aggregate: Rocketjaket_Transaction_Receipt_Aggregate;
   /** fetch data from the table: "rocketjaket.transaction_receipt" using primary key columns */
   rocketjaket_transaction_receipt_by_pk?: Maybe<Rocketjaket_Transaction_Receipt>;
+  /** fetch data from the table: "rocketjaket.transaction_receipt_type_enum" */
+  rocketjaket_transaction_receipt_type_enum: Array<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_receipt_type_enum" */
+  rocketjaket_transaction_receipt_type_enum_aggregate: Rocketjaket_Transaction_Receipt_Type_Enum_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_receipt_type_enum" using primary key columns */
+  rocketjaket_transaction_receipt_type_enum_by_pk?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum>;
+  /** fetch data from the table: "rocketjaket.transaction_status_enum" */
+  rocketjaket_transaction_status_enum: Array<Rocketjaket_Transaction_Status_Enum>;
+  /** fetch aggregated fields from the table: "rocketjaket.transaction_status_enum" */
+  rocketjaket_transaction_status_enum_aggregate: Rocketjaket_Transaction_Status_Enum_Aggregate;
+  /** fetch data from the table: "rocketjaket.transaction_status_enum" using primary key columns */
+  rocketjaket_transaction_status_enum_by_pk?: Maybe<Rocketjaket_Transaction_Status_Enum>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -6789,6 +7819,29 @@ export type Subscription_RootRocketjaket_Transaction_Item_By_PkArgs = {
 };
 
 
+export type Subscription_RootRocketjaket_Transaction_Payment_Type_EnumArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Payment_Type_Enum_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Payment_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Payment_Type_Enum_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Payment_Type_Enum_By_PkArgs = {
+  payment_type: Scalars['String'];
+};
+
+
 export type Subscription_RootRocketjaket_Transaction_ReceiptArgs = {
   distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -6809,6 +7862,52 @@ export type Subscription_RootRocketjaket_Transaction_Receipt_AggregateArgs = {
 
 export type Subscription_RootRocketjaket_Transaction_Receipt_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Receipt_Type_EnumArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Receipt_Type_Enum_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Receipt_Type_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Receipt_Type_Enum_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Receipt_Type_Enum_By_PkArgs = {
+  receipt_type: Scalars['String'];
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Status_EnumArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Status_Enum_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Status_Enum_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Status_Enum_Bool_Exp>;
+};
+
+
+export type Subscription_RootRocketjaket_Transaction_Status_Enum_By_PkArgs = {
+  transaction_status: Scalars['String'];
 };
 
 
@@ -6904,6 +8003,30 @@ export type Users = {
   store?: Maybe<Rocketjaket_Store>;
   store_id?: Maybe<Scalars['Int']>;
   updated_at: Scalars['timestamptz'];
+  /** An array relationship */
+  users_fcm_tokens: Array<Users_Fcm_Token>;
+  /** An aggregate relationship */
+  users_fcm_tokens_aggregate: Users_Fcm_Token_Aggregate;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersUsers_Fcm_TokensArgs = {
+  distinct_on?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Fcm_Token_Order_By>>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersUsers_Fcm_Tokens_AggregateArgs = {
+  distinct_on?: Maybe<Array<Users_Fcm_Token_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Users_Fcm_Token_Order_By>>;
+  where?: Maybe<Users_Fcm_Token_Bool_Exp>;
 };
 
 /** aggregated selection of "users" */
@@ -6955,6 +8078,7 @@ export type Users_Bool_Exp = {
   store?: Maybe<Rocketjaket_Store_Bool_Exp>;
   store_id?: Maybe<Int_Comparison_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+  users_fcm_tokens?: Maybe<Users_Fcm_Token_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "users" */
@@ -6995,6 +8119,20 @@ export type Users_Fcm_Token_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "users_fcm_token" */
+export type Users_Fcm_Token_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Users_Fcm_Token_Max_Order_By>;
+  min?: Maybe<Users_Fcm_Token_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "users_fcm_token" */
+export type Users_Fcm_Token_Arr_Rel_Insert_Input = {
+  data: Array<Users_Fcm_Token_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: Maybe<Users_Fcm_Token_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "users_fcm_token". All fields are combined with a logical 'AND'. */
 export type Users_Fcm_Token_Bool_Exp = {
   _and?: Maybe<Array<Users_Fcm_Token_Bool_Exp>>;
@@ -7028,12 +8166,26 @@ export type Users_Fcm_Token_Max_Fields = {
   user_id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "users_fcm_token" */
+export type Users_Fcm_Token_Max_Order_By = {
+  fcm_token?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Users_Fcm_Token_Min_Fields = {
   __typename?: 'users_fcm_token_min_fields';
   fcm_token?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "users_fcm_token" */
+export type Users_Fcm_Token_Min_Order_By = {
+  fcm_token?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  user_id?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "users_fcm_token" */
@@ -7107,6 +8259,7 @@ export type Users_Insert_Input = {
   store?: Maybe<Rocketjaket_Store_Obj_Rel_Insert_Input>;
   store_id?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
+  users_fcm_tokens?: Maybe<Users_Fcm_Token_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -7164,6 +8317,7 @@ export type Users_Order_By = {
   store?: Maybe<Rocketjaket_Store_Order_By>;
   store_id?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
+  users_fcm_tokens_aggregate?: Maybe<Users_Fcm_Token_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: users */
@@ -7274,20 +8428,21 @@ export type WhatsappSignoutOutput = {
 };
 
 export type Cashier_CreateTransactionMutationVariables = Exact<{
-  payment_type: Scalars['String'];
+  payment_type: TransactionPaymentTypeEnum;
   total_transaction: Scalars['Int'];
   user_id: Scalars['uuid'];
   transaction_items: Array<Transaction_Items> | Transaction_Items;
   cash_in_amount: Scalars['Int'];
+  store_id: Scalars['Int'];
 }>;
 
 
-export type Cashier_CreateTransactionMutation = { __typename?: 'mutation_root', createTransaction?: { __typename?: 'createTransactionOutput', invoice_number?: string | null | undefined, isOutOfSync?: boolean | null | undefined, cash_change?: number | null | undefined, payment_type: string, total_transaction: number, cash_in_amount: number } | null | undefined };
+export type Cashier_CreateTransactionMutation = { __typename?: 'mutation_root', createTransaction?: { __typename?: 'createTransactionOutput', invoice_number?: string | null | undefined, isOutOfSync?: boolean | null | undefined, cash_change?: number | null | undefined, payment_type: string, total_transaction: number, cash_in_amount: number, transaction_status: TransactionStatusEnum, store_id: number } | null | undefined };
 
 export type Cashier_SendReceiptToCustomerMutationVariables = Exact<{
   invoice_number: Scalars['String'];
-  receipt_type: Scalars['String'];
   customer: CustomerInput;
+  receipt_type: TransactionReceiptTypeEnum;
 }>;
 
 
@@ -7502,6 +8657,29 @@ export type Wa_GetWaAuthStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type Wa_GetWaAuthStatusQuery = { __typename?: 'query_root', getWhatsappAuthStatus?: { __typename?: 'getWhatsappAuthStatusOutput', qr_code?: string | null | undefined, is_authenticated: boolean, client_state?: string | null | undefined, client_platform?: string | null | undefined, client_phone_number?: string | null | undefined, client_name?: string | null | undefined, client_device_model?: string | null | undefined, client_device_manufacturer?: string | null | undefined } | null | undefined };
 
+export type Transaction_RefundTransactionMutationVariables = Exact<{
+  invoice_number: Scalars['String'];
+  isRefundAll: Scalars['Boolean'];
+  refund_reason: Scalars['String'];
+}>;
+
+
+export type Transaction_RefundTransactionMutation = { __typename?: 'mutation_root', refundTransaction?: { __typename?: 'refundTransactionOutput', invoice_number: string, is_success: boolean } | null | undefined };
+
+export type Transaction_GetAllTransactionByStoreIdQueryVariables = Exact<{
+  store_id?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type Transaction_GetAllTransactionByStoreIdQuery = { __typename?: 'query_root', rocketjaket_transaction: Array<{ __typename?: 'rocketjaket_transaction', cash_change?: number | null | undefined, cash_in_amount: number, created_at: any, invoice_number: string, payment_type: Rocketjaket_Transaction_Payment_Type_Enum_Enum, store_id?: number | null | undefined, total_transaction: number, updated_at: any, user: { __typename?: 'users', id: any, display_name?: string | null | undefined }, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', transaction_status: string, title: string }, transaction_items: Array<{ __typename?: 'rocketjaket_transaction_item', id: any, inventory_product_id: any, product_name: string, profit: number }> }> };
+
+export type Transaction_GetTransactionByPkQueryVariables = Exact<{
+  invoice_number: Scalars['String'];
+}>;
+
+
+export type Transaction_GetTransactionByPkQuery = { __typename?: 'query_root', rocketjaket_transaction_by_pk?: { __typename?: 'rocketjaket_transaction', cash_change?: number | null | undefined, cash_in_amount: number, created_at: any, invoice_number: string, total_transaction: number, updated_at: any, transaction_status: Rocketjaket_Transaction_Status_Enum_Enum, store?: { __typename?: 'rocketjaket_store', name: string, address?: string | null | undefined } | null | undefined, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', transaction_status: string, title: string }, user: { __typename?: 'users', display_name?: string | null | undefined, id: any }, transaction_items: Array<{ __typename?: 'rocketjaket_transaction_item', created_at: any, capital_price: number, discount: number, id: any, inventory_product_id: any, product_name: string, profit: number, purchase_qty: number, selling_price: number, subtotal: number, updated_at: any, variant: string, transaction_status: Rocketjaket_Transaction_Status_Enum_Enum, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', title: string, transaction_status: string } }>, transaction_receipts: Array<{ __typename?: 'rocketjaket_transaction_receipt', created_at: any, is_sent: boolean, customer: { __typename?: 'rocketjaket_customer', id: any, email?: string | null | undefined, name?: string | null | undefined, phone_number?: string | null | undefined }, transaction_receipt_type_enum: { __typename?: 'rocketjaket_transaction_receipt_type_enum', receipt_type: string, title: string } }> } | null | undefined };
+
 export type User_BulkDeleteOneUserMutationVariables = Exact<{
   account_id: Scalars['uuid'];
   user_id: Scalars['uuid'];
@@ -7584,6 +8762,8 @@ export const namedOperations = {
     Store_GetAllStore: 'Store_GetAllStore',
     Store_GetStoreByPK: 'Store_GetStoreByPK',
     WA_GetWAAuthStatus: 'WA_GetWAAuthStatus',
+    Transaction_GetAllTransactionByStoreId: 'Transaction_GetAllTransactionByStoreId',
+    Transaction_GetTransactionByPK: 'Transaction_GetTransactionByPK',
     User_GetAllUser: 'User_GetAllUser',
     User_GetAllUserFcmTokensById: 'User_GetAllUserFcmTokensById',
     User_GetUserById: 'User_GetUserById'
@@ -7607,6 +8787,7 @@ export const namedOperations = {
     Store_DeleteStoreByPK: 'Store_DeleteStoreByPK',
     Store_UpdateStore: 'Store_UpdateStore',
     WA_Signout: 'WA_Signout',
+    Transaction_RefundTransaction: 'Transaction_RefundTransaction',
     User_BulkDeleteOneUser: 'User_BulkDeleteOneUser',
     User_BulkUpdateUserByUserId: 'User_BulkUpdateUserByUserId',
     User_CreateCustomAuthAccountRoleOne: 'User_CreateCustomAuthAccountRoleOne',
@@ -7617,13 +8798,14 @@ export const namedOperations = {
 }
 
 export const Cashier_CreateTransactionDocument = gql`
-    mutation Cashier_CreateTransaction($payment_type: String!, $total_transaction: Int!, $user_id: uuid!, $transaction_items: [transaction_items!]!, $cash_in_amount: Int!) {
+    mutation Cashier_CreateTransaction($payment_type: TransactionPaymentTypeEnum!, $total_transaction: Int!, $user_id: uuid!, $transaction_items: [transaction_items!]!, $cash_in_amount: Int!, $store_id: Int!) {
   createTransaction(
     user_id: $user_id
     total_transaction: $total_transaction
     payment_type: $payment_type
     transaction_items: $transaction_items
     cash_in_amount: $cash_in_amount
+    store_id: $store_id
   ) {
     invoice_number
     isOutOfSync
@@ -7631,6 +8813,8 @@ export const Cashier_CreateTransactionDocument = gql`
     payment_type
     total_transaction
     cash_in_amount
+    transaction_status
+    store_id
   }
 }
     `;
@@ -7654,6 +8838,7 @@ export type Cashier_CreateTransactionMutationFn = Apollo.MutationFunction<Cashie
  *      user_id: // value for 'user_id'
  *      transaction_items: // value for 'transaction_items'
  *      cash_in_amount: // value for 'cash_in_amount'
+ *      store_id: // value for 'store_id'
  *   },
  * });
  */
@@ -7665,11 +8850,11 @@ export type Cashier_CreateTransactionMutationHookResult = ReturnType<typeof useC
 export type Cashier_CreateTransactionMutationResult = Apollo.MutationResult<Cashier_CreateTransactionMutation>;
 export type Cashier_CreateTransactionMutationOptions = Apollo.BaseMutationOptions<Cashier_CreateTransactionMutation, Cashier_CreateTransactionMutationVariables>;
 export const Cashier_SendReceiptToCustomerDocument = gql`
-    mutation Cashier_SendReceiptToCustomer($invoice_number: String!, $receipt_type: String!, $customer: CustomerInput!) {
+    mutation Cashier_SendReceiptToCustomer($invoice_number: String!, $customer: CustomerInput!, $receipt_type: TransactionReceiptTypeEnum!) {
   sendReceipt(
     invoice_number: $invoice_number
-    receipt_type: $receipt_type
     customer: $customer
+    receipt_type: $receipt_type
   ) {
     id
     is_sent
@@ -7696,8 +8881,8 @@ export type Cashier_SendReceiptToCustomerMutationFn = Apollo.MutationFunction<Ca
  * const [cashierSendReceiptToCustomerMutation, { data, loading, error }] = useCashier_SendReceiptToCustomerMutation({
  *   variables: {
  *      invoice_number: // value for 'invoice_number'
- *      receipt_type: // value for 'receipt_type'
  *      customer: // value for 'customer'
+ *      receipt_type: // value for 'receipt_type'
  *   },
  * });
  */
@@ -8860,6 +10045,188 @@ export function useWa_GetWaAuthStatusLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type Wa_GetWaAuthStatusQueryHookResult = ReturnType<typeof useWa_GetWaAuthStatusQuery>;
 export type Wa_GetWaAuthStatusLazyQueryHookResult = ReturnType<typeof useWa_GetWaAuthStatusLazyQuery>;
 export type Wa_GetWaAuthStatusQueryResult = Apollo.QueryResult<Wa_GetWaAuthStatusQuery, Wa_GetWaAuthStatusQueryVariables>;
+export const Transaction_RefundTransactionDocument = gql`
+    mutation Transaction_RefundTransaction($invoice_number: String!, $isRefundAll: Boolean!, $refund_reason: String!) {
+  refundTransaction(
+    invoice_number: $invoice_number
+    isRefundAll: $isRefundAll
+    refund_reason: $refund_reason
+  ) {
+    invoice_number
+    is_success
+  }
+}
+    `;
+export type Transaction_RefundTransactionMutationFn = Apollo.MutationFunction<Transaction_RefundTransactionMutation, Transaction_RefundTransactionMutationVariables>;
+
+/**
+ * __useTransaction_RefundTransactionMutation__
+ *
+ * To run a mutation, you first call `useTransaction_RefundTransactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTransaction_RefundTransactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [transactionRefundTransactionMutation, { data, loading, error }] = useTransaction_RefundTransactionMutation({
+ *   variables: {
+ *      invoice_number: // value for 'invoice_number'
+ *      isRefundAll: // value for 'isRefundAll'
+ *      refund_reason: // value for 'refund_reason'
+ *   },
+ * });
+ */
+export function useTransaction_RefundTransactionMutation(baseOptions?: Apollo.MutationHookOptions<Transaction_RefundTransactionMutation, Transaction_RefundTransactionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Transaction_RefundTransactionMutation, Transaction_RefundTransactionMutationVariables>(Transaction_RefundTransactionDocument, options);
+      }
+export type Transaction_RefundTransactionMutationHookResult = ReturnType<typeof useTransaction_RefundTransactionMutation>;
+export type Transaction_RefundTransactionMutationResult = Apollo.MutationResult<Transaction_RefundTransactionMutation>;
+export type Transaction_RefundTransactionMutationOptions = Apollo.BaseMutationOptions<Transaction_RefundTransactionMutation, Transaction_RefundTransactionMutationVariables>;
+export const Transaction_GetAllTransactionByStoreIdDocument = gql`
+    query Transaction_GetAllTransactionByStoreId($store_id: Int) {
+  rocketjaket_transaction(where: {store_id: {_eq: $store_id}}) {
+    cash_change
+    cash_in_amount
+    created_at
+    invoice_number
+    payment_type
+    store_id
+    total_transaction
+    updated_at
+    user {
+      id
+      display_name
+    }
+    transaction_status_enum {
+      transaction_status
+      title
+    }
+    transaction_items {
+      id
+      inventory_product_id
+      product_name
+      profit
+    }
+  }
+}
+    `;
+
+/**
+ * __useTransaction_GetAllTransactionByStoreIdQuery__
+ *
+ * To run a query within a React component, call `useTransaction_GetAllTransactionByStoreIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransaction_GetAllTransactionByStoreIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransaction_GetAllTransactionByStoreIdQuery({
+ *   variables: {
+ *      store_id: // value for 'store_id'
+ *   },
+ * });
+ */
+export function useTransaction_GetAllTransactionByStoreIdQuery(baseOptions?: Apollo.QueryHookOptions<Transaction_GetAllTransactionByStoreIdQuery, Transaction_GetAllTransactionByStoreIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Transaction_GetAllTransactionByStoreIdQuery, Transaction_GetAllTransactionByStoreIdQueryVariables>(Transaction_GetAllTransactionByStoreIdDocument, options);
+      }
+export function useTransaction_GetAllTransactionByStoreIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Transaction_GetAllTransactionByStoreIdQuery, Transaction_GetAllTransactionByStoreIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Transaction_GetAllTransactionByStoreIdQuery, Transaction_GetAllTransactionByStoreIdQueryVariables>(Transaction_GetAllTransactionByStoreIdDocument, options);
+        }
+export type Transaction_GetAllTransactionByStoreIdQueryHookResult = ReturnType<typeof useTransaction_GetAllTransactionByStoreIdQuery>;
+export type Transaction_GetAllTransactionByStoreIdLazyQueryHookResult = ReturnType<typeof useTransaction_GetAllTransactionByStoreIdLazyQuery>;
+export type Transaction_GetAllTransactionByStoreIdQueryResult = Apollo.QueryResult<Transaction_GetAllTransactionByStoreIdQuery, Transaction_GetAllTransactionByStoreIdQueryVariables>;
+export const Transaction_GetTransactionByPkDocument = gql`
+    query Transaction_GetTransactionByPK($invoice_number: String!) {
+  rocketjaket_transaction_by_pk(invoice_number: $invoice_number) {
+    cash_change
+    cash_in_amount
+    created_at
+    invoice_number
+    store {
+      name
+      address
+    }
+    total_transaction
+    transaction_status_enum {
+      transaction_status
+      title
+    }
+    updated_at
+    user {
+      display_name
+      id
+    }
+    transaction_items {
+      created_at
+      capital_price
+      discount
+      id
+      inventory_product_id
+      product_name
+      profit
+      purchase_qty
+      selling_price
+      subtotal
+      updated_at
+      variant
+      transaction_status_enum {
+        title
+        transaction_status
+      }
+      transaction_status
+    }
+    transaction_receipts(order_by: {created_at: desc_nulls_last}) {
+      created_at
+      customer {
+        id
+        email
+        name
+        phone_number
+      }
+      is_sent
+      transaction_receipt_type_enum {
+        receipt_type
+        title
+      }
+    }
+    transaction_status
+  }
+}
+    `;
+
+/**
+ * __useTransaction_GetTransactionByPkQuery__
+ *
+ * To run a query within a React component, call `useTransaction_GetTransactionByPkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransaction_GetTransactionByPkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransaction_GetTransactionByPkQuery({
+ *   variables: {
+ *      invoice_number: // value for 'invoice_number'
+ *   },
+ * });
+ */
+export function useTransaction_GetTransactionByPkQuery(baseOptions: Apollo.QueryHookOptions<Transaction_GetTransactionByPkQuery, Transaction_GetTransactionByPkQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Transaction_GetTransactionByPkQuery, Transaction_GetTransactionByPkQueryVariables>(Transaction_GetTransactionByPkDocument, options);
+      }
+export function useTransaction_GetTransactionByPkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Transaction_GetTransactionByPkQuery, Transaction_GetTransactionByPkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Transaction_GetTransactionByPkQuery, Transaction_GetTransactionByPkQueryVariables>(Transaction_GetTransactionByPkDocument, options);
+        }
+export type Transaction_GetTransactionByPkQueryHookResult = ReturnType<typeof useTransaction_GetTransactionByPkQuery>;
+export type Transaction_GetTransactionByPkLazyQueryHookResult = ReturnType<typeof useTransaction_GetTransactionByPkLazyQuery>;
+export type Transaction_GetTransactionByPkQueryResult = Apollo.QueryResult<Transaction_GetTransactionByPkQuery, Transaction_GetTransactionByPkQueryVariables>;
 export const User_BulkDeleteOneUserDocument = gql`
     mutation User_BulkDeleteOneUser($account_id: uuid!, $user_id: uuid!) {
   delete_auth_refresh_tokens(where: {account_id: {_eq: $account_id}}) {

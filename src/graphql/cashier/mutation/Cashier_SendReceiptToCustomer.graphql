@@ -1,12 +1,12 @@
 mutation Cashier_SendReceiptToCustomer(
   $invoice_number: String!
-  $receipt_type: String!
   $customer: CustomerInput!
+  $receipt_type: TransactionReceiptTypeEnum!
 ) {
   sendReceipt(
     invoice_number: $invoice_number
-    receipt_type: $receipt_type
     customer: $customer
+    receipt_type: $receipt_type
   ) {
     id
     is_sent

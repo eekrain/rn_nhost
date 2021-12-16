@@ -17,11 +17,7 @@ import {useMyCart} from '../../state';
 import {MyAvatar} from '../../shared/components';
 import {myNumberFormat, useNhostAuth} from '../../shared/utils';
 import Feather from 'react-native-vector-icons/Feather';
-import {
-  PAYMENT_METHOD,
-  PaymentMethodEnum,
-  ALL_POSSIBLE_PAYMENT_METHOD,
-} from '../../shared/constants';
+import {ALL_POSSIBLE_PAYMENT_METHOD} from '../../shared/constants';
 import PaymentTypeForm from './PaymentTypeForm';
 import PaymentLanding from './PaymentLanding';
 import {useForm} from 'react-hook-form';
@@ -29,6 +25,7 @@ import {TRHNumberValueType} from '../../shared/components';
 import {
   Cashier_CreateTransactionMutation,
   namedOperations,
+  TransactionPaymentTypeEnum,
   Transaction_Items,
   useCashier_CreateTransactionMutation,
 } from '../../graphql/gql-generated';
@@ -47,7 +44,7 @@ const schema = yup
   .required();
 
 export interface ICashierCartDefaultValues {
-  payment_type: PaymentMethodEnum | null;
+  payment_type: TransactionPaymentTypeEnum | null;
   cash_in_amount: TRHNumberValueType;
 }
 
@@ -96,6 +93,7 @@ const CashierCart = ({}: Props) => {
     useCashier_CreateTransactionMutation({
       refetchQueries: [
         namedOperations.Query.Inventory_GetAllInventoryProductByStorePK,
+        namedOperations.Query.Transaction_GetAllTransactionByStoreId,
       ],
     });
 
@@ -140,7 +138,7 @@ const CashierCart = ({}: Props) => {
       );
       setLoadingProcessPayment(true);
       if (
-        data.payment_type === PaymentMethodEnum.cash &&
+        data.payment_type === TransactionPaymentTypeEnum.Cash &&
         (data.cash_in_amount.value as number) < myCart.getTotalPrice()
       ) {
         Alert.alert(
@@ -154,12 +152,18 @@ const CashierCart = ({}: Props) => {
         setLoadingProcessPayment(false);
         return;
       }
-      if (!data.payment_type) {
+      if (!data.payment_type || !nhostAuth.user.store_id) {
         console.error(
           '🚀 ~ file: CashierCart.tsx ~ line 83 ~ handleSubmission ~ data.payment_type is invalid',
           data.payment_type,
         );
         return;
+      }
+      if (!nhostAuth.user.store_id) {
+        console.error(
+          '🚀 ~ file: CashierCart.tsx ~ line 83 ~ handleSubmission ~ nhostAuth.user.store_id is invalid',
+          nhostAuth.user.store_id,
+        );
       }
       const transaction_items: Transaction_Items[] = myCart.cartItems.map(
         item => ({
@@ -178,10 +182,11 @@ const CashierCart = ({}: Props) => {
       const transactionRes = await createTransactionMutation({
         variables: {
           total_transaction: myCart.getTotalPrice(),
-          payment_type: data.payment_type as unknown as PaymentMethodEnum,
+          payment_type: data.payment_type,
           user_id: nhostAuth.user.userId,
           transaction_items: transaction_items,
           cash_in_amount: data.cash_in_amount.value as number,
+          store_id: nhostAuth.user.store_id,
         },
       }).catch(error => {
         setPaymentProcessResult('error');
@@ -199,7 +204,12 @@ const CashierCart = ({}: Props) => {
       setFormPayStep(1);
       setLoadingProcessPayment(false);
     },
-    [createTransactionMutation, myCart, nhostAuth.user.userId],
+    [
+      createTransactionMutation,
+      myCart,
+      nhostAuth.user.store_id,
+      nhostAuth.user.userId,
+    ],
   );
 
   return (

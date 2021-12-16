@@ -250,8 +250,11 @@ const CashierHome = ({}: Props) => {
 
   return (
     <Box>
-      <Modal isOpen={watch('show_modal_change_toko')}>
+      <Modal
+        isOpen={watch('show_modal_change_toko')}
+        onClose={() => setValue('show_modal_change_toko', false)}>
         <Modal.Content maxWidth="400px">
+          <Modal.CloseButton />
           <Modal.Header>Pilih Toko</Modal.Header>
           <Box p="3">
             <RHSelect

@@ -34,7 +34,11 @@ import {
 import {TOAST_TEMPLATE} from '../../shared/constants';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {DismissKeyboardWrapper, RHTextInput} from '../../shared/components';
+import {
+  SimpleDataGrid,
+  DismissKeyboardWrapper,
+  RHTextInput,
+} from '../../shared/components';
 import {ButtonBack, ButtonSave} from '../Buttons';
 import RHNumberInput, {
   TRHNumberValueType,
@@ -49,7 +53,6 @@ import {
 import {useState} from 'react';
 import {UpdateProdukNavProps} from '../../screens/app/ProdukScreen';
 import {useMyAppState} from '../../state';
-import {Row, Col, Grid} from 'react-native-easy-grid';
 import dayjs from 'dayjs';
 
 interface IDefaultValues {
@@ -334,40 +337,24 @@ const UpdateProduk = ({navigation, route}: Props) => {
               <VStack space="4">
                 <HStack justifyContent="flex-end">
                   <Box>
-                    <Grid style={{width: 250}}>
-                      <Row>
-                        <Col size={0.8}>
-                          <Text>Dibuat tanggal</Text>
-                        </Col>
-                        <Col size={0.2}>
-                          <Text>:</Text>
-                        </Col>
-                        <Col size={1}>
-                          <Text>
-                            {dayjs(
-                              getProdukData.data?.rocketjaket_product_by_pk
-                                ?.created_at,
-                            ).format('D/M/YYYY h:m')}
-                          </Text>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col size={0.8}>
-                          <Text>Terakhir diubah</Text>
-                        </Col>
-                        <Col size={0.2}>
-                          <Text>:</Text>
-                        </Col>
-                        <Col size={1}>
-                          <Text>
-                            {dayjs(
-                              getProdukData.data?.rocketjaket_product_by_pk
-                                ?.updated_at,
-                            ).format('D/M/YYYY h:m')}
-                          </Text>
-                        </Col>
-                      </Row>
-                    </Grid>
+                    <SimpleDataGrid
+                      data={[
+                        {
+                          title: 'Dibuat tanggal',
+                          value: dayjs(
+                            getProdukData.data?.rocketjaket_product_by_pk
+                              ?.created_at,
+                          ).format('D/M/YYYY H:mm'),
+                        },
+                        {
+                          title: 'Terakhir diubah',
+                          value: dayjs(
+                            getProdukData.data?.rocketjaket_product_by_pk
+                              ?.updated_at,
+                          ).format('D/M/YYYY H:mm'),
+                        },
+                      ]}
+                    />
                   </Box>
                 </HStack>
                 <RHSelect

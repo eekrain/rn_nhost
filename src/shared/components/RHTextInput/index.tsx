@@ -1,4 +1,4 @@
-import {Input, IInputProps, FormControl} from 'native-base';
+import {IInputProps, FormControl, TextField} from 'native-base';
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
 import {myNumberFormat} from '../../utils';
@@ -47,9 +47,15 @@ const RHTextInput = ({
         name={name}
         control={control}
         render={({field: {onChange, value}}) => {
+          console.log('🚀 ~ file: index.tsx ~ line 68 ~ value', value);
           return (
-            <Input
-              onChangeText={val => onChange(formatText(val, format))}
+            <TextField
+              onChangeText={val => {
+                console.log('🚀 ~ file: index.tsx ~ line 63 ~ val', val);
+                onChange(formatText(val, format));
+              }}
+              textTransform="none"
+              autoCapitalize="none"
               value={value}
               placeholder={placeholder ? placeholder : label}
               {...rest}
