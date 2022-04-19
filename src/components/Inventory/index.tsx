@@ -5,16 +5,16 @@ import withAppLayout from '../Layout/AppLayout';
 import ListInventory from './ListInventory';
 import ListProductVariants from './ListProductVariants';
 import {useMemo} from 'react';
-import {InventoryRootStackNavProps} from '../../screens/app/InventoryScreen';
+import {InventoryHomeNavProps} from '../../screens/app/InventoryScreen';
 
 const routes = [
   {key: 'first', title: 'List Inventory', component: ListInventory},
   {key: 'second', title: 'List Variasi Produk', component: ListProductVariants},
 ];
 
-interface Props extends InventoryRootStackNavProps {}
+interface Props extends InventoryHomeNavProps {}
 
-const ProdukIndex = (props: Props) => {
+const InventoryHome = (props: Props) => {
   const [activeTab, setActiveTab] = React.useState(0);
 
   const Component: React.ComponentType<any> = useMemo(() => {
@@ -55,4 +55,4 @@ const ProdukIndex = (props: Props) => {
   );
 };
 
-export default withAppLayout(ProdukIndex);
+export default withAppLayout(InventoryHome);

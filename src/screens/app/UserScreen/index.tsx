@@ -1,9 +1,10 @@
 import React from 'react';
-import {UserRootNavProps} from '../index';
+import {AppNavProps, UserRootNavProps} from '../index';
 import UsersHome from '../../../components/Users';
 import CreateUser from '../../../components/Users/CreateUser';
 import UpdateUser from '../../../components/Users/UpdateUser';
 import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
+import {CompositeScreenProps} from '@react-navigation/native';
 
 export type UserRootStackParamList = {
   ListUser: undefined;
@@ -23,21 +24,17 @@ export const rootUserRoutes: IUserRoutes[] = [
   {name: 'UpdateUser', component: UpdateUser, routeNiceName: 'Pengguna'},
 ];
 
-export type UserRootStackNavProps = StackScreenProps<
-  UserRootStackParamList,
-  any
+export type ListUserNavProps = CompositeScreenProps<
+  StackScreenProps<UserRootStackParamList, 'ListUser'>,
+  AppNavProps
 >;
-export type ListUserNavProps = StackScreenProps<
-  UserRootStackParamList,
-  'ListUser'
+export type CreateUserNavProps = CompositeScreenProps<
+  StackScreenProps<UserRootStackParamList, 'CreateUser'>,
+  AppNavProps
 >;
-export type CreateUserNavProps = StackScreenProps<
-  UserRootStackParamList,
-  'CreateUser'
->;
-export type UpdateUserNavProps = StackScreenProps<
-  UserRootStackParamList,
-  'UpdateUser'
+export type UpdateUserNavProps = CompositeScreenProps<
+  StackScreenProps<UserRootStackParamList, 'UpdateUser'>,
+  AppNavProps
 >;
 
 const UserStack = createStackNavigator<UserRootStackParamList>();

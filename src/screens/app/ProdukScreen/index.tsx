@@ -6,6 +6,8 @@ import CreateKategoriProduk from '../../../components/Produk/CreateKategoriProdu
 import UpdateKategoriProduk from '../../../components/Produk/UpdateKategoriProduk';
 import CreateProduk from '../../../components/Produk/CreateProduk';
 import UpdateProduk from '../../../components/Produk/UpdateProduk';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {AppNavProps} from '..';
 
 export type ProductStackParamList = {
   ListProduk: undefined;
@@ -45,29 +47,29 @@ export const rootProdukRoutes: IProdukRoutes[] = [
   },
 ];
 
-export type ProdukRootStackNavProps = StackScreenProps<
-  ProductStackParamList,
-  any
+export type ProdukRootStackNavProps = CompositeScreenProps<
+  StackScreenProps<ProductStackParamList, any>,
+  AppNavProps
 >;
-export type ListProdukNavProps = StackScreenProps<
-  ProductStackParamList,
-  'ListProduk'
+export type ListProdukNavProps = CompositeScreenProps<
+  StackScreenProps<ProductStackParamList, 'ListProduk'>,
+  AppNavProps
 >;
-export type CreateKategoriProdukNavProps = StackScreenProps<
-  ProductStackParamList,
-  'CreateKategoriProduk'
+export type CreateKategoriProdukNavProps = CompositeScreenProps<
+  StackScreenProps<ProductStackParamList, 'CreateKategoriProduk'>,
+  AppNavProps
 >;
-export type UpdateKategoriProdukNavProps = StackScreenProps<
-  ProductStackParamList,
-  'UpdateKategoriProduk'
+export type UpdateKategoriProdukNavProps = CompositeScreenProps<
+  StackScreenProps<ProductStackParamList, 'UpdateKategoriProduk'>,
+  AppNavProps
 >;
-export type CreateProdukNavProps = StackScreenProps<
-  ProductStackParamList,
-  'CreateProduk'
+export type CreateProdukNavProps = CompositeScreenProps<
+  StackScreenProps<ProductStackParamList, 'CreateProduk'>,
+  AppNavProps
 >;
-export type UpdateProdukNavProps = StackScreenProps<
-  ProductStackParamList,
-  'UpdateProduk'
+export type UpdateProdukNavProps = CompositeScreenProps<
+  StackScreenProps<ProductStackParamList, 'UpdateProduk'>,
+  AppNavProps
 >;
 
 const ProdukStack = createStackNavigator<ProductStackParamList>();

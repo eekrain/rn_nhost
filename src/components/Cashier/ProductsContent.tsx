@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Box,
@@ -18,8 +19,11 @@ import {Control, UseFormSetValue} from 'react-hook-form';
 import {MyAvatar, RHTextInput} from '../../shared/components';
 import {IDefaultValues, IInventoryProductData} from '.';
 import {useMyCart} from '../../state';
+import {CashierHomeNavProps} from '../../screens/app/CashierScreen';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
+  route: CashierHomeNavProps['route'];
   searchTerm: string;
   setValue: UseFormSetValue<IDefaultValues>;
   dataStoreActive:
@@ -47,6 +51,7 @@ interface Props {
 }
 
 const ProductsContent = ({
+  route,
   setValue,
   searchTerm,
   dataStoreActive,
@@ -61,6 +66,11 @@ const ProductsContent = ({
   return (
     <ScrollView w={['full', 'full', '4/6']}>
       <Stack w="full" direction="column" space="3" pb="100">
+        {route.params?.invoiceNumberRefundPart && (
+          <Heading fontSize="xl" mb="2">
+            Refund Sebagian Invoice {route.params.invoiceNumberRefundPart}
+          </Heading>
+        )}
         <HStack space="4" alignItems="center">
           <Heading fontSize="xl">Toko {dataStoreActive?.name}</Heading>
           {nhostAuth?.user?.role === UserRolesEnum.administrator && (
@@ -135,24 +145,39 @@ export default ProductsContent;
 
 const ProductItem = ({product}: {product: IInventoryProductData}) => {
   const myCart = useMyCart();
+
+  if (product.available_qty < 1) {
+    return <Box w="32%">{productItemInner(product)}</Box>;
+  }
+
   return (
     <Pressable
       w="32%"
       onPress={() => {
-        myCart.handleAddToCart({
-          product_inventory_id: product.id,
-          product_name: product.product_name,
-          variant: product.variant,
-          product_photo_url: product.product_photo_url,
-          capital_price: product.capital_price,
-          selling_price: product.selling_price,
-          discount: product.discount,
-          available_qty: product.available_qty,
-          inventory_product_updated_at: product.inventory_product_updated_at,
-          product_updated_at: product.product_updated_at,
-        });
+        if (product.available_qty > 0) {
+          myCart.handleAddToCart({
+            product_inventory_id: product.id,
+            product_name: product.product_name,
+            variant: product.variant,
+            product_photo_url: product.product_photo_url,
+            capital_price: product.capital_price,
+            selling_price: product.selling_price,
+            discount: product.discount,
+            available_qty: product.available_qty,
+            inventory_product_updated_at: product.inventory_product_updated_at,
+            product_updated_at: product.product_updated_at,
+          });
+        }
       }}>
-      <Box bgColor="white" borderRadius={10} mb="4">
+      {productItemInner(product)}
+    </Pressable>
+  );
+};
+
+const productItemInner = (product: IInventoryProductData) => {
+  return (
+    <Box bgColor="white" borderRadius={10} mb="4">
+      <Box position="relative">
         <MyAvatar
           fallbackText={product.product_name}
           source={{
@@ -162,6 +187,7 @@ const ProductItem = ({product}: {product: IInventoryProductData}) => {
           width="100%"
           borderTopRadius={10}
           fontSize="4xl"
+          overlay={product.available_qty < 1}
           topRightElement={
             product.discount !== 0 ? (
               <Box
@@ -183,20 +209,38 @@ const ProductItem = ({product}: {product: IInventoryProductData}) => {
             ) : undefined
           }
         />
-        <Box px="4" py="2">
-          <Center>
-            <Text fontWeight="bold" fontSize="md">
-              {product.product_name}
-            </Text>
-            <Text mt="2">{product.product_category}</Text>
-            <Text>{product.variant}</Text>
-            <Text>Tersedia: {product.available_qty}</Text>
-            <Text fontWeight="semibold" color="green.700">
-              {myNumberFormat.rp(product.selling_price)}
-            </Text>
-          </Center>
-        </Box>
+        {product.available_qty < 1 && (
+          <HStack
+            position="absolute"
+            bottom="0"
+            left="0"
+            w="full"
+            h="full"
+            zIndex={10}
+            justifyContent="center"
+            alignItems="center"
+            pb="2">
+            <FastImage
+              source={require('../../assets/images/sold_out.png')}
+              style={{width: '80%', height: '70%'}}
+              resizeMode="contain"
+            />
+          </HStack>
+        )}
       </Box>
-    </Pressable>
+      <Box px="4" py="2">
+        <Center>
+          <Text fontWeight="bold" fontSize="md">
+            {product.product_name}
+          </Text>
+          <Text mt="2">{product.product_category}</Text>
+          <Text>{product.variant}</Text>
+          <Text>Tersedia: {product.available_qty}</Text>
+          <Text fontWeight="semibold" color="green.700">
+            {myNumberFormat.rp(product.selling_price)}
+          </Text>
+        </Center>
+      </Box>
+    </Box>
   );
 };

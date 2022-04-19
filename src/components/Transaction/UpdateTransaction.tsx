@@ -27,9 +27,12 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {SimpleDataGrid, DismissKeyboardWrapper} from '../../shared/components';
 import {ButtonBack} from '../Buttons';
 import {useEffect} from 'react';
-import {useMyAppState} from '../../state';
+import {useMyAppState, useMyCart} from '../../state';
 import {UpdateTransactionNavProps} from '../../screens/app/TransactionScreen';
-import {myNumberFormat} from '../../shared/utils';
+import {
+  getStorageFileUrlWImageTransform,
+  myNumberFormat,
+} from '../../shared/utils';
 import CustomTable from '../CustomTable';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -60,6 +63,7 @@ const UpdateTransaction = ({navigation, route}: Props) => {
   const colorContrastLight = useContrastText(bgLight);
   const toast = useToast();
   const myAppState = useMyAppState();
+  const myCart = useMyCart();
   const [isErrorOnce, setErrorOnce] = useState(false);
   const [modalReceiptOpen, setModalReceiptOpen] = useState(false);
   const [modalRefundOpen, setModalRefundOpen] = useState(false);
@@ -98,7 +102,9 @@ const UpdateTransaction = ({navigation, route}: Props) => {
               {item.transaction_status_enum.title}
             </Badge>
           ),
+        selling_price_real: item.selling_price,
         selling_price_formatted: myNumberFormat.rp(item.selling_price),
+        discount_real: item.discount,
         discount:
           item.transaction_status ===
           Rocketjaket_Transaction_Status_Enum_Enum.Success
@@ -110,6 +116,7 @@ const UpdateTransaction = ({navigation, route}: Props) => {
             ? (item.selling_price * item.purchase_qty * item.discount) / 100
             : 0,
         ),
+        capital_price_real: item.capital_price,
         subtotal:
           item.transaction_status ===
           Rocketjaket_Transaction_Status_Enum_Enum.Success
@@ -197,6 +204,43 @@ const UpdateTransaction = ({navigation, route}: Props) => {
     dataTransaction?.created_at,
     route.params.transaction_invoice_number,
     toast,
+  ]);
+
+  const handleRefundPart = useCallback(() => {
+    myCart.clearCart();
+    myCart.handleSetCartItem(
+      dataTransactionItems.map(item => ({
+        product_photo_url: getStorageFileUrlWImageTransform({
+          fileKey: item.inventory_product.product.photo_url,
+          w: 100,
+          q: 60,
+        }),
+        product_inventory_id: item.inventory_product_id,
+        product_name: item.inventory_product.product.name,
+        variant: item.inventory_product.inventory_product_variants
+          .map(x => x.inventory_variant_metadata_id)
+          .join(' / '),
+        capital_price: item.capital_price_real,
+        selling_price: item.selling_price_real,
+        discount: item.discount_real,
+        available_qty: item.inventory_product.available_qty,
+        product_updated_at: item.inventory_product.product.updated_at,
+        inventory_product_updated_at: item.inventory_product.updated_at,
+        qty: item.purchase_qty,
+        transaction_item_id: item.id,
+      })),
+    );
+    navigation.navigate('CashierRoot', {
+      screen: 'CashierHome',
+      params: {
+        invoiceNumberRefundPart: route.params.transaction_invoice_number,
+      },
+    });
+  }, [
+    dataTransactionItems,
+    myCart,
+    navigation,
+    route.params.transaction_invoice_number,
   ]);
 
   return (
@@ -446,7 +490,7 @@ const UpdateTransaction = ({navigation, route}: Props) => {
                       <Popover.Body>
                         <Button
                           onPress={() => {
-                            // navigation.navigate('Profile');
+                            handleRefundPart();
                           }}
                           justifyContent="flex-start"
                           bg={bgLight}

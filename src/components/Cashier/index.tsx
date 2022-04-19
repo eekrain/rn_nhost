@@ -18,6 +18,7 @@ import {useForm} from 'react-hook-form';
 import {RHSelect} from '../../shared/components';
 import {Alert} from 'react-native';
 import CashierCart from './CashierCart';
+import {CashierHomeNavProps} from '../../screens/app/CashierScreen';
 
 export interface IDefaultValues {
   search_term: string;
@@ -48,9 +49,13 @@ export interface IInventoryProductData {
   product_photo_url: string;
 }
 
-interface Props {}
+interface Props extends CashierHomeNavProps {}
 
-const CashierHome = ({}: Props) => {
+const CashierHome = ({route}: Props) => {
+  console.log(
+    '🚀 ~ file: index.tsx ~ line 55 ~ CashierHome ~ route.params?.invoiceNumberRefundPart',
+    route.params?.invoiceNumberRefundPart,
+  );
   const nhostAuth = useNhostAuth();
   const [isDataStoreReady, setDataStoreReady] = useState(false);
   const {
@@ -269,6 +274,7 @@ const CashierHome = ({}: Props) => {
       </Modal>
       <Stack direction={['column', 'column', 'row']} space="4" h="full">
         <ProductsContent
+          route={route}
           searchTerm={searchTerm}
           activeCategory={activeCategory}
           control={control}
@@ -281,7 +287,7 @@ const CashierHome = ({}: Props) => {
           }
           searchedInventoryProductData={searchedInventoryProductData}
         />
-        <CashierCart />
+        <CashierCart route={route} />
       </Stack>
     </Box>
   );

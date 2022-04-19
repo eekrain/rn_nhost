@@ -3595,6 +3595,10 @@ export type Rocketjaket_Inventory_Product = {
   product: Rocketjaket_Product;
   product_id: Scalars['uuid'];
   store_id: Scalars['Int'];
+  /** An array relationship */
+  transaction_items: Array<Rocketjaket_Transaction_Item>;
+  /** An aggregate relationship */
+  transaction_items_aggregate: Rocketjaket_Transaction_Item_Aggregate;
   updated_at: Scalars['timestamptz'];
 };
 
@@ -3616,6 +3620,26 @@ export type Rocketjaket_Inventory_ProductInventory_Product_Variants_AggregateArg
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<Rocketjaket_Inventory_Product_Variant_Order_By>>;
   where?: Maybe<Rocketjaket_Inventory_Product_Variant_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_ProductTransaction_ItemsArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Item_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Item_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
+};
+
+
+/** columns and relationships of "rocketjaket.inventory_product" */
+export type Rocketjaket_Inventory_ProductTransaction_Items_AggregateArgs = {
+  distinct_on?: Maybe<Array<Rocketjaket_Transaction_Item_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Rocketjaket_Transaction_Item_Order_By>>;
+  where?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
 };
 
 /** aggregated selection of "rocketjaket.inventory_product" */
@@ -3707,6 +3731,7 @@ export type Rocketjaket_Inventory_Product_Bool_Exp = {
   product?: Maybe<Rocketjaket_Product_Bool_Exp>;
   product_id?: Maybe<Uuid_Comparison_Exp>;
   store_id?: Maybe<Int_Comparison_Exp>;
+  transaction_items?: Maybe<Rocketjaket_Transaction_Item_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -3739,6 +3764,7 @@ export type Rocketjaket_Inventory_Product_Insert_Input = {
   product?: Maybe<Rocketjaket_Product_Obj_Rel_Insert_Input>;
   product_id?: Maybe<Scalars['uuid']>;
   store_id?: Maybe<Scalars['Int']>;
+  transaction_items?: Maybe<Rocketjaket_Transaction_Item_Arr_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -3836,6 +3862,7 @@ export type Rocketjaket_Inventory_Product_Order_By = {
   product?: Maybe<Rocketjaket_Product_Order_By>;
   product_id?: Maybe<Order_By>;
   store_id?: Maybe<Order_By>;
+  transaction_items_aggregate?: Maybe<Rocketjaket_Transaction_Item_Aggregate_Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
@@ -5826,6 +5853,8 @@ export type Rocketjaket_Transaction_Item = {
   created_at: Scalars['timestamptz'];
   discount: Scalars['Int'];
   id: Scalars['uuid'];
+  /** An object relationship */
+  inventory_product: Rocketjaket_Inventory_Product;
   inventory_product_id: Scalars['uuid'];
   product_name: Scalars['String'];
   profit: Scalars['Int'];
@@ -5924,6 +5953,7 @@ export type Rocketjaket_Transaction_Item_Bool_Exp = {
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   discount?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
+  inventory_product?: Maybe<Rocketjaket_Inventory_Product_Bool_Exp>;
   inventory_product_id?: Maybe<Uuid_Comparison_Exp>;
   product_name?: Maybe<String_Comparison_Exp>;
   profit?: Maybe<Int_Comparison_Exp>;
@@ -5960,6 +5990,7 @@ export type Rocketjaket_Transaction_Item_Insert_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   discount?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['uuid']>;
+  inventory_product?: Maybe<Rocketjaket_Inventory_Product_Obj_Rel_Insert_Input>;
   inventory_product_id?: Maybe<Scalars['uuid']>;
   product_name?: Maybe<Scalars['String']>;
   profit?: Maybe<Scalars['Int']>;
@@ -6066,6 +6097,7 @@ export type Rocketjaket_Transaction_Item_Order_By = {
   created_at?: Maybe<Order_By>;
   discount?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  inventory_product?: Maybe<Rocketjaket_Inventory_Product_Order_By>;
   inventory_product_id?: Maybe<Order_By>;
   product_name?: Maybe<Order_By>;
   profit?: Maybe<Order_By>;
@@ -8678,7 +8710,7 @@ export type Transaction_GetTransactionByPkQueryVariables = Exact<{
 }>;
 
 
-export type Transaction_GetTransactionByPkQuery = { __typename?: 'query_root', rocketjaket_transaction_by_pk?: { __typename?: 'rocketjaket_transaction', cash_change?: number | null | undefined, cash_in_amount: number, created_at: any, invoice_number: string, total_transaction: number, updated_at: any, transaction_status: Rocketjaket_Transaction_Status_Enum_Enum, store?: { __typename?: 'rocketjaket_store', name: string, address?: string | null | undefined } | null | undefined, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', transaction_status: string, title: string }, user: { __typename?: 'users', display_name?: string | null | undefined, id: any }, transaction_items: Array<{ __typename?: 'rocketjaket_transaction_item', created_at: any, capital_price: number, discount: number, id: any, inventory_product_id: any, product_name: string, profit: number, purchase_qty: number, selling_price: number, subtotal: number, updated_at: any, variant: string, transaction_status: Rocketjaket_Transaction_Status_Enum_Enum, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', title: string, transaction_status: string } }>, transaction_receipts: Array<{ __typename?: 'rocketjaket_transaction_receipt', created_at: any, is_sent: boolean, customer: { __typename?: 'rocketjaket_customer', id: any, email?: string | null | undefined, name?: string | null | undefined, phone_number?: string | null | undefined }, transaction_receipt_type_enum: { __typename?: 'rocketjaket_transaction_receipt_type_enum', receipt_type: string, title: string } }> } | null | undefined };
+export type Transaction_GetTransactionByPkQuery = { __typename?: 'query_root', rocketjaket_transaction_by_pk?: { __typename?: 'rocketjaket_transaction', cash_change?: number | null | undefined, cash_in_amount: number, created_at: any, invoice_number: string, total_transaction: number, updated_at: any, transaction_status: Rocketjaket_Transaction_Status_Enum_Enum, store?: { __typename?: 'rocketjaket_store', name: string, address?: string | null | undefined } | null | undefined, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', transaction_status: string, title: string }, user: { __typename?: 'users', display_name?: string | null | undefined, id: any }, transaction_items: Array<{ __typename?: 'rocketjaket_transaction_item', created_at: any, capital_price: number, discount: number, id: any, inventory_product_id: any, product_name: string, profit: number, purchase_qty: number, selling_price: number, subtotal: number, updated_at: any, variant: string, transaction_status: Rocketjaket_Transaction_Status_Enum_Enum, transaction_status_enum: { __typename?: 'rocketjaket_transaction_status_enum', title: string, transaction_status: string }, inventory_product: { __typename?: 'rocketjaket_inventory_product', override_capital_price?: number | null | undefined, override_selling_price?: number | null | undefined, override_discount?: number | null | undefined, available_qty: number, updated_at: any, product: { __typename?: 'rocketjaket_product', photo_url?: string | null | undefined, name: string, capital_price: number, selling_price: number, discount: number, updated_at: any }, inventory_product_variants: Array<{ __typename?: 'rocketjaket_inventory_product_variant', inventory_variant_metadata_id: number }> } }>, transaction_receipts: Array<{ __typename?: 'rocketjaket_transaction_receipt', created_at: any, is_sent: boolean, customer: { __typename?: 'rocketjaket_customer', id: any, email?: string | null | undefined, name?: string | null | undefined, phone_number?: string | null | undefined }, transaction_receipt_type_enum: { __typename?: 'rocketjaket_transaction_receipt_type_enum', receipt_type: string, title: string } }> } | null | undefined };
 
 export type User_BulkDeleteOneUserMutationVariables = Exact<{
   account_id: Scalars['uuid'];
@@ -10180,6 +10212,24 @@ export const Transaction_GetTransactionByPkDocument = gql`
         transaction_status
       }
       transaction_status
+      inventory_product {
+        product {
+          photo_url
+          name
+          capital_price
+          selling_price
+          discount
+          updated_at
+        }
+        inventory_product_variants {
+          inventory_variant_metadata_id
+        }
+        override_capital_price
+        override_selling_price
+        override_discount
+        available_qty
+        updated_at
+      }
     }
     transaction_receipts(order_by: {created_at: desc_nulls_last}) {
       created_at

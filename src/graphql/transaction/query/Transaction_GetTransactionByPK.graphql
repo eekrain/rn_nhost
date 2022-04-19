@@ -36,6 +36,24 @@ query Transaction_GetTransactionByPK($invoice_number: String!) {
         transaction_status
       }
       transaction_status
+      inventory_product {
+        product {
+          photo_url
+          name
+          capital_price
+          selling_price
+          discount
+          updated_at
+        }
+        inventory_product_variants {
+          inventory_variant_metadata_id
+        }
+        override_capital_price
+        override_selling_price
+        override_discount
+        available_qty
+        updated_at
+      }
     }
     transaction_receipts(order_by: {created_at: desc_nulls_last}) {
       created_at

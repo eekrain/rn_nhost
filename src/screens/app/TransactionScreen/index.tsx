@@ -3,6 +3,8 @@ import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
 
 import TransactionHome from '../../../components/Transaction';
 import UpdateTransaction from '../../../components/Transaction/UpdateTransaction';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {AppNavProps} from '..';
 
 export type TransactionRootStackParamList = {
   ListTransaction: undefined;
@@ -28,17 +30,13 @@ export const rootTransactionRoutes: ITransactionRoutes[] = [
   },
 ];
 
-export type TransactionRootStackNavProps = StackScreenProps<
-  TransactionRootStackParamList,
-  any
+export type ListTransactionNavProps = CompositeScreenProps<
+  StackScreenProps<TransactionRootStackParamList, 'ListTransaction'>,
+  AppNavProps
 >;
-export type ListTransactionNavProps = StackScreenProps<
-  TransactionRootStackParamList,
-  'ListTransaction'
->;
-export type UpdateTransactionNavProps = StackScreenProps<
-  TransactionRootStackParamList,
-  'UpdateTransaction'
+export type UpdateTransactionNavProps = CompositeScreenProps<
+  StackScreenProps<TransactionRootStackParamList, 'UpdateTransaction'>,
+  AppNavProps
 >;
 
 const TransactionStack = createStackNavigator<TransactionRootStackParamList>();

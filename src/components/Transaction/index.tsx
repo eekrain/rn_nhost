@@ -39,7 +39,6 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {RHSelect} from '../../shared/components';
 import {
   ListTransactionNavProps,
-  TransactionRootStackNavProps,
   TransactionRootStackParamList,
 } from '../../screens/app/TransactionScreen';
 import dayjs from 'dayjs';
@@ -56,18 +55,10 @@ const defaultValues: IDefaultValues = {
 
 interface IActionProps {
   invoice_number: string;
-  navigation: StackNavigationProp<
-    TransactionRootStackParamList,
-    'ListTransaction'
-  >;
-  handleDeleteKategori: () => Promise<void>;
+  navigation: ListTransactionNavProps['navigation'];
 }
 
-const Action = ({
-  invoice_number,
-  navigation,
-  handleDeleteKategori,
-}: IActionProps) => {
+const Action = ({invoice_number, navigation}: IActionProps) => {
   const myAppState = useMyAppState();
   return (
     <HStack space="3">
@@ -80,7 +71,6 @@ const Action = ({
           });
         }}
       />
-      <IconButtonDelete size="sm" onPress={() => handleDeleteKategori()} />
     </HStack>
   );
 };
@@ -129,49 +119,6 @@ const Produk = ({navigation}: Props) => {
     });
 
   const allTransaction = useMemo(() => {
-    const handleDeleteProduk = async (
-      id: string,
-      name: string,
-      product_photo_url: string,
-    ) => {
-      const mutation = async () => {
-        if (product_photo_url && product_photo_url !== '') {
-          const res = await storage.delete(`/${product_photo_url}`);
-          console.log(
-            '🚀 ~ file: ListProduk.tsx ~ line 99 ~ mutation ~ res',
-            res,
-          );
-        }
-        const res = await deleteProdukMutation({variables: {id}});
-        if (res.errors) {
-          toast.show({
-            ...TOAST_TEMPLATE.error(`Delete produk ${name} gagal.`),
-          });
-        } else {
-          toast.show({
-            ...TOAST_TEMPLATE.success(`Delete produk ${name} berhasil.`),
-          });
-        }
-      };
-      Alert.alert(
-        'Hapus Produk',
-        `Kategori produk ${name} akan dihapus. Lanjutkan?`,
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-          {
-            onPress: () => mutation(),
-            text: 'Hapus',
-            style: 'destructive',
-          },
-        ],
-        {
-          cancelable: true,
-        },
-      );
-    };
     const temp = getAllTransaction.data?.rocketjaket_transaction || [];
 
     const withComponent = temp.map(transaction => ({
@@ -192,8 +139,10 @@ const Produk = ({navigation}: Props) => {
             Rocketjaket_Transaction_Status_Enum_Enum.Success
               ? 'success'
               : transaction.transaction_status_enum.transaction_status ===
-                Rocketjaket_Transaction_Status_Enum_Enum.Failed
-              ? 'milano_red'
+                  Rocketjaket_Transaction_Status_Enum_Enum.Failed ||
+                transaction.transaction_status_enum.transaction_status ===
+                  Rocketjaket_Transaction_Status_Enum_Enum.Refund
+              ? 'danger'
               : 'warning'
           }>
           {transaction.transaction_status_enum.title}
@@ -203,19 +152,11 @@ const Produk = ({navigation}: Props) => {
         <Action
           invoice_number={transaction.invoice_number}
           navigation={navigation}
-          handleDeleteKategori={async () => {
-            // handleDeleteProduk(produk.id, produk.name, produk.photo_url || '');
-          }}
         />
       ),
     }));
     return withComponent;
-  }, [
-    deleteProdukMutation,
-    getAllTransaction.data?.rocketjaket_transaction,
-    navigation,
-    toast,
-  ]);
+  }, [getAllTransaction.data?.rocketjaket_transaction, navigation]);
 
   useEffect(() => {
     if (

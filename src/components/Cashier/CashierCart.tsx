@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   Box,
   Text,
@@ -13,7 +13,7 @@ import {
   Modal,
 } from 'native-base';
 import {Alert} from 'react-native';
-import {useMyCart} from '../../state';
+import {ICart, ICartItem, useMyCart} from '../../state';
 import {MyAvatar} from '../../shared/components';
 import {myNumberFormat, useNhostAuth} from '../../shared/utils';
 import Feather from 'react-native-vector-icons/Feather';
@@ -31,6 +31,7 @@ import {
 } from '../../graphql/gql-generated';
 import * as yup from 'yup';
 import {useApolloClient} from '@apollo/client';
+import {CashierHomeNavProps} from '../../screens/app/CashierScreen';
 
 const schema = yup
   .object({
@@ -56,9 +57,11 @@ const defaultValues: ICashierCartDefaultValues = {
   },
 };
 
-interface Props {}
+interface Props {
+  route: CashierHomeNavProps['route'];
+}
 
-const CashierCart = ({}: Props) => {
+const CashierCart = ({route}: Props) => {
   const myCart = useMyCart();
   const nhostAuth = useNhostAuth();
   const [isModalPayOpen, setModalPayOpen] = useState(false);
@@ -212,6 +215,18 @@ const CashierCart = ({}: Props) => {
     ],
   );
 
+  const oldProductFromInvoice = useMemo(() => {
+    return myCart.cartItems.filter(item =>
+      item?.transaction_item_id ? true : false,
+    );
+  }, [myCart.cartItems]);
+
+  const newProductForRefund = useMemo(() => {
+    return myCart.cartItems.filter(item =>
+      item?.transaction_item_id ? false : true,
+    );
+  }, [myCart.cartItems]);
+
   return (
     <Box
       bgColor="white"
@@ -297,91 +312,61 @@ const CashierCart = ({}: Props) => {
         borderColor="gray.400"
         py="4">
         <ScrollView>
-          {myCart.cartItems.map((item, index) => (
-            <HStack
-              py="3"
-              key={item.product_inventory_id}
-              alignItems="center"
-              justifyContent="space-between"
-              borderBottomWidth={1}
-              borderColor="gray.200">
-              <MyAvatar
-                fallbackText={item.product_name}
-                source={{uri: item.product_photo_url}}
-                size={50}
-              />
-              <Box ml="4">
-                <Text fontWeight="semibold" mb="2">
-                  {item.product_name}
-                </Text>
-                <HStack space="3">
-                  <IconButton
-                    onPress={() => {
-                      myCart.handleRemoveFromCart(item.product_inventory_id);
-                    }}
-                    size="sm"
-                    variant="solid"
-                    colorScheme="milano_red"
-                    icon={<Icon as={Feather} name="minus" size="xs" />}
-                  />
+          {!route.params?.invoiceNumberRefundPart &&
+            myCart.cartItems.map((item, index) =>
+              cartItem(
+                item,
+                myCart.cartItems.length !== index + 1,
+                route,
+                myCart,
+                true,
+              ),
+            )}
 
-                  <Text>Qty : {item.qty}</Text>
-
-                  <IconButton
-                    onPress={() => {
-                      myCart.handleAddToCart({
-                        product_photo_url: item.product_photo_url,
-                        product_inventory_id: item.product_inventory_id,
-                        product_name: item.product_name,
-                        variant: item.variant,
-                        capital_price: item.capital_price,
-                        selling_price: item.selling_price,
-                        discount: item.discount,
-                        available_qty: item.available_qty,
-                        inventory_product_updated_at:
-                          item.inventory_product_updated_at,
-                        product_updated_at: item.product_updated_at,
-                      });
-                    }}
-                    size="sm"
-                    variant="solid"
-                    icon={<Icon as={Feather} name="plus" size="xs" />}
-                  />
-                </HStack>
-              </Box>
-              <Box flex={1} alignItems="flex-end">
-                <Text
-                  color={item.discount === 0 ? 'green.700' : 'milano_red.500'}
-                  strikeThrough={item.discount === 0 ? false : true}>
-                  {myNumberFormat.rp(
-                    item.qty
-                      ? item.selling_price * item.qty
-                      : item.selling_price,
-                  )}
-                </Text>
-                {item.discount !== 0 && (
-                  <Text color="green.700">
-                    {myNumberFormat.rp(
-                      item.qty
-                        ? item.selling_price * item.qty -
-                            (item.selling_price * item.qty * item.discount) /
-                              100
-                        : item.selling_price,
-                    )}
-                  </Text>
-                )}
-              </Box>
-            </HStack>
-          ))}
-          {myCart.cartItems.length > 0 && (
-            <Button
-              onPress={() => myCart.clearCart()}
-              bg="white"
-              variant="outline"
-              mt="4">
-              Clear Cart
-            </Button>
+          {route.params?.invoiceNumberRefundPart && (
+            <Box>
+              <Text fontSize="md">Produk pada invoice lama</Text>
+            </Box>
           )}
+
+          {route.params?.invoiceNumberRefundPart &&
+            oldProductFromInvoice.map((item, index) =>
+              cartItem(
+                item,
+                oldProductFromInvoice.length !== index + 1,
+                route,
+                myCart,
+                false,
+              ),
+            )}
+
+          {route.params?.invoiceNumberRefundPart &&
+            newProductForRefund.length > 0 && (
+              <Box mt="4">
+                <Text fontSize="md">Produk baru ditambahkan</Text>
+              </Box>
+            )}
+
+          {route.params?.invoiceNumberRefundPart &&
+            newProductForRefund.map((item, index) =>
+              cartItem(
+                item,
+                newProductForRefund.length !== index + 1,
+                route,
+                myCart,
+                true,
+              ),
+            )}
+          {myCart.cartItems.length > 0 &&
+            !route.params?.invoiceNumberRefundPart && (
+              <Button
+                onPress={() => myCart.clearCart()}
+                bg="white"
+                variant="outline"
+                mt="4">
+                Clear Cart
+              </Button>
+            )}
         </ScrollView>
       </Box>
 
@@ -415,6 +400,90 @@ const CashierCart = ({}: Props) => {
         </Button>
       </Box>
     </Box>
+  );
+};
+
+const cartItem = (
+  item: ICartItem,
+  showBorderBottom: boolean,
+  route: CashierHomeNavProps['route'],
+  myCart: ICart,
+  isNew: boolean,
+) => {
+  return (
+    <HStack
+      py="3"
+      key={item.product_inventory_id}
+      alignItems="center"
+      justifyContent="space-between"
+      borderBottomWidth={showBorderBottom ? 1 : 0}
+      borderColor="gray.200">
+      <MyAvatar
+        fallbackText={item.product_name}
+        source={{uri: item.product_photo_url}}
+        size={50}
+      />
+      <Box ml="4">
+        <Text fontWeight="semibold" mb="2">
+          {item.product_name}
+        </Text>
+        <HStack space="3">
+          <IconButton
+            onPress={() => {
+              myCart.handleRemoveFromCart(
+                item.product_inventory_id,
+                route.params?.invoiceNumberRefundPart && !isNew ? true : false,
+              );
+            }}
+            size="sm"
+            variant="solid"
+            colorScheme="milano_red"
+            icon={<Icon as={Feather} name="minus" size="xs" />}
+          />
+
+          <Text>Qty : {item.qty}</Text>
+
+          <IconButton
+            onPress={() => {
+              myCart.handleAddToCart({
+                product_photo_url: item.product_photo_url,
+                product_inventory_id: item.product_inventory_id,
+                product_name: item.product_name,
+                variant: item.variant,
+                capital_price: item.capital_price,
+                selling_price: item.selling_price,
+                discount: item.discount,
+                available_qty: item.available_qty,
+                inventory_product_updated_at: item.inventory_product_updated_at,
+                product_updated_at: item.product_updated_at,
+              });
+            }}
+            size="sm"
+            variant="solid"
+            icon={<Icon as={Feather} name="plus" size="xs" />}
+          />
+        </HStack>
+      </Box>
+      <Box flex={1} alignItems="flex-end">
+        <Text
+          color={item.discount === 0 ? 'green.700' : 'milano_red.500'}
+          strikeThrough={item.discount === 0 ? false : true}>
+          {myNumberFormat.rp(
+            item.qty ? item.selling_price * item.qty : item.selling_price,
+          )}
+        </Text>
+        {item.discount !== 0 && (
+          <Text color="green.700">
+            {myNumberFormat.rp(
+              item.qty
+                ? item.selling_price * item.qty -
+                    (item.selling_price * item.qty * item.discount) / 100
+                : item.selling_price,
+            )}
+          </Text>
+        )}
+      </Box>
+    </HStack>
   );
 };
 

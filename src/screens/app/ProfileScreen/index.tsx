@@ -33,7 +33,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {DismissKeyboardWrapper, RHTextInput} from '../../../shared/components';
 import {ButtonSave, ButtonBack} from '../../../components/Buttons';
 import {useMyAppState} from '../../../state';
-import {ProfileNavProps} from '../index';
+import {ProfileRootNavProps} from '../index';
 import ChangePassword from '../../../components/Users/ChangePassword';
 import ChangeEmail from '../../../components/Users/ChangeEmail';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -67,7 +67,7 @@ const defaultValues: IDefaultValues = {
   default_role: '',
 };
 
-interface IProfileScreenProps extends ProfileNavProps {}
+interface IProfileScreenProps extends ProfileRootNavProps {}
 
 const ProfileScreen = ({route, navigation}: IProfileScreenProps) => {
   const focused = useIsFocused();

@@ -6,6 +6,8 @@ import {generateAvatarName} from '../../utils';
 interface Props {
   fallbackText: string;
   source: Source;
+  overlay?: boolean;
+  overlayColor?: IBoxProps['bgColor'];
   size?: number | string;
   width?: number | string;
   height?: number | string;
@@ -31,10 +33,12 @@ const MyAvatar = ({
   topRightElement,
   fontSize,
   fontWeight = 'bold',
+  overlay,
+  overlayColor = 'rgba(255, 255, 255, 0.2)',
 }: Props) => {
   const [isError, setError] = useState(false);
   return (
-    <Box>
+    <Box position="relative">
       {isError || !source?.uri ? (
         <HStack
           position="relative"
@@ -93,6 +97,17 @@ const MyAvatar = ({
               setError(true);
             }}
           />
+        </Box>
+      )}
+      {overlay && (
+        <Box
+          bgColor={overlayColor}
+          w="full"
+          h="full"
+          position="absolute"
+          top="0"
+          left="0">
+          {null}
         </Box>
       )}
     </Box>

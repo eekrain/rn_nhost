@@ -1,9 +1,10 @@
 import React from 'react';
-import {SettingsRootNavProps} from '../index';
+import {AppNavProps, SettingsRootNavProps} from '../index';
 import TokoHome from '../../../components/Toko';
 import CreateToko from '../../../components/Toko/CreateToko';
 import UpdateToko from '../../../components/Toko/UpdateToko';
 import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
+import {CompositeScreenProps} from '@react-navigation/native';
 
 export type SettingsStackParamList = {
   ListToko: undefined;
@@ -23,21 +24,17 @@ export const rootSettingsRoutes: ISettingsRoutes[] = [
   {name: 'UpdateToko', component: UpdateToko, routeNiceName: 'Toko'},
 ];
 
-export type SettingsRootStackNavProps = StackScreenProps<
-  SettingsStackParamList,
-  any
+export type SettingsHomeNavProps = CompositeScreenProps<
+  StackScreenProps<SettingsStackParamList, 'ListToko'>,
+  AppNavProps
 >;
-export type SettingsHomeNavProps = StackScreenProps<
-  SettingsStackParamList,
-  'ListToko'
+export type CreateTokoNavProps = CompositeScreenProps<
+  StackScreenProps<SettingsStackParamList, 'CreateToko'>,
+  AppNavProps
 >;
-export type CreateTokoNavProps = StackScreenProps<
-  SettingsStackParamList,
-  'CreateToko'
->;
-export type UpdateTokoNavProps = StackScreenProps<
-  SettingsStackParamList,
-  'UpdateToko'
+export type UpdateTokoNavProps = CompositeScreenProps<
+  StackScreenProps<SettingsStackParamList, 'UpdateToko'>,
+  AppNavProps
 >;
 
 const SettingsStack = createStackNavigator<SettingsStackParamList>();

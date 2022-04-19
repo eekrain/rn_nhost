@@ -1,7 +1,10 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import DashboardScreen from './DashboardScreen';
-import CashierScreen, {rootCashierRoutes} from './CashierScreen';
+import CashierScreen, {
+  CashierRootStackParamList,
+  rootCashierRoutes,
+} from './CashierScreen';
 import ProfileScreen from './ProfileScreen';
 import CustomDrawerContent from '../../components/CustomDrawerContent';
 import ProdukScreen, {rootProdukRoutes} from './ProdukScreen';
@@ -10,17 +13,21 @@ import InventoryScreen, {rootInventoryRoutes} from './InventoryScreen';
 import UserScreen, {rootUserRoutes} from './UserScreen';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {TUserRoleOptions} from '../../types/user';
-import TransactionScreen, {rootTransactionRoutes} from './TransactionScreen';
+import TransactionScreen, {
+  rootTransactionRoutes,
+  TransactionRootStackParamList,
+} from './TransactionScreen';
+import {NavigatorScreenParams} from '@react-navigation/native';
 
 export type AppNavigationParamList = {
   Dashboard: undefined;
-  TransactionRoot: undefined;
+  TransactionRoot: NavigatorScreenParams<TransactionRootStackParamList>;
   Profile: undefined;
   ProdukRoot: undefined;
   SettingsRoot: undefined;
   InventoryRoot: undefined;
   UserRoot: undefined;
-  CashierRoot: undefined;
+  CashierRoot: NavigatorScreenParams<CashierRootStackParamList>;
 };
 
 export type IAppRoutes = {
@@ -95,7 +102,7 @@ export const allAppRoutes = [
 
 export type AppNavProps = DrawerScreenProps<AppNavigationParamList, any>;
 
-export type DashboardNavProps = DrawerScreenProps<
+export type DashboardRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'Dashboard'
 >;
@@ -107,7 +114,7 @@ export type CashierRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'CashierRoot'
 >;
-export type ProfileNavProps = DrawerScreenProps<
+export type ProfileRootNavProps = DrawerScreenProps<
   AppNavigationParamList,
   'Profile'
 >;

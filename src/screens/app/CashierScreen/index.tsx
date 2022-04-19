@@ -1,10 +1,11 @@
 import React from 'react';
-import {CashierRootNavProps} from '../index';
+import {AppNavProps, CashierRootNavProps} from '../index';
 import CashierHome from '../../../components/Cashier';
 import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
+import {CompositeScreenProps} from '@react-navigation/native';
 
 export type CashierRootStackParamList = {
-  CashierHome: undefined;
+  CashierHome: {invoiceNumberRefundPart?: string};
 };
 
 type ICashierRoutes = {
@@ -17,13 +18,9 @@ export const rootCashierRoutes: ICashierRoutes[] = [
   {name: 'CashierHome', component: CashierHome, routeNiceName: 'Kasir'},
 ];
 
-export type CashierRootStackNavProps = StackScreenProps<
-  CashierRootStackParamList,
-  any
->;
-export type ListCashierNavProps = StackScreenProps<
-  CashierRootStackParamList,
-  'CashierHome'
+export type CashierHomeNavProps = CompositeScreenProps<
+  StackScreenProps<CashierRootStackParamList, 'CashierHome'>,
+  AppNavProps
 >;
 
 const CashierStack = createStackNavigator<CashierRootStackParamList>();
